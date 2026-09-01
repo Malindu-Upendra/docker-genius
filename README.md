@@ -22,10 +22,6 @@ nexcore-frontend/     # React frontend for the ERP application
 docker-compose.yml    # Full stack: MySQL, ERP backend, frontend, cAdvisor
 docker-compose.tenant2.yml  # Second independent tenant stack, used for the
                             # N=2 scalability check
-figures/              # Paper figures (architecture, workflow, LSTM model,
-                       # experimental setup, latency, prediction, resource utilization)
-NEXT_STEPS.md         # Running research log: every experiment run, bug found,
-                       # and finding, in chronological order
 ```
 
 ## Reproducing an experiment
@@ -52,8 +48,6 @@ This is real, replicated experimental work, including negative and mixed results
 - The proactive hybrid's advantage over simpler baselines only appears at a more aggressively-tuned rule-engine configuration than originally specified, and is modest (7–8% SLA breach-rate reduction) relative to the original ≥30% target.
 - A five-replicate ablation study could not cleanly attribute this improvement to the LSTM component specifically.
 - A classical ARIMA model matched or exceeded the LSTM's own forecast accuracy on the dataset used here.
-
-`NEXT_STEPS.md` has the full, dated history of every run, bug, and finding.
 
 ## License
 
