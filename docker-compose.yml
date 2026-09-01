@@ -1,0 +1,139 @@
+services:
+
+  # ─────────────────────────────────────────────
+  # MySQL 8.0 — initialised from full seed dump
+  # ─────────────────────────────────────────────
+  mysql:
+    image: mysql:8.0
+    container_name: erp_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: demo_nexcore
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # init-seed-int.sql declared request_id as INT while the entity/app
+      # code has always inserted UUID strings — every semantic-log insert
+      # silently failed (swallowed by a blank .catch()), so
+      # semantic_request_logs was never actually populated. init-seed.sql
+      # has the correct VARCHAR(36) column; use that one.
+      - ./init-seed.sql:/docker-entrypoint-initdb.d/01_seed.sql:ro
+    # --max_execution_time=30000 below: two Tier-3 report queries
+    # (monthly_sales, inventory_movement) use non-sargable functions
+    # (YEAR()/MONTH() on invoice_date) that defeat indexing. At the
+    # invoices table's accumulated size from repeated test runs (~92K
+    # rows), these were observed running 25+ minutes and NEVER completing —
+    # each one permanently pinning one connection pool slot forever. Over a
+    # long testing session this silently exhausted the pool one zombie
+    # query at a time, which is what actually caused the recurring "login
+    # hangs / pool exhausted" symptoms all day — not simply "not enough
+    # connections". A server-wide SELECT timeout caps the worst case
+    # without touching the queries' intentional heaviness.
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --max_connections=500
+      --innodb_buffer_pool_size=512M
+      --slow_query_log=1
+      --slow_query_log_file=/var/log/mysql/slow.log
+      --long_query_time=1
+      --max_execution_time=30000
+    networks:
+      - erp_net
+    healthcheck:
+      test: ["CMD", "mysql", "-u", "root", "-prootpassword", "-e", "SELECT 1;"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 120s
+
+  # ─────────────────────────────────────────────
+  # NestJS ERP Backend  (DOCKER-GENIUS target)
+  # CPU / memory limits are the Governor's levers
+  # ─────────────────────────────────────────────
+  erp-app:
+    build:
+      context: ./nexcore-backend
+      dockerfile: Dockerfile
+    container_name: erp_app
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: rootpassword
+      DB_DATABASE: demo_nexcore
+      JWT_SECRET: docker-genius-jwt-secret-2026
+      JWT_EXPIRES_IN: 24h
+    ports:
+      - "3000:3000"
+    restart: on-failure:5
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - erp_net
+    # Starting resource envelope — DOCKER-GENIUS Governor adjusts these live
+    # via: docker update --cpus N --memory M erp_app
+    cpus: '2.0'
+    mem_limit: 2g
+    mem_reservation: 512m
+
+  # ─────────────────────────────────────────────
+  # React + Nginx Frontend
+  # ─────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./nexcore-frontend
+      dockerfile: Dockerfile
+    container_name: erp_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - erp-app
+    networks:
+      - erp_net
+    restart: on-failure:3
+
+  # ─────────────────────────────────────────────
+  # cAdvisor — container telemetry at 100ms
+  # REQUIRES Linux host — uncomment on research VM
+  # ─────────────────────────────────────────────
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    container_name: erp_cadvisor
+    privileged: true
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    command:
+      - "--housekeeping_interval=100ms"
+      - "--docker_only=true"
+      - "--store_container_labels=true"
+      - "--disable_metrics=disk,network,tcp,udp,percpu,sched,process,memory_numa,referenced_memory,resctrl,cpuset,hugetlb"
+      - "--logtostderr=true"
+      - "--stderrthreshold=FATAL"
+      - "--allow_dynamic_housekeeping=false"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - erp_net
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+networks:
+  erp_net:
+    driver: bridge

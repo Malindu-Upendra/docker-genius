@@ -1,0 +1,35 @@
+DOCKER-GENIUS — Statistical Analysis Report
+========================================================================
+
+Descriptive Statistics — TIER_1 Latency
+------------------------------------------------------------------------
+  Static Allocation
+    n=16981  mean=579.3ms  P50=9.6ms  P95=2917.9ms  P99=2987.9ms
+    SLA breaches: 3360 (19.79%)
+
+  Reactive-Only
+    n=17100  mean=577.3ms  P50=9.8ms  P95=2946.8ms  P99=3185.3ms
+    SLA breaches: 3354 (19.61%)
+
+  Proactive Hybrid
+    n=18142  mean=535.2ms  P50=9.3ms  P95=2932.2ms  P99=3010.1ms
+    SLA breaches: 3300 (18.19%)
+
+
+Mann-Whitney U Tests
+------------------------------------------------------------------------
+  Group 1 (Static) vs Group 3 (Proactive)
+    U=161588952  z=7.955  p=0.000000  r=-0.0490 (negligible effect) — SIGNIFICANT
+
+  Group 2 (Reactive) vs Group 3 (Proactive)
+    U=167013919  z=12.467  p=0.000000  r=-0.0767 (negligible effect) — SIGNIFICANT
+
+  Group 1 (Static) vs Group 2 (Reactive)
+    U=140853026  z=-4.773  p=0.999999  r=0.0299 (negligible effect) — not significant
+
+
+SLA Breach Rate Reduction — Bootstrap 95% CI (n=3000 resamples)
+------------------------------------------------------------------------
+  G1 (Static) → G3 (Proactive): 8.1%  95% CI [4.0%, 12.0%]
+  G2 (Reactive) → G3 (Proactive): 7.3%  95% CI [3.1%, 11.2%]
+

@@ -1,0 +1,51 @@
+{
+  "dataset": {
+    "csv_path": "lstm/training_data.csv",
+    "raw_rows": 1196,
+    "windowed_samples": 1107,
+    "train_samples": 774,
+    "val_samples": 166,
+    "test_samples": 167,
+    "split": "70%/15%/15% (train/val/test, temporal, no shuffle)"
+  },
+  "architecture": {
+    "window_size_steps": 60,
+    "horizon_steps": 30,
+    "features": [
+      "cpu_pct",
+      "mem_mb"
+    ],
+    "lstm_units": [
+      64,
+      32
+    ],
+    "dropout": 0.2
+  },
+  "training_config": {
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "loss": "mse",
+    "batch_size": 32,
+    "max_epochs": 50,
+    "epochs_run": 19,
+    "early_stopping_patience": 8,
+    "train_wall_time_s": 10.0
+  },
+  "hardware": {
+    "platform": "macOS-15.4.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm",
+    "python_version": "3.12.13",
+    "tensorflow_version": "2.21.0"
+  },
+  "results": {
+    "val_mse_scaled": 0.045216,
+    "val_mae_scaled": 0.16548,
+    "test_cpu_mae_pct": 17.755,
+    "test_cpu_rmse_pct": 24.208,
+    "test_mem_mae_mb": 20.478,
+    "test_mem_rmse_mb": 23.786,
+    "inference_time_ms_mean": 26.73,
+    "inference_time_runs": 20
+  }
+}

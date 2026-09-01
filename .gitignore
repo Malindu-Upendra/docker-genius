@@ -1,0 +1,31 @@
+# ── Python (governor/) ──
+governor/venv/
+**/__pycache__/
+*.pyc
+
+# ── Node (nexcore-backend, nexcore-frontend) ──
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# ── Secrets / local config ──
+.env
+.env.*
+
+# ── OS / editor cruft ──
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ── Logs (build/debug logs only — experiment run_log*.txt files are kept) ──
+*.log
+npm-debug.log*
+yarn-debug.log*
+coverage/

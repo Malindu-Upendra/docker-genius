@@ -1,0 +1,28 @@
+[updater] Connected — erp_app  cpus=2.0  mem=2.00GB
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  DOCKER-GENIUS Experiment
+  Groups  : [1, 2, 3]
+  Duration: 300s per group
+  Cooldown: 90s between groups
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+═════════════════════════════════════════════════════════════════
+  GROUP 1 — Static Allocation  (300s)
+═════════════════════════════════════════════════════════════════
+[harness] Resetting container → 2.0 cpus  2.0GB
+[harness] semantic_request_logs cleared
+[harness] Waiting for app to be healthy before starting…
+[governor] Static mode — no governor loop
+[harness] Starting load test (300s)…
+  [load] [load-gen] Login attempt 1/5 failed: HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=20) — retrying in 5s
+  [load] [load-gen] Login attempt 2/5 failed: HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=20) — retrying in 10s
+  [load] [load-gen] Login attempt 3/5 failed: HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=20) — retrying in 15s
+  [load] [load-gen] Login attempt 4/5 failed: HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=20) — retrying in 20s
+  [load] [load-gen] Login attempt 5/5 failed: HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=20) — retrying in 20s
+  [load] [load-gen] Login failed: Login failed after 5 attempts: HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=20)
+  [load] [load-gen] Logging in to http://localhost:3000...
+
+[harness] ✗ ABORTING — Group 1 (Static Allocation) load generator exited with code 1 — see [load] output above for the cause.
+[harness] Resetting container to baseline before exit.
+[harness] Resetting container → 2.0 cpus  2.0GB

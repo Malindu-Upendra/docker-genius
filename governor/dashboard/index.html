@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOCKER-GENIUS Monitor</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f1117; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+
+  .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 1px solid #334155; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .logo { width: 32px; height: 32px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .app-title { font-size: 18px; font-weight: 700; color: #f1f5f9; }
+  .app-sub { font-size: 12px; color: #64748b; }
+  .status-pills { display: flex; gap: 8px; }
+  .pill { padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .pill-green { background: #052e16; color: #4ade80; }
+  .pill-green .pill-dot { background: #4ade80; animation: pulse 2s infinite; }
+  .pill-red { background: #450a0a; color: #f87171; }
+  .pill-red .pill-dot { background: #f87171; }
+  .pill-gray { background: #1e293b; color: #64748b; }
+  .pill-gray .pill-dot { background: #64748b; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
+
+  .main { padding: 20px 24px; }
+
+  /* KPI row */
+  .kpi-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 20px; }
+  .kpi { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 16px; }
+  .kpi-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+  .kpi-value { font-size: 24px; font-weight: 700; line-height: 1; }
+  .kpi-sub { font-size: 11px; color: #64748b; margin-top: 4px; }
+  .kpi-cpu .kpi-value { color: #818cf8; }
+  .kpi-mem .kpi-value { color: #34d399; }
+  .kpi-rps .kpi-value { color: #fb923c; }
+  .kpi-sla .kpi-value { color: #f472b6; }
+  .kpi-errs .kpi-value { color: #f87171; }
+  .kpi-limits .kpi-value { font-size: 14px; color: #94a3b8; }
+
+  /* Charts row */
+  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .chart-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 16px; }
+  .chart-title { font-size: 13px; font-weight: 600; color: #94a3b8; margin-bottom: 12px; text-transform: uppercase; letter-spacing: .05em; }
+  .chart-wrap { height: 180px; }
+
+  /* Tier table */
+  .tier-section { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 16px; margin-bottom: 20px; }
+  .tier-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .tier-title { font-size: 13px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: .05em; }
+  .no-db { color: #475569; font-size: 13px; text-align: center; padding: 20px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 8px 12px; color: #475569; font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid #334155; }
+  td { padding: 10px 12px; border-bottom: 1px solid #1e293b; }
+  tr:last-child td { border-bottom: none; }
+  .tier-badge { padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; }
+  .t1 { background: #1e1b4b; color: #818cf8; }
+  .t2 { background: #0c2a16; color: #4ade80; }
+  .t3 { background: #261a0a; color: #fb923c; }
+  .p95-ok { color: #4ade80; }
+  .p95-warn { color: #fbbf24; }
+  .p95-breach { color: #f87171; font-weight: 700; }
+  .breach-badge { background: #450a0a; color: #f87171; padding: 2px 8px; border-radius: 99px; font-size: 11px; }
+  .ok-badge { background: #052e16; color: #4ade80; padding: 2px 8px; border-radius: 99px; font-size: 11px; }
+
+  /* Resource governor bar */
+  .governor { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 16px; margin-bottom: 20px; }
+  .gov-title { font-size: 13px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 12px; }
+  .gov-bars { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .gov-bar-label { display: flex; justify-content: space-between; font-size: 12px; color: #64748b; margin-bottom: 6px; }
+  .gov-bar-track { height: 8px; background: #0f172a; border-radius: 99px; overflow: hidden; }
+  .gov-bar-fill { height: 100%; border-radius: 99px; transition: width .5s ease; }
+  .gov-cpu-fill { background: linear-gradient(90deg, #6366f1, #818cf8); }
+  .gov-mem-fill { background: linear-gradient(90deg, #059669, #34d399); }
+
+  /* Footer */
+  .footer { text-align: center; padding: 12px; font-size: 11px; color: #334155; }
+  #ts { color: #475569; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="logo">⚡</div>
+    <div>
+      <div class="app-title" id="appTitle">DOCKER-GENIUS Monitor</div>
+      <div class="app-sub" id="appSub">Loading...</div>
+    </div>
+  </div>
+  <div class="status-pills">
+    <div class="pill pill-gray" id="dockerPill"><span class="pill-dot"></span>Docker</div>
+    <div class="pill pill-gray" id="dbPill"><span class="pill-dot"></span>DB Metrics</div>
+    <span style="font-size:12px;color:#475569" id="ts">—</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- KPI Cards -->
+  <div class="kpi-row">
+    <div class="kpi kpi-cpu">
+      <div class="kpi-label">CPU Usage</div>
+      <div class="kpi-value" id="kCpu">—</div>
+      <div class="kpi-sub">of container quota</div>
+    </div>
+    <div class="kpi kpi-mem">
+      <div class="kpi-label">Memory</div>
+      <div class="kpi-value" id="kMem">—</div>
+      <div class="kpi-sub" id="kMemSub">—</div>
+    </div>
+    <div class="kpi kpi-rps">
+      <div class="kpi-label">Requests / sec</div>
+      <div class="kpi-value" id="kRps">—</div>
+      <div class="kpi-sub" id="kTotal">— total (5 min)</div>
+    </div>
+    <div class="kpi kpi-sla">
+      <div class="kpi-label">Tier-1 P95</div>
+      <div class="kpi-value" id="kT1p95">—</div>
+      <div class="kpi-sub">SLA: 150ms</div>
+    </div>
+    <div class="kpi kpi-errs">
+      <div class="kpi-label">Error Rate</div>
+      <div class="kpi-value" id="kErr">—</div>
+      <div class="kpi-sub">4xx / 5xx responses</div>
+    </div>
+    <div class="kpi kpi-limits">
+      <div class="kpi-label">Governor Limits</div>
+      <div class="kpi-value" id="kLimits">— CPUs / — GB</div>
+      <div class="kpi-sub">docker update target</div>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="chart-title">CPU Usage % — Live</div>
+      <div class="chart-wrap"><canvas id="cpuChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Memory Usage (MB) — Live</div>
+      <div class="chart-wrap"><canvas id="memChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Resource Governor -->
+  <div class="governor">
+    <div class="gov-title">⚡ Container Resource Envelope (Governor Levers)</div>
+    <div class="gov-bars">
+      <div>
+        <div class="gov-bar-label">
+          <span>CPU Allocation</span>
+          <span id="govCpuLabel">— / — vCPUs</span>
+        </div>
+        <div class="gov-bar-track"><div class="gov-bar-fill gov-cpu-fill" id="govCpuBar" style="width:0%"></div></div>
+      </div>
+      <div>
+        <div class="gov-bar-label">
+          <span>Memory Allocation</span>
+          <span id="govMemLabel">— / — GB</span>
+        </div>
+        <div class="gov-bar-track"><div class="gov-bar-fill gov-mem-fill" id="govMemBar" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tier Breakdown -->
+  <div class="tier-section">
+    <div class="tier-header">
+      <div class="tier-title">Request Tier Breakdown (last 10 min)</div>
+      <div id="tierStatus" class="pill pill-gray"><span class="pill-dot"></span>Waiting for data</div>
+    </div>
+    <div id="tierBody">
+      <div class="no-db">Waiting for request data...</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  DOCKER-GENIUS Monitor — Proactive Vertical Elasticity Engine &nbsp;|&nbsp; MSc IT · SLIIT · 2026 &nbsp;|&nbsp; <span id="ts2">—</span>
+</div>
+
+<script>
+// ─── Chart.js instances (direct references) ───────────────────────────────────
+var cpuChart = new Chart(document.getElementById('cpuChart'), {
+  type: 'line',
+  data: { labels: [], datasets: [{ data: [], borderColor: '#818cf8', backgroundColor: 'rgba(129,140,248,0.12)', fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0 }] },
+  options: {
+    responsive: true, maintainAspectRatio: false, animation: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { display: false }, grid: { color: '#1e293b' } },
+      y: { min: 0, max: 100, ticks: { color: '#475569', callback: function(v){ return v+'%'; } }, grid: { color: '#1e293b' } }
+    }
+  }
+});
+
+var memChart = new Chart(document.getElementById('memChart'), {
+  type: 'line',
+  data: { labels: [], datasets: [{ data: [], borderColor: '#34d399', backgroundColor: 'rgba(52,211,153,0.12)', fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0 }] },
+  options: {
+    responsive: true, maintainAspectRatio: false, animation: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { display: false }, grid: { color: '#1e293b' } },
+      y: { ticks: { color: '#475569', callback: function(v){ return v+' MB'; } }, grid: { color: '#1e293b' } }
+    }
+  }
+});
+
+var MAX_PTS = 120;
+
+function addPoint(chart, label, value) {
+  chart.data.labels.push(label);
+  chart.data.datasets[0].data.push(value);
+  if (chart.data.labels.length > MAX_PTS) {
+    chart.data.labels.shift();
+    chart.data.datasets[0].data.shift();
+  }
+  chart.update();
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function g(id) { return document.getElementById(id); }
+
+function setPill(id, ok, label) {
+  g(id).className = 'pill ' + (ok ? 'pill-green' : 'pill-red');
+  g(id).innerHTML = '<span class="pill-dot"></span>' + label;
+}
+
+function renderTiers(stats) {
+  if (!stats || !Object.keys(stats).length) {
+    g('tierBody').innerHTML = '<div class="no-db">No request data — browse the ERP or run the load generator</div>';
+    g('tierStatus').className = 'pill pill-gray';
+    g('tierStatus').innerHTML = '<span class="pill-dot"></span>No data';
+    return;
+  }
+  var order = ['TIER_1','TIER_2','TIER_3'];
+  var tiers = order.filter(function(t){ return stats[t]; });
+  Object.keys(stats).forEach(function(t){ if (order.indexOf(t) < 0) tiers.push(t); });
+
+  var html = '<table><thead><tr><th>Tier</th><th>Requests</th><th>P50</th><th>P95</th><th>P99</th><th>Avg</th><th>SLA Breaches</th></tr></thead><tbody>';
+  var anyBreach = false;
+  tiers.forEach(function(t) {
+    var s = stats[t];
+    if (!s) return;
+    var breach = s.breaches > 0;
+    if (breach) anyBreach = true;
+    var bPct = s.count > 0 ? (s.breaches/s.count*100).toFixed(1) : '0.0';
+    var badge = t==='TIER_1'?'t1':t==='TIER_2'?'t2':'t3';
+    var p95c  = s.p95 > s.sla_ms ? 'p95-breach' : s.p95 > s.sla_ms*0.8 ? 'p95-warn' : 'p95-ok';
+    html += '<tr>'
+      + '<td><span class="tier-badge '+badge+'">'+t+'</span></td>'
+      + '<td>'+s.count.toLocaleString()+'</td>'
+      + '<td>'+s.p50+' ms</td>'
+      + '<td class="'+p95c+'">'+s.p95+' ms</td>'
+      + '<td>'+s.p99+' ms</td>'
+      + '<td>'+s.avg_ms+' ms</td>'
+      + '<td>'+(breach ? '<span class="breach-badge">⚠ '+s.breaches+' ('+bPct+'%)</span>' : '<span class="ok-badge">✓ 0</span>')+'</td>'
+      + '</tr>';
+  });
+  html += '</tbody></table>';
+  g('tierBody').innerHTML = html;
+  if (anyBreach) {
+    g('tierStatus').className = 'pill pill-red';
+    g('tierStatus').innerHTML = '<span class="pill-dot"></span>⚡ Contention Detected';
+  } else {
+    g('tierStatus').className = 'pill pill-green';
+    g('tierStatus').innerHTML = '<span class="pill-dot"></span>SLA OK';
+  }
+}
+
+// ─── Main tick — called every second by setInterval ───────────────────────────
+function tick() {
+  fetch('/api/snapshot')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var now = new Date().toLocaleTimeString();
+
+      // Update app name once
+      if (d.app_name) {
+        g('appTitle').textContent = 'DOCKER-GENIUS — ' + d.app_name;
+        g('appSub').textContent   = 'Container: ' + d.container;
+      }
+
+      // Pills
+      setPill('dockerPill', d.docker_ok, 'Docker');
+      setPill('dbPill',     d.db_ok,     'DB Metrics');
+
+      // KPI text
+      g('kCpu').textContent    = d.cpu_pct.toFixed(1) + '%';
+      g('kMem').textContent    = d.mem_mb.toFixed(0) + ' MB';
+      g('kMemSub').textContent = d.mem_pct.toFixed(1) + '% of ' + d.mem_limit_mb.toFixed(0) + ' MB';
+      g('kRps').textContent    = d.rps.toFixed(2);
+      g('kTotal').textContent  = (d.total_requests||0).toLocaleString() + ' total (window)';
+      g('kErr').textContent    = d.error_rate.toFixed(1) + '%';
+      g('kLimits').textContent = d.current_cpus + ' CPUs / ' + d.current_mem_gb + ' GB';
+
+      // Tier-1 P95
+      if (d.tier_stats && d.tier_stats['TIER_1']) {
+        var t1 = d.tier_stats['TIER_1'];
+        g('kT1p95').textContent = t1.p95 + ' ms';
+        g('kT1p95').style.color = t1.p95 > 150 ? '#f87171' : t1.p95 > 100 ? '#fbbf24' : '#4ade80';
+      }
+
+      // Charts — add one point per tick
+      addPoint(cpuChart, now, d.cpu_pct);
+      addPoint(memChart, now, d.mem_mb);
+
+      // Governor bars
+      g('govCpuBar').style.width   = Math.min(100, d.current_cpus / 4 * 100) + '%';
+      g('govMemBar').style.width   = Math.min(100, d.current_mem_gb / 4 * 100) + '%';
+      g('govCpuLabel').textContent = d.current_cpus + ' / 4 vCPUs';
+      g('govMemLabel').textContent = d.current_mem_gb + ' / 4 GB';
+
+      // Tier table
+      renderTiers(d.tier_stats);
+
+      // Clock
+      g('ts').textContent  = now;
+      g('ts2').textContent = now;
+    })
+    .catch(function() {
+      // Show error but keep the interval running — auto-recovers when server is back
+      g('dockerPill').className = 'pill pill-red';
+      g('dockerPill').innerHTML = '<span class="pill-dot"></span>Reconnecting...';
+    });
+}
+
+// ─── Start ────────────────────────────────────────────────────────────────────
+tick();                        // run immediately on page load
+setInterval(tick, 1000);       // then every second forever
+</script>
+</body>
+</html>

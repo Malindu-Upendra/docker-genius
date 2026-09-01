@@ -1,0 +1,799 @@
+<meta charset="utf-8">
+<title>Governor Figure Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    color-scheme: dark;
+    --page:        #12151a;
+    --page-2:      #171b21;
+    --ink:         #eef1f5;
+    --ink-2:       #8b96a8;
+    --ink-3:       #5b6576;
+    --accent:      #4c93e6;
+    --hair:        rgba(255,255,255,0.09);
+    --tag-bg:      #1c2733;
+    --tag-ink:     #7fb4ee;
+    --paper:       #ffffff;
+    --paper-ink:   #14181f;
+    --paper-ink-2: #565f6e;
+    --paper-hair:  #e4e6ea;
+    --paper-grid:  #eef0f3;
+
+    --s1: #2a78d6; /* blue      */
+    --s2: #eb6834; /* orange    */
+    --s3: #1baf7a; /* aqua      */
+    --s4: #eda100; /* yellow    */
+    --s5: #e87ba4; /* magenta   */
+    --good: #0ca30c;
+    --critical: #d03b3b;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--page);
+    color:var(--ink);
+    font-family:"IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .shell{max-width:1180px;margin:0 auto;padding:56px 32px 120px;}
+
+  .masthead{
+    display:flex; flex-direction:column; gap:10px;
+    padding-bottom:36px; margin-bottom:44px;
+    border-bottom:1px solid var(--hair);
+  }
+  .masthead .eyebrow{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12.5px; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--tag-ink);
+  }
+  .masthead h1{
+    font-size:32px; font-weight:600; margin:0; letter-spacing:-0.01em;
+    text-wrap:balance;
+  }
+  .masthead p{
+    max-width:640px; margin:0; color:var(--ink-2); font-size:14.5px; line-height:1.6;
+  }
+  .masthead .howto{
+    margin-top:14px; padding:14px 16px; background:var(--page-2);
+    border:1px solid var(--hair); border-radius:10px;
+    font-size:13px; color:var(--ink-2); line-height:1.65; max-width:720px;
+  }
+  .masthead .howto b{color:var(--ink); font-weight:600;}
+  .masthead .howto code{
+    font-family:"IBM Plex Mono", monospace; background:var(--tag-bg); color:var(--tag-ink);
+    padding:1px 6px; border-radius:4px; font-size:12px;
+  }
+
+  .toc{
+    display:flex; flex-wrap:wrap; gap:8px; margin:20px 0 0;
+  }
+  .toc a{
+    font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--ink-2);
+    text-decoration:none; padding:5px 10px; border:1px solid var(--hair); border-radius:6px;
+    transition:border-color .15s, color .15s;
+  }
+  .toc a:hover{color:var(--tag-ink); border-color:var(--tag-ink);}
+
+  section.fig{
+    margin-bottom:64px;
+    scroll-margin-top:24px;
+  }
+  .fig-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:16px;
+    margin-bottom:14px; flex-wrap:wrap;
+  }
+  .fig-num{
+    font-family:"IBM Plex Mono", monospace; font-size:13px; color:var(--ink-3);
+    letter-spacing:.06em;
+  }
+  .filename{
+    font-family:"IBM Plex Mono", monospace; font-size:13px; font-weight:500;
+    color:var(--tag-ink); background:var(--tag-bg); border:1px solid rgba(127,180,238,0.25);
+    padding:4px 10px; border-radius:6px;
+  }
+  .checklist-tag{
+    font-family:"IBM Plex Mono", monospace; font-size:10.5px; color:var(--ink-3);
+    letter-spacing:.05em; text-transform:uppercase;
+  }
+
+  .paper{
+    background:var(--paper); color:var(--paper-ink);
+    border-radius:6px; padding:28px 28px 20px;
+    box-shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.35);
+  }
+  .paper svg{display:block; width:100%; height:auto;}
+  .paper text{font-family:"IBM Plex Sans", system-ui, sans-serif;}
+  .mono{font-family:"IBM Plex Mono", monospace;}
+
+  .caption{
+    margin-top:12px; font-size:12.5px; color:var(--ink-2); line-height:1.6;
+    max-width:900px;
+  }
+  .caption b{color:var(--ink); font-weight:600;}
+
+  /* ── schematic diagram shared styles ── */
+  .node-box{fill:#f5f7fa; stroke:#c3c9d4; stroke-width:1.3;}
+  .node-box.accent{fill:#eaf2fd; stroke:var(--s1);}
+  .node-box.accent2{fill:#fdeee7; stroke:var(--s2);}
+  .node-box.accent3{fill:#e7f8f1; stroke:var(--s3);}
+  .node-title{font-size:13px; font-weight:600; fill:#14181f;}
+  .node-sub{font-size:10.5px; fill:#5b6577;}
+  .flow-arrow{stroke:#8a93a3; stroke-width:1.6; fill:none; marker-end:url(#arrow);}
+  .flow-arrow.accent{stroke:var(--s1); marker-end:url(#arrow-accent);}
+  .group-label{font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; fill:#8b95a8;}
+  .dim-label{font-size:10px; fill:#8b95a8; font-family:"IBM Plex Mono", monospace;}
+
+  /* ── data chart shared styles ── */
+  .axis-line{stroke:var(--paper-hair); stroke-width:1;}
+  .grid-line{stroke:var(--paper-grid); stroke-width:1;}
+  .axis-tick{font-size:10.5px; fill:var(--paper-ink-2); font-family:"IBM Plex Mono", monospace;}
+  .axis-title{font-size:11px; fill:var(--paper-ink-2);}
+  .legend-item{font-size:11.5px; fill:var(--paper-ink);}
+  .data-label{font-size:10.5px; fill:var(--paper-ink-2); font-family:"IBM Plex Mono", monospace;}
+
+  .data-table{
+    width:100%; border-collapse:collapse; margin-top:6px;
+    font-size:12.5px; color:var(--paper-ink);
+  }
+  .data-table th{
+    text-align:right; font-weight:600; font-size:11px; letter-spacing:.03em; text-transform:uppercase;
+    color:var(--paper-ink-2); padding:8px 10px; border-bottom:1px solid var(--paper-hair);
+  }
+  .data-table th:first-child, .data-table td:first-child{text-align:left;}
+  .data-table td{
+    text-align:right; padding:7px 10px; border-bottom:1px solid var(--paper-grid);
+    font-family:"IBM Plex Mono", monospace; font-variant-numeric:tabular-nums;
+  }
+  .data-table .swatch{display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:7px;}
+
+  footer{
+    margin-top:40px; padding-top:24px; border-top:1px solid var(--hair);
+    color:var(--ink-3); font-size:12px; font-family:"IBM Plex Mono", monospace;
+  }
+
+  @media (max-width:720px){
+    .shell{padding:32px 16px 80px;}
+    .masthead h1{font-size:24px;}
+  }
+</style>
+
+<div class="shell">
+  <div class="masthead">
+    <div class="eyebrow">DOCKER-GENIUS &middot; Journal Readiness Checklist &middot; Item 12</div>
+    <h1>Figure Export Sheet</h1>
+    <p>Seven figures for the manuscript, generated from the project's real experimental data
+       (LSTM inference on genuine held-out test windows, actual governor telemetry logs,
+       actual pooled latency data) &mdash; nothing here is illustrative placeholder data.</p>
+    <div class="howto">
+      <b>How to use this page:</b> each figure below sits on its own white sheet with a
+      <code>filename.png</code> tag above it. Screenshot just the white sheet (crop to its edges),
+      save it using the tag shown, and drop it into your figures folder before
+      <code>\includegraphics</code>-ing it into <code>main.tex</code>.
+    </div>
+    <div class="toc">
+      <a href="#fig1">01 Architecture</a>
+      <a href="#fig2">02 Workflow</a>
+      <a href="#fig3">03 LSTM Model</a>
+      <a href="#fig4">04 Experimental Setup</a>
+      <a href="#fig5">05 Latency</a>
+      <a href="#fig6">06 Prediction</a>
+      <a href="#fig7">07 Resource Utilization</a>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ FIG 1 — ARCHITECTURE ══════════════════════════ -->
+  <section class="fig" id="fig1">
+    <div class="fig-head">
+      <span class="fig-num">FIG. 1 &middot; <span class="checklist-tag">architecture</span></span>
+      <span class="filename">fig1_architecture.png</span>
+    </div>
+    <div class="paper">
+      <svg id="svg-fig1" viewBox="0 0 960 500" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0L10,5L0,10z" fill="#8a93a3"/>
+          </marker>
+          <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0L10,5L0,10z" fill="var(--s1)"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+    <div class="caption"><b>Fig. 1.</b> DOCKER-GENIUS system architecture. The Monolith Governor runs
+      entirely outside the monitored <span class="mono">erp_app</span> container, observing it through
+      cAdvisor and acting on it only through the Docker Update API &mdash; the monitored container is
+      never modified or restarted.</div>
+  </section>
+
+  <!-- ══════════════════════════ FIG 2 — WORKFLOW ══════════════════════════ -->
+  <section class="fig" id="fig2">
+    <div class="fig-head">
+      <span class="fig-num">FIG. 2 &middot; <span class="checklist-tag">workflow</span></span>
+      <span class="filename">fig2_workflow.png</span>
+    </div>
+    <div class="paper">
+      <svg id="svg-fig2" viewBox="0 0 960 460" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <div class="caption"><b>Fig. 2.</b> End-to-end request-to-actuation pipeline, executed continuously
+      while the system is under load: every 10-second decision interval, the most recent 60-second
+      telemetry window is used to forecast the next 30 seconds and update the container's resource
+      allocation before saturation occurs.</div>
+  </section>
+
+  <!-- ══════════════════════════ FIG 3 — LSTM ══════════════════════════ -->
+  <section class="fig" id="fig3">
+    <div class="fig-head">
+      <span class="fig-num">FIG. 3 &middot; <span class="checklist-tag">lstm model</span></span>
+      <span class="filename">fig3_lstm_architecture.png</span>
+    </div>
+    <div class="paper">
+      <svg id="svg-fig3" viewBox="0 0 960 640" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <div class="caption"><b>Fig. 3.</b> Stacked LSTM forecasting model. A 60-step input window of
+      [CPU%, RAM MB] passes through two LSTM layers (64 then 32 units, 0.2 dropout between them) and
+      a dense projection, reshaped into a 30-step joint CPU/RAM forecast.</div>
+  </section>
+
+  <!-- ══════════════════════════ FIG 4 — EXPERIMENTAL SETUP ══════════════════════════ -->
+  <section class="fig" id="fig4">
+    <div class="fig-head">
+      <span class="fig-num">FIG. 4 &middot; <span class="checklist-tag">experimental setup</span></span>
+      <span class="filename">fig4_experimental_setup.png</span>
+    </div>
+    <div class="paper">
+      <svg id="svg-fig4" viewBox="0 0 960 560" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <div class="caption"><b>Fig. 4.</b> Three-group experimental design. Identical synthetic traffic
+      (8 concurrent <span class="mono">TIER_1</span> workers, 2 concurrent <span class="mono">TIER_3</span>
+      workers) is replayed against three otherwise-identical stacks, differing only in which governance
+      components are active, so that any measured difference is attributable to the governance
+      mechanism rather than the workload.</div>
+  </section>
+
+  <!-- ══════════════════════════ FIG 5 — LATENCY ══════════════════════════ -->
+  <section class="fig" id="fig5">
+    <div class="fig-head">
+      <span class="fig-num">FIG. 5 &middot; <span class="checklist-tag">latency graphs</span></span>
+      <span class="filename">fig5_latency_distribution.png</span>
+    </div>
+    <div class="paper">
+      <svg id="svg-fig5" viewBox="0 0 960 560" xmlns="http://www.w3.org/2000/svg"></svg>
+      <table class="data-table" id="tbl-fig5"></table>
+    </div>
+    <div class="caption"><b>Fig. 5.</b> <span class="mono">TIER_1</span> request latency distribution
+      by governance strategy, pooled across 5 replicates at the aggressive rule-engine configuration
+      (n&#8201;&asymp;&#8201;17,000&ndash;18,000 requests per group; log-scaled axis &mdash; the
+      bursty tail spans roughly 3 to 3,400&#8201;ms). Box shows P25&ndash;P75 with the median line;
+      whiskers extend to P0.5 and P99.5.</div>
+  </section>
+
+  <!-- ══════════════════════════ FIG 6 — PREDICTION ══════════════════════════ -->
+  <section class="fig" id="fig6">
+    <div class="fig-head">
+      <span class="fig-num">FIG. 6 &middot; <span class="checklist-tag">prediction graph</span></span>
+      <span class="filename">fig6_lstm_prediction.png</span>
+    </div>
+    <div class="paper">
+      <svg id="svg-fig6" viewBox="0 0 960 516" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <div class="caption"><b>Fig. 6.</b> LSTM CPU forecast against ground truth on one held-out test
+      window (of 167 total), chosen for its high-variance spike so the forecast behaviour is visible
+      &mdash; not the average case (see Table&#8201;IV for aggregate test-set MAE/RMSE). Shaded region
+      is the 30-step forecast horizon.</div>
+  </section>
+
+  <!-- ══════════════════════════ FIG 7 — RESOURCE UTILIZATION ══════════════════════════ -->
+  <section class="fig" id="fig7">
+    <div class="fig-head">
+      <span class="fig-num">FIG. 7 &middot; <span class="checklist-tag">resource utilization</span></span>
+      <span class="filename">fig7_resource_utilization.png</span>
+    </div>
+    <div class="paper">
+      <svg id="svg-fig7" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg"></svg>
+      <table class="data-table" id="tbl-fig7"></table>
+    </div>
+    <div class="caption"><b>Fig. 7.</b> Observed CPU utilization and the governor's allocated CPU
+      cores over one representative 300-second Proactive Hybrid run, with each scaling decision
+      annotated by the rule that fired. cpus falls to 1.0 during an initial idle cooldown, then Rule 1
+      escalates it twice as <span class="mono">TIER_1</span> load rises, and Rule 4 later trims memory
+      once the forecast confirms headroom is no longer needed.</div>
+  </section>
+
+  <footer>docker-genius/figures_export.html &middot; generated from real project data, not illustrative placeholders</footer>
+</div>
+
+<script>
+const DATA = {"latency": {"Static": {"n": 16981, "p50": 9.58, "p95": 2917.94, "p99": 2987.4880000000003, "breach_pct": 19.786820564159942, "min": 2.66, "q1": 7.84, "median": 9.58, "q3": 13.58, "max": 3218.6589999999974}, "Reactive-Only": {"n": 17100, "p50": 9.77, "p95": 2946.7625000000003, "p99": 3185.362299999998, "breach_pct": 19.614035087719298, "min": 2.47, "q1": 7.87, "median": 9.77, "q3": 15.64, "max": 3447.7375500000044}, "Proactive Hybrid": {"n": 18142, "p50": 9.265, "p95": 2932.2394999999997, "p99": 3010.0454, "breach_pct": 18.189835740271192, "min": 2.39, "q1": 7.51, "median": 9.265, "q3": 12.887500000000001, "max": 3070.6994499999987}}, "resource": [{"t": 0.0, "cpu": 0.0, "mem": 57.2, "cpus": 2.0, "memgb": 2.0, "action": "scale_down_cpu", "rule": "Rule 3 \u2014 CPU Cooldown", "reason": "current observed mean_cpu=0.0% < 25.0%  no SLA breaches  cpus 2.0\u21921.0"}, {"t": 10.0, "cpu": 97.92, "mem": 77.0, "cpus": 1.0, "memgb": 2.0, "action": "scale_up_cpu", "rule": "Rule 1 \u2014 Proactive CPU Scale-Up", "reason": "current observed peak_cpu=97.9% > 75.0%  TIER_1 rps=4.07  cpus 1.0\u21922.5"}, {"t": 20.0, "cpu": 54.34, "mem": 79.4, "cpus": 2.5, "memgb": 2.0, "action": "none", "rule": "", "reason": "cycle=3  current observed  cpu=54.3%  mem=79MB  tier1_rps=6.23  cpu_cd=1  mem_cd=0"}, {"t": 30.0, "cpu": 86.08, "mem": 79.5, "cpus": 2.5, "memgb": 2.0, "action": "scale_up_cpu", "rule": "Rule 1 \u2014 Proactive CPU Scale-Up", "reason": "current observed peak_cpu=86.1% > 75.0%  TIER_1 rps=7.53  cpus 2.5\u21924.0"}, {"t": 40.0, "cpu": 71.45, "mem": 80.4, "cpus": 4.0, "memgb": 2.0, "action": "none", "rule": "", "reason": "cycle=5  current observed  cpu=71.5%  mem=80MB  tier1_rps=9.73  cpu_cd=1  mem_cd=0"}, {"t": 50.0, "cpu": 99.39, "mem": 80.7, "cpus": 4.0, "memgb": 2.0, "action": "none", "rule": "", "reason": "cycle=6  current observed  cpu=99.4%  mem=81MB  tier1_rps=11.10  cpu_cd=0  mem_cd=0"}, {"t": 60.2, "cpu": 98.99, "mem": 81.9, "cpus": 4.0, "memgb": 2.0, "action": "none", "rule": "", "reason": "cycle=7  LSTM forecast  cpu=104.1%  mem=159MB  tier1_rps=12.68  cpu_cd=0  mem_cd=0"}, {"t": 70.1, "cpu": 98.65, "mem": 82.1, "cpus": 4.0, "memgb": 2.0, "action": "none", "rule": "", "reason": "cycle=8  LSTM forecast  cpu=103.6%  mem=159MB  tier1_rps=10.55  cpu_cd=0  mem_cd=0"}, {"t": 80.1, "cpu": 98.75, "mem": 82.2, "cpus": 4.0, "memgb": 2.0, "action": "none", "rule": "", "reason": "cycle=9  LSTM forecast  cpu=103.7%  mem=159MB  tier1_rps=9.87  cpu_cd=0  mem_cd=0"}, {"t": 90.1, "cpu": 43.83, "mem": 82.3, "cpus": 4.0, "memgb": 2.0, "action": "none", "rule": "", "reason": "cycle=10  LSTM forecast  cpu=103.4%  mem=159MB  tier1_rps=10.87  cpu_cd=0  mem_cd=0"}, {"t": 100.1, "cpu": 90.28, "mem": 82.0, "cpus": 4.0, "memgb": 2.0, "action": "scale_down_mem", "rule": "Rule 4 \u2014 Memory Cooldown", "reason": "LSTM forecast mean_mem=153MB < threshold 778MB  no SLA breaches  mem 2.00\u21921.00 GB"}, {"t": 110.1, "cpu": 75.93, "mem": 82.3, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=12  LSTM forecast  cpu=103.5%  mem=159MB  tier1_rps=10.98  cpu_cd=0  mem_cd=1"}, {"t": 120.1, "cpu": 98.18, "mem": 82.2, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=13  LSTM forecast  cpu=103.1%  mem=159MB  tier1_rps=10.93  cpu_cd=0  mem_cd=0"}, {"t": 130.1, "cpu": 98.76, "mem": 81.6, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=14  LSTM forecast  cpu=103.4%  mem=159MB  tier1_rps=10.27  cpu_cd=0  mem_cd=0"}, {"t": 140.1, "cpu": 98.05, "mem": 82.2, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=15  LSTM forecast  cpu=103.3%  mem=159MB  tier1_rps=11.07  cpu_cd=0  mem_cd=0"}, {"t": 150.1, "cpu": 98.86, "mem": 83.1, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=16  LSTM forecast  cpu=103.4%  mem=159MB  tier1_rps=10.30  cpu_cd=0  mem_cd=0"}, {"t": 160.1, "cpu": 35.17, "mem": 68.5, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=17  LSTM forecast  cpu=103.1%  mem=159MB  tier1_rps=11.35  cpu_cd=0  mem_cd=0"}, {"t": 170.1, "cpu": 87.63, "mem": 81.8, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=18  LSTM forecast  cpu=103.8%  mem=159MB  tier1_rps=10.70  cpu_cd=0  mem_cd=0"}, {"t": 180.1, "cpu": 97.41, "mem": 81.1, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=19  LSTM forecast  cpu=104.2%  mem=159MB  tier1_rps=11.20  cpu_cd=0  mem_cd=0"}, {"t": 190.1, "cpu": 98.42, "mem": 81.3, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=20  LSTM forecast  cpu=103.4%  mem=159MB  tier1_rps=11.67  cpu_cd=0  mem_cd=0"}, {"t": 200.1, "cpu": 98.26, "mem": 81.8, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=21  LSTM forecast  cpu=103.6%  mem=159MB  tier1_rps=10.92  cpu_cd=0  mem_cd=0"}, {"t": 210.1, "cpu": 81.79, "mem": 81.0, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=22  LSTM forecast  cpu=103.4%  mem=159MB  tier1_rps=11.88  cpu_cd=0  mem_cd=0"}, {"t": 220.2, "cpu": 85.64, "mem": 82.6, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=23  LSTM forecast  cpu=103.5%  mem=159MB  tier1_rps=11.08  cpu_cd=0  mem_cd=0"}, {"t": 230.1, "cpu": 98.09, "mem": 81.7, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=24  LSTM forecast  cpu=105.1%  mem=160MB  tier1_rps=10.75  cpu_cd=0  mem_cd=0"}, {"t": 240.1, "cpu": 98.29, "mem": 81.7, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=25  LSTM forecast  cpu=104.5%  mem=160MB  tier1_rps=10.42  cpu_cd=0  mem_cd=0"}, {"t": 250.1, "cpu": 98.56, "mem": 81.6, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=26  LSTM forecast  cpu=103.4%  mem=159MB  tier1_rps=10.93  cpu_cd=0  mem_cd=0"}, {"t": 260.1, "cpu": 98.26, "mem": 83.1, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=27  LSTM forecast  cpu=103.3%  mem=159MB  tier1_rps=11.05  cpu_cd=0  mem_cd=0"}, {"t": 270.1, "cpu": 26.76, "mem": 83.2, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=28  LSTM forecast  cpu=103.0%  mem=159MB  tier1_rps=10.92  cpu_cd=0  mem_cd=0"}, {"t": 280.1, "cpu": 98.63, "mem": 82.8, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=29  LSTM forecast  cpu=103.0%  mem=159MB  tier1_rps=10.95  cpu_cd=0  mem_cd=0"}, {"t": 290.1, "cpu": 98.52, "mem": 79.2, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=30  LSTM forecast  cpu=103.7%  mem=159MB  tier1_rps=10.90  cpu_cd=0  mem_cd=0"}, {"t": 300.1, "cpu": 98.09, "mem": 83.9, "cpus": 4.0, "memgb": 1.0, "action": "none", "rule": "", "reason": "cycle=31  LSTM forecast  cpu=103.6%  mem=159MB  tier1_rps=11.92  cpu_cd=0  mem_cd=0"}], "prediction": {"history_cpu": [99.11, 102.06, 58.9, 22.84, 19.37, 20.21, 23.22, 27.27, 27.18, 25.18, 26.87, 24.71, 22.12, 22.74, 25.87, 23.64, 22.39, 23.49, 23.52, 33.03, 23.95, 22.69, 31.39, 100.23, 99.68, 98.67, 99.87, 102.29, 24.2, 20.01, 20.67, 19.97, 38.72, 37.05, 28.96, 27.07, 28.65, 32.0, 23.12, 26.57, 22.24, 35.98, 24.42, 27.22, 24.75, 22.84, 30.13, 23.83, 26.5, 22.97, 28.07, 27.9, 60.02, 30.41, 26.87, 25.4, 26.17, 26.31, 28.14, 26.66], "actual_cpu": [27.05, 25.05, 26.49, 26.47, 23.0, 21.92, 25.24, 25.37, 23.02, 37.25, 30.66, 98.39, 30.15, 30.25, 39.07, 25.03, 27.93, 23.17, 34.13, 27.22, 28.46, 100.75, 99.75, 99.71, 99.06, 112.85, 23.47, 22.77, 22.06, 21.32], "predicted_cpu": [43.24, 40.48, 40.8, 41.24, 41.24, 40.8, 41.25, 40.83, 40.11, 43.15, 41.13, 40.16, 40.59, 41.67, 40.21, 41.99, 42.09, 42.38, 40.1, 40.61, 40.86, 41.88, 39.87, 41.96, 40.29, 40.71, 39.84, 40.87, 41.96, 40.11], "history_mem": [191.8, 156.3, 163.7, 166.1, 167.9, 169.9, 170.6, 172.8, 175.3, 177.0, 179.0, 181.2, 182.7, 184.7, 187.1, 189.4, 190.8, 192.7, 194.9, 181.7, 181.9, 181.9, 181.9, 181.9, 181.9, 181.9, 181.9, 217.1, 219.7, 219.7, 220.2, 220.2, 222.1, 155.1, 155.1, 155.1, 155.5, 138.8, 138.9, 139.0, 138.7, 136.3, 136.4, 136.5, 136.4, 137.1, 137.3, 137.1, 138.0, 137.3, 137.3, 137.1, 164.2, 166.9, 168.2, 170.3, 172.4, 174.3, 176.6, 178.2], "actual_mem": [180.6, 182.2, 184.2, 186.2, 188.1, 190.4, 192.0, 194.4, 196.5, 193.2, 193.2, 193.4, 193.1, 193.1, 171.6, 171.8, 171.6, 171.6, 171.7, 171.7, 171.8, 171.8, 171.8, 171.5, 173.1, 187.7, 186.6, 188.5, 190.7, 192.4], "predicted_mem": [165.7, 165.1, 167.0, 166.4, 166.8, 165.9, 164.9, 165.8, 166.2, 166.3, 165.9, 165.8, 166.6, 166.2, 164.3, 166.5, 165.6, 165.7, 165.2, 165.5, 166.3, 166.0, 165.8, 165.0, 165.7, 165.8, 165.1, 166.1, 166.5, 165.5], "window_size": 60, "horizon": 30, "test_window_index": 70, "n_test_windows": 167}, "baseline": [{"model": "ARIMA (walk-forward)", "mae": 15.9, "rmse": 23.7}, {"model": "Transformer (lightweight)", "mae": 17.0, "rmse": 24.5}, {"model": "LSTM (this work)", "mae": 17.8, "rmse": 24.2}, {"model": "GRU", "mae": 18.7, "rmse": 24.7}, {"model": "XGBoost", "mae": 20.0, "rmse": 26.5}]};
+</script>
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// Shared SVG helpers
+// ═══════════════════════════════════════════════════════════════════════
+const SVGNS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent){
+  const e = document.createElementNS(SVGNS, tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(e);
+  return e;
+}
+function text(x, y, str, attrs, parent){
+  const t = el("text", Object.assign({x, y}, attrs), parent);
+  t.textContent = str;
+  return t;
+}
+function multiline(x, y, lines, attrs, parent, lh){
+  lh = lh || 13;
+  lines.forEach((ln, i) => text(x, y + i*lh, ln, attrs, parent));
+}
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// FIG 1 — Architecture
+// ═══════════════════════════════════════════════════════════════════════
+(function(){
+  const svg = document.getElementById("svg-fig1");
+
+  function box(x,y,w,h,cls){ return el("rect",{x,y,width:w,height:h,rx:8,class:"node-box "+(cls||"")},svg); }
+  function orth(pts,cls,dashed){
+    const d = "M"+pts.map(p=>p.join(",")).join(" L");
+    el("path",{d, class:"flow-arrow "+(cls||""), "stroke-dasharray": dashed?"4,4":null},svg);
+  }
+
+  // ── Monitored container (left column) ──
+  text(24,44,"MONITORED CONTAINER (unmodified by the Governor)",{class:"group-label"},svg);
+  box(20,56,300,146);
+  text(48,84,"erp_app",{class:"node-title mono"},svg);
+  text(48,104,"NestJS ERP · POS, inventory,",{class:"node-sub"},svg);
+  text(48,118,"financial reporting modules",{class:"node-sub"},svg);
+  box(48,132,244,54,"accent2");
+  text(66,154,"Semantic Middleware",{class:"node-title"},svg);
+  text(66,172,"tags every request TIER_1 / TIER_3",{class:"node-sub mono"},svg);
+
+  text(24,236,"INPUT TELEMETRY LAYER",{class:"group-label"},svg);
+  box(20,248,300,64,"accent3");
+  text(48,272,"cAdvisor",{class:"node-title"},svg);
+  text(48,290,"reads Linux cgroups @ 1 s intervals",{class:"node-sub"},svg);
+  box(20,328,300,54,"accent3");
+  text(48,350,"60-step rolling buffer",{class:"node-title mono"},svg);
+  text(48,367,"[cpu_pct, mem_mb] × 60 s",{class:"node-sub mono"},svg);
+
+  box(20,398,300,40);
+  text(48,422,"MySQL — semantic_request_logs",{class:"node-sub mono"},svg);
+
+  // ── Intelligent control plane (right column) ──
+  text(380,44,"INTELLIGENT CONTROL PLANE — “MONOLITH GOVERNOR” (external process)",{class:"group-label"},svg);
+  box(376,56,564,150,"accent");
+  box(400,80,230,102,"accent");
+  text(420,106,"LSTM Predictor",{class:"node-title"},svg);
+  text(420,126,"2× stacked LSTM (64→32)",{class:"node-sub"},svg);
+  text(420,142,"30-step CPU + RAM forecast",{class:"node-sub"},svg);
+  text(420,158,"every 10 s decision cycle",{class:"node-sub"},svg);
+  box(690,80,230,102,"accent2");
+  text(710,106,"Rule Engine",{class:"node-title"},svg);
+  text(710,126,"4 rules · forecast + TIER_1",{class:"node-sub"},svg);
+  text(710,142,"activity → scale decision",{class:"node-sub"},svg);
+  text(710,158,"6-cycle cooldown guard",{class:"node-sub"},svg);
+
+  box(376,248,564,64,"accent2");
+  text(400,272,"Docker Update API",{class:"node-title mono"},svg);
+  text(400,290,"NanoCpus / Memory via Unix socket · <20 ms actuation",{class:"node-sub"},svg);
+
+  text(400,342,"applies the new limits directly to erp_app — in-place, no restart",{class:"dim-label"},svg);
+
+  // ── Arrows: clean orthogonal routing, nothing crosses ──
+  // container -> telemetry layer (straight down the left column)
+  orth([[170,202],[170,248]]);                       // erp_app -> cAdvisor
+  orth([[170,312],[170,328]]);                       // cAdvisor -> buffer
+  // semantic MW -> MySQL logs (dashed, audit path) — routed through the gap
+  // between the two column groups so it never runs alongside the solid
+  // erp_app->cAdvisor->buffer telemetry line above. Lands on the upper half
+  // of MySQL logs' right edge, 20px clear of the solid line below, so the
+  // two arrowheads never merge into one.
+  orth([[292,159],[345,159],[345,408],[320,408]],"",true);
+
+  // buffer -> LSTM : right along a low bus, then up
+  orth([[320,355],[358,355],[358,131],[400,131]],"accent");
+  // LSTM -> Rule Engine (straight across)
+  orth([[630,131],[690,131]],"accent");
+  // MySQL logs -> Rule Engine : up the far-right margin, staying clear of the LSTM/RuleEngine band.
+  // Starts from the lower half of MySQL logs' right edge (see note above).
+  orth([[320,428],[952,428],[952,106],[920,106]],"");
+  text(846,398,"TIER_1 queue",{class:"dim-label"},svg);
+  // Rule Engine -> Docker API (straight down)
+  orth([[805,182],[805,248]],"accent");
+  text(818,215,"scale",{class:"dim-label"},svg);
+  // Docker API -> erp_app : loop through the left margin, clear of every box
+  orth([[500,312],[500,470],[8,470],[8,100],[20,100]],"accent",true);
+  text(230,464,"apply --cpus / --memory to erp_app — no restart",{class:"dim-label"},svg);
+})();
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// FIG 2 — Workflow (linear pipeline)
+// ═══════════════════════════════════════════════════════════════════════
+(function(){
+  const svg = document.getElementById("svg-fig2");
+  const stages = [
+    ["Load Generator", "8× TIER_1 + 2× TIER_3 workers"],
+    ["NestJS ERP", "POS checkout / bulk reports"],
+    ["Semantic MW", "tags TIER_1 / TIER_3"],
+    ["cAdvisor", "cgroups CPU + RAM @ 1 s"],
+    ["LSTM", "30-step forecast"],
+    ["Rule Engine", "4-rule decision"],
+    ["Docker Update API", "in-place resize, no restart"],
+  ];
+  const n = stages.length;
+  const top = 70, bh = 150, bw = 118, gap = 18;
+  const totalW = n*bw + (n-1)*gap;
+  const startX = (960-totalW)/2;
+
+  stages.forEach((s,i)=>{
+    const x = startX + i*(bw+gap);
+    const cls = i===3 ? "accent3" : (i===4||i===5) ? "accent" : (i===6 ? "accent2" : "");
+    el("rect",{x,y:top,width:bw,height:bh,rx:8,class:"node-box "+cls},svg);
+    text(x+bw/2, top+34, "0"+(i+1), {class:"dim-label", "text-anchor":"middle"}, svg);
+    const words = s[0].split(" ");
+    multiline(x+bw/2, top+56, words, {class:"node-title","text-anchor":"middle"}, svg, 16);
+    const subwords = wrap(s[1], 15);
+    multiline(x+10, top+bh-34, subwords, {class:"node-sub"}, svg, 12);
+    if(i<n-1){
+      const x2 = x+bw, xm = x2+gap/2;
+      el("path",{d:`M${x2},${top+bh/2} L${x2+gap},${top+bh/2}`, class:"flow-arrow"},svg);
+    }
+  });
+
+  // feedback loop arrow (actuation back to erp_app / load generator's target)
+  const lastX = startX + (n-1)*(bw+gap) + bw/2;
+  const firstX = startX + bw/2;
+  el("path",{d:`M${lastX},${top+bh} C ${lastX},${top+bh+90} ${firstX},${top+bh+90} ${firstX},${top+bh}`,
+     class:"flow-arrow accent", "stroke-dasharray":"4,3"},svg);
+  text(480, top+bh+120, "actuation loop — repeats every 10-second decision interval", {class:"dim-label","text-anchor":"middle"},svg);
+
+  function wrap(str,maxLen){
+    const words = str.split(" "); const lines=[]; let cur="";
+    words.forEach(w=>{
+      if((cur+" "+w).trim().length>maxLen){ lines.push(cur.trim()); cur=w; }
+      else cur=(cur+" "+w).trim();
+    });
+    if(cur) lines.push(cur);
+    return lines;
+  }
+})();
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// FIG 3 — LSTM architecture (vertical stack)
+// ═══════════════════════════════════════════════════════════════════════
+(function(){
+  const svg = document.getElementById("svg-fig3");
+  const cx = 480;
+  const layers = [
+    {label:"Input window", sub:"(60 steps, 2 features) — [cpu_pct, mem_mb]", w:420, cls:""},
+    {label:"LSTM · 64 units", sub:"return_sequences = True", w:340, cls:"accent"},
+    {label:"Dropout 0.2", sub:"", w:280, cls:""},
+    {label:"LSTM · 32 units", sub:"return_sequences = False", w:340, cls:"accent"},
+    {label:"Dropout 0.2", sub:"", w:280, cls:""},
+    {label:"Dense · 60 units", sub:"linear projection", w:340, cls:"accent2"},
+    {label:"Reshape", sub:"(30 steps, 2 features)", w:280, cls:""},
+    {label:"Output forecast", sub:"(30 steps, 2 features) — 30 s CPU + RAM horizon", w:420, cls:"accent3"},
+  ];
+  const bh = 46, gap = 20;
+  let y = 26;
+  layers.forEach((L,i)=>{
+    const x = cx - L.w/2;
+    el("rect",{x,y,width:L.w,height:bh,rx:8,class:"node-box "+L.cls},svg);
+    text(cx, y+21, L.label, {class:"node-title","text-anchor":"middle"},svg);
+    if(L.sub) text(cx, y+37, L.sub, {class:"node-sub mono","text-anchor":"middle"},svg);
+    if(i<layers.length-1){
+      el("path",{d:`M${cx},${y+bh} L${cx},${y+bh+gap}`, class:"flow-arrow"},svg);
+    }
+    y += bh+gap;
+  });
+
+  // side annotations
+  text(cx+260, 26+bh/2+5, "Adam, lr=1e-3, MSE loss", {class:"dim-label"},svg);
+  text(cx+260, 26+(bh+gap)*3+bh/2+5, "batch=32, ≤50 epochs, patience=8", {class:"dim-label"},svg);
+  text(cx+260, y-gap-bh/2+5, "MAE 17.8% CPU / 20.5 MB RAM", {class:"dim-label"},svg);
+
+  // total shape callouts on the far left
+  text(cx-260, 26+bh/2+5, "(60, 2)", {class:"dim-label mono"},svg);
+  text(cx-260, y-gap-bh/2+5, "(30, 2)", {class:"dim-label mono"},svg);
+})();
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// FIG 4 — Experimental setup (3 parallel arms)
+// ═══════════════════════════════════════════════════════════════════════
+(function(){
+  const svg = document.getElementById("svg-fig4");
+
+  // shared load generator at top
+  el("rect",{x:340,y:20,width:280,height:56,rx:8,class:"node-box accent3"},svg);
+  text(480,44,"Synthetic Load Generator",{class:"node-title","text-anchor":"middle"},svg);
+  text(480,62,"8× TIER_1 (POS) + 2× TIER_3 (bulk) workers",{class:"node-sub","text-anchor":"middle"},svg);
+
+  const arms = [
+    {label:"G1 — Static (Control)", cls:"", rows:["fixed --cpus / --memory","never adjusted"]},
+    {label:"G2 — Reactive-Only", cls:"accent2", rows:["Rule Engine active","LSTM forecast disabled"]},
+    {label:"G3 — Proactive Hybrid", cls:"accent", rows:["Rule Engine + LSTM","full DOCKER-GENIUS"]},
+  ];
+  const armW = 260, gapX = 40;
+  const totalW = arms.length*armW + (arms.length-1)*gapX;
+  const startX = (960-totalW)/2;
+  const top = 140;
+
+  arms.forEach((a,i)=>{
+    const x = startX + i*(armW+gapX);
+    const cx = x+armW/2;
+    // connector from load gen
+    el("path",{d:`M480,76 C480,110 ${cx},110 ${cx},140`, class:"flow-arrow"},svg);
+
+    el("rect",{x,y:top,width:armW,height:250,rx:10,class:"node-box"},svg);
+    text(cx,top+26,a.label,{class:"node-title","text-anchor":"middle"},svg);
+
+    el("rect",{x:x+16,y:top+42,width:armW-32,height:44,rx:6,class:"node-box"},svg);
+    text(cx,top+64,"NestJS ERP + MySQL 8.0",{class:"node-sub","text-anchor":"middle"},svg);
+    el("path",{d:`M${cx},${top+86} L${cx},${top+100}`,class:"flow-arrow"},svg);
+
+    el("rect",{x:x+16,y:top+100,width:armW-32,height:36,rx:6,class:"node-box accent3"},svg);
+    text(cx,top+122,"cAdvisor",{class:"node-sub","text-anchor":"middle"},svg);
+    el("path",{d:`M${cx},${top+136} L${cx},${top+150}`,class:"flow-arrow"},svg);
+
+    el("rect",{x:x+16,y:top+150,width:armW-32,height:44,rx:6,class:"node-box "+a.cls},svg);
+    a.rows.forEach((r,j)=>text(cx,top+168+j*15,r,{class:"node-sub","text-anchor":"middle"},svg));
+
+    el("path",{d:`M${cx},${top+194} L${cx},${top+208}`,class:"flow-arrow"},svg);
+    el("rect",{x:x+16,y:top+208,width:armW-32,height:32,rx:6,class:"node-box"},svg);
+    text(cx,top+228,"Docker Update API",{class:"node-sub mono","text-anchor":"middle"},svg);
+  });
+
+  // KPI collection footer
+  el("rect",{x:startX,y:top+280,width:totalW,height:44,rx:8,class:"node-box accent2"},svg);
+  text(480,top+306,"KPIs: P50/P95/P99 latency · SLA breach rate · throughput — identical measurement across all three arms",
+       {class:"node-sub","text-anchor":"middle"},svg);
+  arms.forEach((a,i)=>{
+    const cx = startX + i*(armW+gapX) + armW/2;
+    el("path",{d:`M${cx},${top+250} L${cx},${top+280}`,class:"flow-arrow"},svg);
+  });
+
+  text(480, top+350, "5 independent 300-second replicates per arm, transactional data reset between each",
+       {class:"dim-label","text-anchor":"middle"},svg);
+})();
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// FIG 5 — Latency box plots (log scale)
+// ═══════════════════════════════════════════════════════════════════════
+(function(){
+  const svg = document.getElementById("svg-fig5");
+  const groups = ["Static","Reactive-Only","Proactive Hybrid"];
+  const keys = {"Static":"Static","Reactive-Only":"Reactive-Only","Proactive Hybrid":"Proactive Hybrid"};
+  const colors = ["var(--s1)","var(--s2)","var(--s3)"];
+  const d = DATA.latency;
+
+  const M = {l:64,r:24,t:24,b:60};
+  const W = 960, H = 560;
+  const plotW = W-M.l-M.r, plotH = H-M.t-M.b;
+
+  const logMin = Math.log10(2), logMax = Math.log10(4000);
+  function ly(v){ return M.t + plotH - ( (Math.log10(v)-logMin)/(logMax-logMin) )*plotH; }
+
+  // gridlines at log ticks
+  const ticks = [2,5,10,20,50,100,200,500,1000,2000,4000];
+  ticks.forEach(t=>{
+    const y = ly(t);
+    el("line",{x1:M.l,x2:W-M.r,y1:y,y2:y,class:"grid-line"},svg);
+    text(M.l-10,y+4,t.toLocaleString(),{class:"axis-tick","text-anchor":"end"},svg);
+  });
+  text(20, M.t+plotH/2, "TIER_1 latency (ms, log scale)", {class:"axis-title", transform:`rotate(-90 20 ${M.t+plotH/2})`, "text-anchor":"middle"},svg);
+  el("line",{x1:M.l,x2:M.l,y1:M.t,y2:M.t+plotH,class:"axis-line"},svg);
+
+  const bw = 90;
+  groups.forEach((g,i)=>{
+    const cx = M.l + plotW*(i+0.5)/groups.length;
+    const gd = d[g];
+    const col = colors[i];
+
+    // whiskers
+    el("line",{x1:cx,x2:cx,y1:ly(gd.min),y2:ly(gd.q1),stroke:col,"stroke-width":2},svg);
+    el("line",{x1:cx,x2:cx,y1:ly(gd.q3),y2:ly(gd.max),stroke:col,"stroke-width":2},svg);
+    el("line",{x1:cx-16,x2:cx+16,y1:ly(gd.min),y2:ly(gd.min),stroke:col,"stroke-width":2},svg);
+    el("line",{x1:cx-16,x2:cx+16,y1:ly(gd.max),y2:ly(gd.max),stroke:col,"stroke-width":2},svg);
+
+    // box
+    el("rect",{x:cx-bw/2,y:ly(gd.q3),width:bw,height:ly(gd.q1)-ly(gd.q3),rx:4,
+       fill:col, "fill-opacity":0.18, stroke:col,"stroke-width":2},svg);
+    // median
+    el("line",{x1:cx-bw/2,x2:cx+bw/2,y1:ly(gd.median),y2:ly(gd.median),stroke:col,"stroke-width":3},svg);
+
+    // labels
+    text(cx, H-38, g, {class:"legend-item","text-anchor":"middle","font-weight":600},svg);
+    text(cx, H-20, `breach ${gd.breach_pct.toFixed(1)}% · n=${gd.n.toLocaleString()}`, {class:"data-label","text-anchor":"middle"},svg);
+
+    // p95/p99 markers (unlabeled here — exact values are in the table below the chart,
+    // since P95/P99 sit too close together on this log scale for inline labels to avoid colliding)
+    el("circle",{cx,cy:ly(gd.p95),r:3.5,fill:col},svg);
+    el("circle",{cx,cy:ly(gd.p99),r:3.5,fill:col,"fill-opacity":0.5,stroke:col},svg);
+  });
+
+  // SLA threshold line
+  const slaY = ly(150);
+  el("line",{x1:M.l,x2:W-M.r,y1:slaY,y2:slaY,stroke:"var(--critical)","stroke-width":1.4,"stroke-dasharray":"5,4"},svg);
+  text(W-M.r,slaY-6,"150 ms SLA",{class:"data-label","text-anchor":"end",fill:"var(--critical)"},svg);
+
+  // ── companion data table (exact values — the chart above is for shape, not lookup) ──
+  const tbl = document.getElementById("tbl-fig5");
+  let thead = "<tr><th>Group</th><th>n</th><th>P50</th><th>P95</th><th>P99</th><th>Breach %</th></tr>";
+  let rows = groups.map((g,i)=>{
+    const gd = d[g];
+    return `<tr><td><span class="swatch" style="background:${colors[i]}"></span>${g}</td>`
+      + `<td>${gd.n.toLocaleString()}</td><td>${gd.p50.toFixed(1)}</td>`
+      + `<td>${gd.p95.toFixed(0)}</td><td>${gd.p99.toFixed(0)}</td>`
+      + `<td>${gd.breach_pct.toFixed(1)}%</td></tr>`;
+  }).join("");
+  tbl.innerHTML = "<thead>"+thead+"</thead><tbody>"+rows+"</tbody>";
+})();
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// FIG 6 — Prediction vs actual
+// ═══════════════════════════════════════════════════════════════════════
+(function(){
+  const svg = document.getElementById("svg-fig6");
+  const p = DATA.prediction;
+  // t:60 reserves a dedicated legend strip above the plot (see below) so the
+  // legend never sits inside the data area, where the tall ground-truth
+  // spikes can reach anywhere from 0 to 110% and would poke through it.
+  const M = {l:56,r:24,t:60,b:50};
+  const W = 960, H = 516;
+  const plotW = W-M.l-M.r, plotH = H-M.t-M.b;
+
+  const nHist = p.history_cpu.length, nHor = p.actual_cpu.length;
+  const xMin = -nHist, xMax = nHor;
+  function lx(i){ return M.l + (i-xMin)/(xMax-xMin)*plotW; }
+  const yMax = 110;
+  function ly(v){ return M.t + plotH - (v/yMax)*plotH; }
+
+  // gridlines
+  [0,20,40,60,80,100].forEach(v=>{
+    const y = ly(v);
+    el("line",{x1:M.l,x2:W-M.r,y1:y,y2:y,class:"grid-line"},svg);
+    text(M.l-10,y+4,v,{class:"axis-tick","text-anchor":"end"},svg);
+  });
+  text(20, M.t+plotH/2, "CPU utilization (%)", {class:"axis-title", transform:`rotate(-90 20 ${M.t+plotH/2})`, "text-anchor":"middle"},svg);
+
+  // forecast horizon shading
+  el("rect",{x:lx(0),y:M.t,width:lx(nHor)-lx(0),height:plotH,fill:"var(--s1)","fill-opacity":0.06},svg);
+  el("line",{x1:lx(0),x2:lx(0),y1:M.t,y2:M.t+plotH,stroke:"var(--paper-hair)","stroke-width":1.4,"stroke-dasharray":"3,3"},svg);
+  text(lx(0)+6, M.t+plotH-8, "forecast issued here (t = 0)", {class:"data-label"},svg);
+
+  function pathFor(vals, offset){
+    let d = "";
+    vals.forEach((v,i)=>{ d += (i===0?"M":"L") + lx(i+offset) + "," + ly(v) + " "; });
+    return d;
+  }
+  // history (actual)
+  el("path",{d:pathFor(p.history_cpu, -nHist), fill:"none", stroke:"var(--paper-ink-2)", "stroke-width":2},svg);
+  // actual future
+  el("path",{d:pathFor(p.actual_cpu, 0), fill:"none", stroke:"var(--s1)", "stroke-width":2.5},svg);
+  // predicted future
+  el("path",{d:pathFor(p.predicted_cpu, 0), fill:"none", stroke:"var(--s2)", "stroke-width":2.5, "stroke-dasharray":"6,4"},svg);
+
+  // x axis ticks
+  [ -60,-45,-30,-15,0,15,30 ].forEach(v=>{
+    const x = lx(v);
+    el("line",{x1:x,x2:x,y1:M.t+plotH,y2:M.t+plotH+5,class:"axis-line"},svg);
+    text(x, M.t+plotH+18, v, {class:"axis-tick","text-anchor":"middle"},svg);
+  });
+  text(W-M.r, M.t+plotH+38, "seconds relative to forecast issue", {class:"data-label","text-anchor":"end"},svg);
+
+  // legend — a dedicated horizontal strip above the plot (see M.t), entirely
+  // outside the data area, so it can never overlap the ground-truth spikes
+  // regardless of where in the window they land
+  const legend = [["history (observed)","var(--paper-ink-2)",false],["ground truth (t>0)","var(--s1)",false],["LSTM forecast (t>0)","var(--s2)",true]];
+  const ly0 = 24;
+  let lx0 = M.l;
+  legend.forEach((L)=>{
+    if(L[2]) el("line",{x1:lx0,x2:lx0+28,y1:ly0,y2:ly0,stroke:L[1],"stroke-width":2.5,"stroke-dasharray":"6,4"},svg);
+    else el("line",{x1:lx0,x2:lx0+28,y1:ly0,y2:ly0,stroke:L[1],"stroke-width":2.5},svg);
+    text(lx0+36, ly0+4, L[0], {class:"legend-item"},svg);
+    lx0 += 36 + L[0].length*6.3 + 28;
+  });
+})();
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// FIG 7 — Resource utilization (two stacked panels, shared x-axis)
+// ═══════════════════════════════════════════════════════════════════════
+(function(){
+  const svg = document.getElementById("svg-fig7");
+  const rows = DATA.resource;
+  const M = {l:64,r:24,t:24,b:56};
+  const W = 960, H = 600;
+  const gap = 28;
+  const panelH = (H-M.t-M.b-gap)/2;
+  const tMax = rows[rows.length-1].t;
+
+  function lx(t){ return M.l + (t/tMax)*(W-M.l-M.r); }
+
+  // ── Panel A: CPU % ──
+  const pA_top = M.t, pA_bot = M.t+panelH;
+  function lyA(v){ return pA_bot - (v/110)*panelH; }
+  [0,25,50,75,100].forEach(v=>{
+    const y = lyA(v);
+    el("line",{x1:M.l,x2:W-M.r,y1:y,y2:y,class:"grid-line"},svg);
+    text(M.l-10,y+4,v,{class:"axis-tick","text-anchor":"end"},svg);
+  });
+  text(18, pA_top+panelH/2, "CPU util. (%)", {class:"axis-title", transform:`rotate(-90 18 ${pA_top+panelH/2})`, "text-anchor":"middle"},svg);
+  // 75% threshold
+  el("line",{x1:M.l,x2:W-M.r,y1:lyA(75),y2:lyA(75),stroke:"var(--critical)","stroke-width":1.2,"stroke-dasharray":"5,4"},svg);
+  text(W-M.r,lyA(75)-6,"75% scale-up threshold",{class:"data-label","text-anchor":"end",fill:"var(--critical)"},svg);
+
+  let dA = "";
+  rows.forEach((r,i)=>{ dA += (i===0?"M":"L") + lx(r.t) + "," + lyA(Math.min(r.cpu,110)) + " "; });
+  el("path",{d:dA, fill:"none", stroke:"var(--s1)", "stroke-width":2},svg);
+  text(M.l, pA_top-6, "Panel A — observed CPU utilization", {class:"legend-item", "font-weight":600},svg);
+
+  // ── Panel B: allocated cpus (step) ──
+  const pB_top = pA_bot+gap, pB_bot = pB_top+panelH;
+  function lyB(v){ return pB_bot - (v/4.5)*panelH; }
+  [0,1,2,3,4].forEach(v=>{
+    const y = lyB(v);
+    el("line",{x1:M.l,x2:W-M.r,y1:y,y2:y,class:"grid-line"},svg);
+    text(M.l-10,y+4,v,{class:"axis-tick","text-anchor":"end"},svg);
+  });
+  text(18, pB_top+panelH/2, "allocated cores", {class:"axis-title", transform:`rotate(-90 18 ${pB_top+panelH/2})`, "text-anchor":"middle"},svg);
+  text(M.l, pB_top-6, "Panel B — governor-allocated CPU cores (step function)", {class:"legend-item","font-weight":600},svg);
+
+  let dB = "";
+  rows.forEach((r,i)=>{
+    const x = lx(r.t), y = lyB(r.cpus);
+    if(i===0) dB += `M${x},${y} `;
+    else { dB += `L${x},${lyB(rows[i-1].cpus)} L${x},${y} `; }
+  });
+  dB += `L${lx(tMax)},${lyB(rows[rows.length-1].cpus)}`;
+  el("path",{d:dB, fill:"none", stroke:"var(--s2)", "stroke-width":2.5},svg);
+
+  // ── scaling event annotations across both panels — numbered markers,
+  //    details in the table below (labels this close together in time
+  //    have no room to stay legible drawn inline) ──
+  const events = rows.filter(r=>r.action!=="none");
+  events.forEach((ev,i)=>{
+    const x = lx(ev.t);
+    [ [pA_top,pA_bot], [pB_top,pB_bot] ].forEach(([top,bot])=>{
+      el("line",{x1:x,x2:x,y1:top,y2:bot,stroke:"var(--ink-3)","stroke-width":1,"stroke-dasharray":"2,3"},svg);
+    });
+    el("circle",{cx:x,cy:lyB(ev.cpus),r:9,fill:"var(--s2)",stroke:"var(--paper)","stroke-width":1.5},svg);
+    text(x,lyB(ev.cpus)+3.5,String(i+1),{class:"legend-item","text-anchor":"middle",fill:"#fff","font-weight":600,"font-size":"10px"},svg);
+  });
+
+  // shared x axis
+  el("line",{x1:M.l,x2:W-M.r,y1:pB_bot,y2:pB_bot,class:"axis-line"},svg);
+  for(let t=0;t<=tMax;t+=60){
+    const x = lx(t);
+    el("line",{x1:x,x2:x,y1:pB_bot,y2:pB_bot+5,class:"axis-line"},svg);
+    text(x, pB_bot+22, t===0?"0 s":t+"s", {class:"axis-tick","text-anchor":"middle"},svg);
+  }
+
+  // ── companion events table ──
+  const tbl = document.getElementById("tbl-fig7");
+  let thead = "<tr><th>#</th><th>t</th><th>CPU</th><th>cpus</th><th>Rule fired</th></tr>";
+  let trows = events.map((ev,i)=>{
+    const ruleShort = ev.rule.replace(/^Rule (\d+)\s*.\s*/,"Rule $1 — ");
+    return `<tr><td>${i+1}</td><td>${ev.t.toFixed(0)}s</td><td>${ev.cpu.toFixed(1)}%</td>`
+      + `<td>${ev.cpus.toFixed(1)}</td><td style="text-align:left">${ruleShort}</td></tr>`;
+  }).join("");
+  tbl.innerHTML = "<thead>"+thead+"</thead><tbody>"+trows+"</tbody>";
+})();
+</script>

@@ -1,0 +1,9 @@
+DOCKER-GENIUS Ablation Study — 2026-08-16T22:20:39.200247+00:00
+Duration: 300s  Repeats: 5
+
+Config                             T1 n     P50     P95     P99  Breaches  Breach%
+──────────────────────────────────────────────────────────────────────────────
+  A — No Semantic + No LSTM       17279      9ms   2924ms   3007ms      3334    19.3%
+  B — Semantic Only (no LSTM)     17760      9ms   2920ms   2967ms      3338    18.8%
+  C — LSTM Only (no semantic)     16925      9ms   2919ms   2964ms      3378    20.0%
+  D — Full System                 16994     10ms   2919ms   2961ms      3375    19.9%

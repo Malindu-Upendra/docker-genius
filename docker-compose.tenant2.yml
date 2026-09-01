@@ -1,0 +1,71 @@
+# ─────────────────────────────────────────────────────────────────────────
+# docker-compose.tenant2.yml — second independent tenant stack for the
+# scalability test (NEXT_STEPS.md §8): a separate MySQL + erp_app pair,
+# governed by its own GovernorLoop instance, run concurrently with the
+# primary tenant to check (1) each governor scales its own container
+# independently and (2) N=2 concurrent governors don't measurably slow
+# down decision cycles vs N=1.
+#
+# Usage: docker compose -f docker-compose.yml -f docker-compose.tenant2.yml up -d mysql-2 erp-app-2
+# (brings up tenant 2 alongside the already-running primary tenant; the
+# existing erp_cadvisor already monitors the whole Docker host and picks
+# up erp_app_2 automatically — no second cAdvisor needed.)
+# ─────────────────────────────────────────────────────────────────────────
+services:
+
+  mysql-2:
+    image: mysql:8.0
+    container_name: erp_mysql_2
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: demo_nexcore
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql_data_2:/var/lib/mysql
+      - ./init-seed.sql:/docker-entrypoint-initdb.d/01_seed.sql:ro
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --max_connections=500
+      --innodb_buffer_pool_size=512M
+      --max_execution_time=30000
+    networks:
+      - erp_net
+    healthcheck:
+      test: ["CMD", "mysql", "-u", "root", "-prootpassword", "-e", "SELECT 1;"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 120s
+
+  erp-app-2:
+    image: docker-genius-erp-app:latest
+    container_name: erp_app_2
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_HOST: mysql-2
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: rootpassword
+      DB_DATABASE: demo_nexcore
+      JWT_SECRET: docker-genius-jwt-secret-2026-tenant2
+      JWT_EXPIRES_IN: 24h
+    ports:
+      - "3001:3000"
+    restart: on-failure:5
+    depends_on:
+      mysql-2:
+        condition: service_healthy
+    networks:
+      - erp_net
+    # Identical starting envelope to the primary tenant's erp_app, so any
+    # difference in governance behaviour is attributable to the governor,
+    # not to a different resource ceiling.
+    cpus: '2.0'
+    mem_limit: 2g
+    mem_reservation: 512m
+
+volumes:
+  mysql_data_2:

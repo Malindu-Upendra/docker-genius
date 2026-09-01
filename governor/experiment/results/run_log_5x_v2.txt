@@ -1,0 +1,2664 @@
+[updater] Connected — erp_app  cpus=2.0  mem=2.00GB
+[harness] product_stocks snapshot taken → product_stocks_baseline
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  DOCKER-GENIUS Experiment
+  Groups  : [1, 2, 3]
+  Duration: 300s per group
+  Cooldown: 90s between groups
+  Repeats : 5
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+═════════════════════════════════════════════════════════════════
+  GROUP 1 — Static Allocation  [rep 1/5]  (300s)
+═════════════════════════════════════════════════════════════════
+[harness] Resetting container → 2.0 cpus  2.0GB
+[harness] semantic_request_logs cleared
+[harness] Transactional data reset — invoices cleared, stock restored
+[harness] Waiting for app to be healthy before starting…
+[governor] Static mode — no governor loop
+[harness] Starting load test (300s)…
+  [load] [load-gen] Logging in to http://localhost:3000...
+  [load] [load-gen] Authenticated OK
+  [load] [load-gen] POS session ready — 7017
+  [load] [load-gen] Starting 8 Tier-1 workers + 6 Tier-3 burst workers (interval=3s each)
+  [load] [load-gen] Running for 300s — output: /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/experiment/results/reps/rep1/group1_kpi.csv
+  [load] 
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 92ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 83ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 73ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 74ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 5s / 300s
+  [load]   Tier-1 (POS)    — n= 301  P50=     8ms  P95=    12ms  P99=    38ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=   4  P50=    78ms  P95=    92ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 76ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 70ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 77ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 77ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 82ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 86ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 87ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 87ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 83ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 89ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 10s / 300s
+  [load]   Tier-1 (POS)    — n= 585  P50=     8ms  P95=    11ms  P99=    36ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  14  P50=    82ms  P95=    92ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 90ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 95ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 95ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 92ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 94ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 94ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 506ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 90ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 97ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 95ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 15s / 300s
+  [load]   Tier-1 (POS)    — n= 859  P50=     8ms  P95=    13ms  P99=   120ms  SLA breaches: 7 (0.8%)
+  [load]   Tier-3 (Reports)— n=  24  P50=    88ms  P95=   506ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 104ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 108ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 103ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 101ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 108ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 110ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 106ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 110ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 111ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 20s / 300s
+  [load]   Tier-1 (POS)    — n=1157  P50=     8ms  P95=    14ms  P99=    86ms  SLA breaches: 7 (0.6%)
+  [load]   Tier-3 (Reports)— n=  33  P50=    92ms  P95=   506ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 110ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 114ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 113ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 118ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 116ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 119ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 121ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 121ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 123ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 122ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 25s / 300s
+  [load]   Tier-1 (POS)    — n=1458  P50=     8ms  P95=    14ms  P99=    68ms  SLA breaches: 7 (0.5%)
+  [load]   Tier-3 (Reports)— n=  43  P50=    95ms  P95=   506ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 136ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 125ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 128ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 129ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 127ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 127ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 129ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 132ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 138ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 140ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 30s / 300s
+  [load]   Tier-1 (POS)    — n=1759  P50=     8ms  P95=    14ms  P99=    43ms  SLA breaches: 7 (0.4%)
+  [load]   Tier-3 (Reports)— n=  53  P50=   106ms  P95=   506ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 134ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 139ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 152ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 140ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 152ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 158ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 142ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 145ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 144ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 35s / 300s
+  [load]   Tier-1 (POS)    — n=2029  P50=     8ms  P95=    15ms  P99=    98ms  SLA breaches: 15 (0.7%)
+  [load]   Tier-3 (Reports)— n=  62  P50=   110ms  P95=   506ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 194ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 179ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 186ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 200ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 149ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 176ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 156ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 156ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 155ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 155ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 40s / 300s
+  [load]   Tier-1 (POS)    — n=2315  P50=     8ms  P95=    16ms  P99=    85ms  SLA breaches: 15 (0.6%)
+  [load]   Tier-3 (Reports)— n=  72  P50=   117ms  P95=   506ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 159ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 158ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 162ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 162ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 158ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 168ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 162ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 161ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 45s / 300s
+  [load]   Tier-1 (POS)    — n=2601  P50=     8ms  P95=    16ms  P99=    72ms  SLA breaches: 15 (0.6%)
+  [load]   Tier-3 (Reports)— n=  80  P50=   121ms  P95=   506ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 196ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 172ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 168ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 169ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 176ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 179ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 209ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 185ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 186ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 183ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 50s / 300s
+  [load]   Tier-1 (POS)    — n=2892  P50=     8ms  P95=    16ms  P99=    57ms  SLA breaches: 15 (0.5%)
+  [load]   Tier-3 (Reports)— n=  90  P50=   128ms  P95=   506ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 180ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 186ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 225ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 222ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 184ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 185ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 195ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 197ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 220ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 232ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 55s / 300s
+  [load]   Tier-1 (POS)    — n=3183  P50=     8ms  P95=    16ms  P99=    44ms  SLA breaches: 15 (0.5%)
+  [load]   Tier-3 (Reports)— n= 100  P50=   135ms  P95=   219ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 200ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 196ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 201ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 199ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 205ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 227ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 202ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 207ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 202ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 60s / 300s
+  [load]   Tier-1 (POS)    — n=3474  P50=     8ms  P95=    16ms  P99=    41ms  SLA breaches: 15 (0.4%)
+  [load]   Tier-3 (Reports)— n= 109  P50=   140ms  P95=   221ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 202ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 223ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 238ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 216ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 212ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 215ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 219ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 232ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 223ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 65s / 300s
+  [load]   Tier-1 (POS)    — n=3773  P50=     8ms  P95=    16ms  P99=    40ms  SLA breaches: 15 (0.4%)
+  [load]   Tier-3 (Reports)— n= 118  P50=   151ms  P95=   226ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 226ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 230ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 224ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 224ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 238ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 233ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 235ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 233ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 233ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 239ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 70s / 300s
+  [load]   Tier-1 (POS)    — n=4070  P50=     8ms  P95=    16ms  P99=    37ms  SLA breaches: 15 (0.4%)
+  [load]   Tier-3 (Reports)— n= 128  P50=   156ms  P95=   233ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 75s / 300s
+  [load]   Tier-1 (POS)    — n=4358  P50=     8ms  P95=    16ms  P99=    34ms  SLA breaches: 15 (0.3%)
+  [load]   Tier-3 (Reports)— n= 128  P50=   156ms  P95=   233ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 80s / 300s
+  [load]   Tier-1 (POS)    — n=4651  P50=     8ms  P95=    17ms  P99=    34ms  SLA breaches: 15 (0.3%)
+  [load]   Tier-3 (Reports)— n= 128  P50=   156ms  P95=   233ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 10334ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 11504ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 11992ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 12105ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 11750ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 11235ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 85s / 300s
+  [load]   Tier-1 (POS)    — n=4939  P50=     8ms  P95=    17ms  P99=    35ms  SLA breaches: 15 (0.3%)
+  [load]   Tier-3 (Reports)— n= 134  P50=   158ms  P95=  2963ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 90s / 300s
+  [load]   Tier-1 (POS)    — n=5235  P50=     8ms  P95=    17ms  P99=    36ms  SLA breaches: 15 (0.3%)
+  [load]   Tier-3 (Reports)— n= 134  P50=   158ms  P95=  2963ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 9746ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 95s / 300s
+  [load]   Tier-1 (POS)    — n=5510  P50=     9ms  P95=    18ms  P99=    36ms  SLA breaches: 15 (0.3%)
+  [load]   Tier-3 (Reports)— n= 135  P50=   158ms  P95=  9863ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 13090ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 100s / 300s
+  [load]   Tier-1 (POS)    — n=5799  P50=     9ms  P95=    18ms  P99=    37ms  SLA breaches: 15 (0.3%)
+  [load]   Tier-3 (Reports)— n= 136  P50=   159ms  P95= 10469ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 13913ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 13411ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 14848ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 14835ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 105s / 300s
+  [load]   Tier-1 (POS)    — n=6092  P50=     9ms  P95=    18ms  P99=    37ms  SLA breaches: 15 (0.2%)
+  [load]   Tier-3 (Reports)— n= 140  P50=   161ms  P95= 11980ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 13217ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 110s / 300s
+  [load]   Tier-1 (POS)    — n=6375  P50=     9ms  P95=    18ms  P99=    36ms  SLA breaches: 15 (0.2%)
+  [load]   Tier-3 (Reports)— n= 141  P50=   162ms  P95= 12094ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 115s / 300s
+  [load]   Tier-1 (POS)    — n=6661  P50=     9ms  P95=    18ms  P99=    37ms  SLA breaches: 15 (0.2%)
+  [load]   Tier-3 (Reports)— n= 141  P50=   162ms  P95= 12094ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 14902ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 16115ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 16665ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 120s / 300s
+  [load]   Tier-1 (POS)    — n=6947  P50=     9ms  P95=    19ms  P99=    38ms  SLA breaches: 15 (0.2%)
+  [load]   Tier-3 (Reports)— n= 144  P50=   162ms  P95= 13362ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 17217ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 17719ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 125s / 300s
+  [load]   Tier-1 (POS)    — n=7231  P50=     9ms  P95=    19ms  P99=    38ms  SLA breaches: 15 (0.2%)
+  [load]   Tier-3 (Reports)— n= 146  P50=   165ms  P95= 14512ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 130s / 300s
+  [load]   Tier-1 (POS)    — n=7506  P50=     9ms  P95=    19ms  P99=    39ms  SLA breaches: 15 (0.2%)
+  [load]   Tier-3 (Reports)— n= 146  P50=   165ms  P95= 14512ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 17447ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 135s / 300s
+  [load]   Tier-1 (POS)    — n=7796  P50=     9ms  P95=    19ms  P99=    38ms  SLA breaches: 15 (0.2%)
+  [load]   Tier-3 (Reports)— n= 147  P50=   168ms  P95= 14843ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 16933ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 140s / 300s
+  [load]   Tier-1 (POS)    — n=8086  P50=     9ms  P95=    20ms  P99=    40ms  SLA breaches: 15 (0.2%)
+  [load]   Tier-3 (Reports)— n= 148  P50=   168ms  P95= 14878ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 20659ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 145s / 300s
+  [load]   Tier-1 (POS)    — n=8372  P50=     9ms  P95=    20ms  P99=    40ms  SLA breaches: 15 (0.2%)
+  [load]   Tier-3 (Reports)— n= 149  P50=   168ms  P95= 15509ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 20956ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 23730ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 21200ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 150s / 300s
+  [load]   Tier-1 (POS)    — n=8662  P50=     9ms  P95=    20ms  P99=    40ms  SLA breaches: 15 (0.2%)
+  [load]   Tier-3 (Reports)— n= 152  P50=   171ms  P95= 17032ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 21560ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 155s / 300s
+  [load]   Tier-1 (POS)    — n=8947  P50=     9ms  P95=    20ms  P99=    40ms  SLA breaches: 15 (0.2%)
+  [load]   Tier-3 (Reports)— n= 153  P50=   172ms  P95= 17286ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 160s / 300s
+  [load]   Tier-1 (POS)    — n=9229  P50=     9ms  P95=    20ms  P99=    40ms  SLA breaches: 15 (0.2%)
+  [load]   Tier-3 (Reports)— n= 153  P50=   172ms  P95= 17286ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 23354ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 165s / 300s
+  [load]   Tier-1 (POS)    — n=9512  P50=    10ms  P95=    20ms  P99=    40ms  SLA breaches: 15 (0.2%)
+  [load]   Tier-3 (Reports)— n= 154  P50=   174ms  P95= 17515ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 22635ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 170s / 300s
+  [load]   Tier-1 (POS)    — n=9778  P50=    10ms  P95=    20ms  P99=    42ms  SLA breaches: 15 (0.2%)
+  [load]   Tier-3 (Reports)— n= 155  P50=   176ms  P95= 18307ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 23931ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 175s / 300s
+  [load]   Tier-1 (POS)    — n=10049  P50=    10ms  P95=    20ms  P99=    43ms  SLA breaches: 15 (0.1%)
+  [load]   Tier-3 (Reports)— n= 156  P50=   176ms  P95= 20704ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 27640ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 28239ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 180s / 300s
+  [load]   Tier-1 (POS)    — n=10338  P50=    10ms  P95=    21ms  P99=    44ms  SLA breaches: 15 (0.1%)
+  [load]   Tier-3 (Reports)— n= 158  P50=   178ms  P95= 21218ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 185s / 300s
+  [load]   Tier-1 (POS)    — n=10618  P50=    10ms  P95=    21ms  P99=    44ms  SLA breaches: 15 (0.1%)
+  [load]   Tier-3 (Reports)— n= 158  P50=   178ms  P95= 21218ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 28291ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 190s / 300s
+  [load]   Tier-1 (POS)    — n=10900  P50=    10ms  P95=    21ms  P99=    44ms  SLA breaches: 15 (0.1%)
+  [load]   Tier-3 (Reports)— n= 159  P50=   179ms  P95= 21560ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 28764ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 195s / 300s
+  [load]   Tier-1 (POS)    — n=11179  P50=    10ms  P95=    21ms  P99=    46ms  SLA breaches: 15 (0.1%)
+  [load]   Tier-3 (Reports)— n= 160  P50=   179ms  P95= 22581ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 200s / 300s
+  [load]   Tier-1 (POS)    — n=11464  P50=    10ms  P95=    21ms  P99=    46ms  SLA breaches: 15 (0.1%)
+  [load]   Tier-3 (Reports)— n= 160  P50=   179ms  P95= 22581ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 32405ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 205s / 300s
+  [load]   Tier-1 (POS)    — n=11749  P50=    10ms  P95=    21ms  P99=    46ms  SLA breaches: 15 (0.1%)
+  [load]   Tier-3 (Reports)— n= 161  P50=   179ms  P95= 23282ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 33391ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 210s / 300s
+  [load]   Tier-1 (POS)    — n=12029  P50=    10ms  P95=    21ms  P99=    47ms  SLA breaches: 15 (0.1%)
+  [load]   Tier-3 (Reports)— n= 162  P50=   180ms  P95= 23674ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 31008ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 31172ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 215s / 300s
+  [load]   Tier-1 (POS)    — n=12302  P50=    10ms  P95=    21ms  P99=    51ms  SLA breaches: 19 (0.2%)
+  [load]   Tier-3 (Reports)— n= 164  P50=   181ms  P95= 26713ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 220s / 300s
+  [load]   Tier-1 (POS)    — n=12584  P50=    10ms  P95=    21ms  P99=    51ms  SLA breaches: 19 (0.2%)
+  [load]   Tier-3 (Reports)— n= 164  P50=   181ms  P95= 26713ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 225s / 300s
+  [load]   Tier-1 (POS)    — n=12865  P50=    10ms  P95=    21ms  P99=    51ms  SLA breaches: 19 (0.1%)
+  [load]   Tier-3 (Reports)— n= 164  P50=   181ms  P95= 26713ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 38140ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 230s / 300s
+  [load]   Tier-1 (POS)    — n=13154  P50=    10ms  P95=    22ms  P99=    51ms  SLA breaches: 19 (0.1%)
+  [load]   Tier-3 (Reports)— n= 165  P50=   183ms  P95= 28059ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 235s / 300s
+  [load]   Tier-1 (POS)    — n=13421  P50=    10ms  P95=    22ms  P99=    53ms  SLA breaches: 26 (0.2%)
+  [load]   Tier-3 (Reports)— n= 165  P50=   183ms  P95= 28059ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 42247ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 240s / 300s
+  [load]   Tier-1 (POS)    — n=13705  P50=    10ms  P95=    22ms  P99=    53ms  SLA breaches: 26 (0.2%)
+  [load]   Tier-3 (Reports)— n= 166  P50=   183ms  P95= 28273ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 245s / 300s
+  [load]   Tier-1 (POS)    — n=13973  P50=    10ms  P95=    22ms  P99=    55ms  SLA breaches: 33 (0.2%)
+  [load]   Tier-3 (Reports)— n= 166  P50=   183ms  P95= 28273ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 250s / 300s
+  [load]   Tier-1 (POS)    — n=14257  P50=    10ms  P95=    22ms  P99=    57ms  SLA breaches: 33 (0.2%)
+  [load]   Tier-3 (Reports)— n= 166  P50=   183ms  P95= 28273ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 44282ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 255s / 300s
+  [load]   Tier-1 (POS)    — n=14551  P50=    11ms  P95=    22ms  P99=    56ms  SLA breaches: 33 (0.2%)
+  [load]   Tier-3 (Reports)— n= 167  P50=   184ms  P95= 28574ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 260s / 300s
+  [load]   Tier-1 (POS)    — n=14829  P50=    11ms  P95=    23ms  P99=    55ms  SLA breaches: 33 (0.2%)
+  [load]   Tier-3 (Reports)— n= 167  P50=   184ms  P95= 28574ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 49327ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 50339ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 266s / 300s
+  [load]   Tier-1 (POS)    — n=15101  P50=    11ms  P95=    23ms  P99=    58ms  SLA breaches: 40 (0.3%)
+  [load]   Tier-3 (Reports)— n= 169  P50=   185ms  P95= 31090ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 52008ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 271s / 300s
+  [load]   Tier-1 (POS)    — n=15285  P50=    11ms  P95=    23ms  P99=    63ms  SLA breaches: 50 (0.3%)
+  [load]   Tier-3 (Reports)— n= 170  P50=   185ms  P95= 31727ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 276s / 300s
+  [load]   Tier-1 (POS)    — n=15569  P50=    11ms  P95=    24ms  P99=    62ms  SLA breaches: 50 (0.3%)
+  [load]   Tier-3 (Reports)— n= 170  P50=   185ms  P95= 31727ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 281s / 300s
+  [load]   Tier-1 (POS)    — n=15861  P50=    11ms  P95=    24ms  P99=    62ms  SLA breaches: 50 (0.3%)
+  [load]   Tier-3 (Reports)— n= 170  P50=   185ms  P95= 31727ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 286s / 300s
+  [load]   Tier-1 (POS)    — n=16128  P50=    11ms  P95=    24ms  P99=    61ms  SLA breaches: 50 (0.3%)
+  [load]   Tier-3 (Reports)— n= 170  P50=   185ms  P95= 31727ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 291s / 300s
+  [load]   Tier-1 (POS)    — n=16400  P50=    11ms  P95=    24ms  P99=    62ms  SLA breaches: 56 (0.3%)
+  [load]   Tier-3 (Reports)— n= 170  P50=   185ms  P95= 31727ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 296s / 300s
+  [load]   Tier-1 (POS)    — n=16681  P50=    11ms  P95=    25ms  P99=    62ms  SLA breaches: 56 (0.3%)
+  [load]   Tier-3 (Reports)— n= 170  P50=   185ms  P95= 31727ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 66486ms (status 201)
+  [load] [load-gen] Waiting for in-flight Tier-3 bursts to finish (measured up to ~125s each)…
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 301s / 300s
+  [load]   Tier-1 (POS)    — n=16909  P50=    11ms  P95=    25ms  P99=    63ms  SLA breaches: 59 (0.3%)
+  [load]   Tier-3 (Reports)— n= 171  P50=   185ms  P95= 32799ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 70031ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 67269ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 60281ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 60495ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 60076ms (status 201)
+  [load] 
+  [load] ════════════════════════════════════════════════════════════
+  [load]   FINAL SUMMARY
+  [load]   Total Tier-1 requests : 16909
+  [load]   SLA violations (>150ms): 59 (0.3%)
+  [load]   Results saved to: /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/experiment/results/reps/rep1/group1_kpi.csv
+  [load] ════════════════════════════════════════════════════════════
+
+[harness] Group 1 summary:
+          TIER-1  n=16909  P50=11.1ms  P95=24.8ms  P99=62.4ms
+          SLA breaches: 59 (0.35%)
+
+[harness] Cooldown 90s — letting metrics settle…
+
+═════════════════════════════════════════════════════════════════
+  GROUP 2 — Reactive-Only  [rep 1/5]  (300s)
+═════════════════════════════════════════════════════════════════
+[harness] Resetting container → 2.0 cpus  2.0GB
+[harness] semantic_request_logs cleared
+[harness] Transactional data reset — invoices cleared, stock restored
+[harness] Waiting for app to be healthy before starting…
+[updater] Connected — erp_app  cpus=2.0  mem=2.00GB
+[engine] Initialized — mode=reactive  cpu_high=75.0%  mem_high=78.0%
+[governor] Loop started — mode=reactive  decision_interval=10s  sample_interval=1s
+[harness] Starting load test (300s)…
+
+[engine] Rule 3 — CPU Cooldown
+         Action : scale_down_cpu
+         CPUs   : 1.5  |  Memory : 2.00 GB
+         Reason : current observed mean_cpu=0.0% < 25.0%  no SLA breaches  cpus 2.0→1.5
+[updater] ✓  cpus 2.0→1.5  mem 2.00→2.00GB  (6.1ms)
+  [load] [load-gen] Logging in to http://localhost:3000...
+  [load] [load-gen] Authenticated OK
+  [load] [load-gen] POS session ready — 7017
+  [load] [load-gen] Starting 8 Tier-1 workers + 6 Tier-3 burst workers (interval=3s each)
+  [load] [load-gen] Running for 300s — output: /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/experiment/results/reps/rep1/group2_kpi.csv
+  [load] 
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 73ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 69ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 69ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 72ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 5s / 300s
+  [load]   Tier-1 (POS)    — n= 304  P50=     9ms  P95=    14ms  P99=    23ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=   4  P50=    70ms  P95=    73ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+
+[engine] Rule 4 — Memory Cooldown
+         Action : scale_down_mem
+         CPUs   : 1.5  |  Memory : 1.50 GB
+         Reason : current observed mean_mem=114MB < threshold 778MB  no SLA breaches  mem 2.00→1.50 GB
+[updater] ✓  cpus 1.5→1.5  mem 2.00→1.50GB  (6.0ms)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 70ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 80ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 77ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 79ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 80ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 80ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 85ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 82ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 84ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 91ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 10s / 300s
+  [load]   Tier-1 (POS)    — n= 604  P50=     8ms  P95=    13ms  P99=    21ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  14  P50=    79ms  P95=    91ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 85ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 93ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 92ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 88ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 93ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 92ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 94ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 90ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 107ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 96ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 15s / 300s
+  [load]   Tier-1 (POS)    — n= 909  P50=     8ms  P95=    13ms  P99=    17ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  24  P50=    84ms  P95=   107ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 20.3%  mem=   114MB  cpus=1.5  mem=1.5GB  reactive
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 98ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 106ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 101ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 106ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 108ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 108ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 110ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 109ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 109ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 20s / 300s
+  [load]   Tier-1 (POS)    — n=1199  P50=     8ms  P95=    13ms  P99=    18ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  33  P50=    91ms  P95=   110ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 108ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 114ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 111ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 117ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 115ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 122ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 122ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 120ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 123ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 122ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 25s / 300s
+  [load]   Tier-1 (POS)    — n=1485  P50=     8ms  P95=    13ms  P99=    18ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  43  P50=    94ms  P95=   123ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 23.2%  mem=   114MB  cpus=1.5  mem=1.5GB  reactive
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 123ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 124ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 137ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 128ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 128ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 129ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 130ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 134ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 133ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 132ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 30s / 300s
+  [load]   Tier-1 (POS)    — n=1774  P50=     8ms  P95=    13ms  P99=    17ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  53  P50=   106ms  P95=   137ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 137ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 138ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 137ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 135ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 140ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 147ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 151ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 147ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 144ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 35s / 300s
+  [load]   Tier-1 (POS)    — n=2070  P50=     8ms  P95=    13ms  P99=    18ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  62  P50=   108ms  P95=   151ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 26.5%  mem=   115MB  cpus=1.5  mem=1.5GB  reactive
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 150ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 146ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 155ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 155ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 152ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 157ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 156ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 164ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 159ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 160ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 40s / 300s
+  [load]   Tier-1 (POS)    — n=2365  P50=     8ms  P95=    13ms  P99=    18ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  72  P50=   115ms  P95=   164ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 168ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 156ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 161ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 167ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 166ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 165ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 168ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 173ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 172ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 45s / 300s
+  [load]   Tier-1 (POS)    — n=2663  P50=     8ms  P95=    13ms  P99=    18ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  81  P50=   122ms  P95=   173ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 24.5%  mem=   119MB  cpus=1.5  mem=1.5GB  reactive
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 172ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 174ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 174ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 178ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 177ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 176ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 178ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 184ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 192ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 50s / 300s
+  [load]   Tier-1 (POS)    — n=2962  P50=     8ms  P95=    13ms  P99=    20ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  90  P50=   126ms  P95=   192ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 193ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 204ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 184ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 188ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 193ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 197ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 198ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 202ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 200ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 204ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 55s / 300s
+  [load]   Tier-1 (POS)    — n=3254  P50=     8ms  P95=    13ms  P99=    20ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 100  P50=   133ms  P95=   198ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+
+[engine] Rule 3 — CPU Cooldown
+         Action : scale_down_cpu
+         CPUs   : 1.0  |  Memory : 1.50 GB
+         Reason : current observed mean_cpu=24.3% < 25.0%  no SLA breaches  cpus 1.5→1.0
+[updater] ✓  cpus 1.5→1.0  mem 1.50→1.50GB  (8.0ms)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 206ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 199ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 205ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 206ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 213ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 208ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 211ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 215ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 220ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 60s / 300s
+  [load]   Tier-1 (POS)    — n=3553  P50=     8ms  P95=    13ms  P99=    21ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 109  P50=   137ms  P95=   207ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 224ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 217ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 219ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 217ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 220ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 226ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 225ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 225ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 218ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 215ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 65s / 300s
+  [load]   Tier-1 (POS)    — n=3844  P50=     8ms  P95=    14ms  P99=    21ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 119  P50=   146ms  P95=   220ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+
+[engine] Rule 4 — Memory Cooldown
+         Action : scale_down_mem
+         CPUs   : 1.0  |  Memory : 1.00 GB
+         Reason : current observed mean_mem=121MB < threshold 584MB  no SLA breaches  mem 1.50→1.00 GB
+[updater] ✓  cpus 1.0→1.0  mem 1.50→1.00GB  (7.7ms)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 241ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 226ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 246ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 241ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 238ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 235ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 247ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 232ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 70s / 300s
+  [load]   Tier-1 (POS)    — n=4133  P50=     8ms  P95=    14ms  P99=    22ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 127  P50=   151ms  P95=   234ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 75s / 300s
+  [load]   Tier-1 (POS)    — n=4415  P50=     8ms  P95=    15ms  P99=    23ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 127  P50=   151ms  P95=   234ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 16.9%  mem=   124MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 80s / 300s
+  [load]   Tier-1 (POS)    — n=4697  P50=     8ms  P95=    16ms  P99=    24ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 127  P50=   151ms  P95=   234ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 11061ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 11224ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 11470ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 11523ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 11221ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 10996ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 85s / 300s
+  [load]   Tier-1 (POS)    — n=4976  P50=     8ms  P95=    16ms  P99=    26ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 133  P50=   155ms  P95=  3472ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 14.4%  mem=   151MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 90s / 300s
+  [load]   Tier-1 (POS)    — n=5250  P50=     9ms  P95=    17ms  P99=    27ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 133  P50=   155ms  P95=  3472ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 95s / 300s
+  [load]   Tier-1 (POS)    — n=5528  P50=     9ms  P95=    17ms  P99=    28ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 133  P50=   155ms  P95=  3472ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 16.7%  mem=   142MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 12988ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 14005ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 13819ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 13993ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 100s / 300s
+  [load]   Tier-1 (POS)    — n=5809  P50=     9ms  P95=    18ms  P99=    28ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 137  P50=   156ms  P95= 11248ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 14055ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 13968ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 105s / 300s
+  [load]   Tier-1 (POS)    — n=6095  P50=     9ms  P95=    18ms  P99=    28ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 139  P50=   157ms  P95= 11522ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 16.2%  mem=   142MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 110s / 300s
+  [load]   Tier-1 (POS)    — n=6374  P50=     9ms  P95=    18ms  P99=    28ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 139  P50=   157ms  P95= 11522ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 13695ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 115s / 300s
+  [load]   Tier-1 (POS)    — n=6663  P50=     9ms  P95=    18ms  P99=    30ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 140  P50=   158ms  P95= 12915ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 17.8%  mem=   147MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 17347ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 17727ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 120s / 300s
+  [load]   Tier-1 (POS)    — n=6929  P50=     9ms  P95=    19ms  P99=    32ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 142  P50=   160ms  P95= 13800ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 16857ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 18299ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 18128ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 125s / 300s
+  [load]   Tier-1 (POS)    — n=7212  P50=     9ms  P95=    19ms  P99=    34ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 145  P50=   161ms  P95= 14001ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 17.2%  mem=   122MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 130s / 300s
+  [load]   Tier-1 (POS)    — n=7486  P50=     9ms  P95=    19ms  P99=    34ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 145  P50=   161ms  P95= 14001ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 16704ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 135s / 300s
+  [load]   Tier-1 (POS)    — n=7773  P50=     9ms  P95=    20ms  P99=    35ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 146  P50=   163ms  P95= 14038ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 26.3%  mem=   138MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 140s / 300s
+  [load]   Tier-1 (POS)    — n=8049  P50=     9ms  P95=    20ms  P99=    35ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 146  P50=   163ms  P95= 14038ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 21761ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 20415ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 145s / 300s
+  [load]   Tier-1 (POS)    — n=8329  P50=     9ms  P95=    20ms  P99=    36ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 148  P50=   164ms  P95= 16788ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 25.7%  mem=   142MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 23275ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 23060ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 22462ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 150s / 300s
+  [load]   Tier-1 (POS)    — n=8611  P50=     9ms  P95=    20ms  P99=    39ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 151  P50=   166ms  P95= 17887ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 155s / 300s
+  [load]   Tier-1 (POS)    — n=8891  P50=     9ms  P95=    20ms  P99=    38ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 151  P50=   166ms  P95= 17887ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 15.1%  mem=   132MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 21356ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 160s / 300s
+  [load]   Tier-1 (POS)    — n=9170  P50=    10ms  P95=    20ms  P99=    39ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 152  P50=   166ms  P95= 18188ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 165s / 300s
+  [load]   Tier-1 (POS)    — n=9437  P50=    10ms  P95=    20ms  P99=    39ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 152  P50=   166ms  P95= 18188ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 17.4%  mem=   157MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 170s / 300s
+  [load]   Tier-1 (POS)    — n=9719  P50=    10ms  P95=    21ms  P99=    40ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 152  P50=   166ms  P95= 18188ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 26885ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 24541ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 27416ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 175s / 300s
+  [load]   Tier-1 (POS)    — n=10000  P50=    10ms  P95=    21ms  P99=    42ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 155  P50=   168ms  P95= 21437ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 18.1%  mem=   124MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 27463ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 28007ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 180s / 300s
+  [load]   Tier-1 (POS)    — n=10280  P50=    10ms  P95=    21ms  P99=    44ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 157  P50=   168ms  P95= 22522ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 185s / 300s
+  [load]   Tier-1 (POS)    — n=10559  P50=    10ms  P95=    21ms  P99=    43ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 157  P50=   168ms  P95= 22522ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 18.2%  mem=   135MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 190s / 300s
+  [load]   Tier-1 (POS)    — n=10845  P50=    10ms  P95=    21ms  P99=    43ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 157  P50=   168ms  P95= 22522ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 31854ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 195s / 300s
+  [load]   Tier-1 (POS)    — n=11096  P50=    10ms  P95=    21ms  P99=    46ms  SLA breaches: 9 (0.1%)
+  [load]   Tier-3 (Reports)— n= 158  P50=   170ms  P95= 23071ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 34.8%  mem=   141MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 200s / 300s
+  [load]   Tier-1 (POS)    — n=11378  P50=    10ms  P95=    21ms  P99=    47ms  SLA breaches: 9 (0.1%)
+  [load]   Tier-3 (Reports)— n= 158  P50=   170ms  P95= 23071ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 205s / 300s
+  [load]   Tier-1 (POS)    — n=11652  P50=    10ms  P95=    22ms  P99=    47ms  SLA breaches: 9 (0.1%)
+  [load]   Tier-3 (Reports)— n= 158  P50=   170ms  P95= 23071ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 22.4%  mem=   171MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 32357ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 210s / 300s
+  [load]   Tier-1 (POS)    — n=11931  P50=    10ms  P95=    22ms  P99=    47ms  SLA breaches: 9 (0.1%)
+  [load]   Tier-3 (Reports)— n= 159  P50=   172ms  P95= 23275ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 32864ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 34102ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 34960ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 215s / 300s
+  [load]   Tier-1 (POS)    — n=12208  P50=    10ms  P95=    22ms  P99=    49ms  SLA breaches: 9 (0.1%)
+  [load]   Tier-3 (Reports)— n= 162  P50=   173ms  P95= 27337ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 21.5%  mem=   156MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 36515ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 220s / 300s
+  [load]   Tier-1 (POS)    — n=12471  P50=    10ms  P95=    22ms  P99=    51ms  SLA breaches: 9 (0.1%)
+  [load]   Tier-3 (Reports)— n= 163  P50=   173ms  P95= 27454ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 225s / 300s
+  [load]   Tier-1 (POS)    — n=12756  P50=    10ms  P95=    22ms  P99=    50ms  SLA breaches: 9 (0.1%)
+  [load]   Tier-3 (Reports)— n= 163  P50=   173ms  P95= 27454ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 18.6%  mem=   141MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 230s / 300s
+  [load]   Tier-1 (POS)    — n=13046  P50=    10ms  P95=    22ms  P99=    49ms  SLA breaches: 9 (0.1%)
+  [load]   Tier-3 (Reports)— n= 163  P50=   173ms  P95= 27454ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 35111ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 235s / 300s
+  [load]   Tier-1 (POS)    — n=13328  P50=    10ms  P95=    22ms  P99=    50ms  SLA breaches: 9 (0.1%)
+  [load]   Tier-3 (Reports)— n= 164  P50=   173ms  P95= 27871ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 18.1%  mem=   124MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 240s / 300s
+  [load]   Tier-1 (POS)    — n=13605  P50=    10ms  P95=    22ms  P99=    51ms  SLA breaches: 13 (0.1%)
+  [load]   Tier-3 (Reports)— n= 164  P50=   173ms  P95= 27871ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 246s / 300s
+  [load]   Tier-1 (POS)    — n=13879  P50=    10ms  P95=    23ms  P99=    52ms  SLA breaches: 13 (0.1%)
+  [load]   Tier-3 (Reports)— n= 164  P50=   173ms  P95= 27871ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 24.4%  mem=   158MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 251s / 300s
+  [load]   Tier-1 (POS)    — n=14157  P50=    11ms  P95=    23ms  P99=    52ms  SLA breaches: 13 (0.1%)
+  [load]   Tier-3 (Reports)— n= 164  P50=   173ms  P95= 27871ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 256s / 300s
+  [load]   Tier-1 (POS)    — n=14419  P50=    11ms  P95=    23ms  P99=    54ms  SLA breaches: 19 (0.1%)
+  [load]   Tier-3 (Reports)— n= 164  P50=   173ms  P95= 27871ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 37.7%  mem=   187MB  cpus=1.0  mem=1.0GB  reactive
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 45769ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 261s / 300s
+  [load]   Tier-1 (POS)    — n=14671  P50=    11ms  P95=    24ms  P99=    56ms  SLA breaches: 24 (0.2%)
+  [load]   Tier-3 (Reports)— n= 165  P50=   174ms  P95= 30700ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 266s / 300s
+  [load]   Tier-1 (POS)    — n=14911  P50=    11ms  P95=    26ms  P99=    64ms  SLA breaches: 28 (0.2%)
+  [load]   Tier-3 (Reports)— n= 165  P50=   174ms  P95= 30700ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+
+[engine] Rule 1 — Proactive CPU Scale-Up
+         Action : scale_up_cpu
+         CPUs   : 1.5  |  Memory : 1.00 GB
+         Reason : current observed peak_cpu=75.6% > 75.0%  TIER_1 rps=53.47  cpus 1.0→1.5
+[updater] ✓  cpus 1.0→1.5  mem 1.00→1.00GB  (28.0ms)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 271s / 300s
+  [load]   Tier-1 (POS)    — n=15135  P50=    11ms  P95=    30ms  P99=    70ms  SLA breaches: 36 (0.2%)
+  [load]   Tier-3 (Reports)— n= 165  P50=   174ms  P95= 30700ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 57249ms (status 500)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 60524ms (status 500)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 276s / 300s
+  [load]   Tier-1 (POS)    — n=15335  P50=    11ms  P95=    35ms  P99=    81ms  SLA breaches: 52 (0.3%)
+  [load]   Tier-3 (Reports)— n= 167  P50=   174ms  P95= 32661ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 59.1%  mem=   155MB  cpus=1.5  mem=1.0GB  reactive
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 281s / 300s
+  [load]   Tier-1 (POS)    — n=15459  P50=    11ms  P95=    39ms  P99=   114ms  SLA breaches: 113 (0.7%)
+  [load]   Tier-3 (Reports)— n= 167  P50=   174ms  P95= 32661ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 62704ms (status 500)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 61710ms (status 500)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 51938ms (status 500)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 286s / 300s
+  [load]   Tier-1 (POS)    — n=15600  P50=    11ms  P95=    43ms  P99=   160ms  SLA breaches: 175 (1.1%)
+  [load]   Tier-3 (Reports)— n= 170  P50=   177ms  P95= 35028ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 44.7%  mem=   129MB  cpus=1.5  mem=1.0GB  reactive
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 291s / 300s
+  [load]   Tier-1 (POS)    — n=15723  P50=    11ms  P95=    48ms  P99=   193ms  SLA breaches: 245 (1.6%)
+  [load]   Tier-3 (Reports)— n= 170  P50=   177ms  P95= 35028ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 32088ms (status 500)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 296s / 300s
+  [load]   Tier-1 (POS)    — n=15860  P50=    11ms  P95=    53ms  P99=   221ms  SLA breaches: 314 (2.0%)
+  [load]   Tier-3 (Reports)— n= 171  P50=   177ms  P95= 35020ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 45.2%  mem=   120MB  cpus=1.5  mem=1.0GB  reactive
+  [load] [load-gen] Waiting for in-flight Tier-3 bursts to finish (measured up to ~125s each)…
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 301s / 300s
+  [load]   Tier-1 (POS)    — n=15977  P50=    11ms  P95=    60ms  P99=   243ms  SLA breaches: 371 (2.3%)
+  [load]   Tier-3 (Reports)— n= 171  P50=   177ms  P95= 35020ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu=  0.0%  mem=   120MB  cpus=1.5  mem=1.0GB  reactive
+[governor] cycle  cpu=  0.0%  mem=   119MB  cpus=1.5  mem=1.0GB  reactive
+[governor] cycle  cpu=  0.0%  mem=   120MB  cpus=1.5  mem=1.0GB  reactive
+[governor] cycle  cpu=  0.0%  mem=   133MB  cpus=1.5  mem=1.0GB  reactive
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 32676ms (status 500)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 32815ms (status 500)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 32561ms (status 500)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 33597ms (status 500)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 54420ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 48236ms (status 201)
+  [load] 
+  [load] ════════════════════════════════════════════════════════════
+  [load]   FINAL SUMMARY
+  [load]   Total Tier-1 requests : 15977
+  [load]   SLA violations (>150ms): 371 (2.3%)
+  [load]   Results saved to: /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/experiment/results/reps/rep1/group2_kpi.csv
+  [load] ════════════════════════════════════════════════════════════
+[governor] Loop stopped — 35 scaling decisions logged
+[harness] Governor log → /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/experiment/results/reps/rep1/group2_governor.csv  (35 decisions)
+
+[harness] Group 2 summary:
+          TIER-1  n=15977  P50=11.3ms  P95=59.6ms  P99=241.9ms
+          SLA breaches: 371 (2.32%)
+
+[harness] Cooldown 90s — letting metrics settle…
+
+═════════════════════════════════════════════════════════════════
+  GROUP 3 — Proactive Hybrid  [rep 1/5]  (300s)
+═════════════════════════════════════════════════════════════════
+[harness] Resetting container → 2.0 cpus  2.0GB
+[updater] ✓  cpus 1.5→2.0  mem 1.00→2.00GB  (17.6ms)
+[harness] semantic_request_logs cleared
+[harness] Transactional data reset — invoices cleared, stock restored
+[harness] Waiting for app to be healthy before starting…
+[updater] Connected — erp_app  cpus=2.0  mem=2.00GB
+[engine] Initialized — mode=proactive  cpu_high=75.0%  mem_high=78.0%
+[predictor] Model loaded from /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/lstm/model.keras
+[predictor] Window=60  Horizon=30  (buffer 0/60 filled)
+[governor] Loop started — mode=proactive  decision_interval=10s  sample_interval=1s
+[harness] Starting load test (300s)…
+
+[engine] Rule 3 — CPU Cooldown
+         Action : scale_down_cpu
+         CPUs   : 1.5  |  Memory : 2.00 GB
+         Reason : current observed mean_cpu=0.0% < 25.0%  no SLA breaches  cpus 2.0→1.5
+[updater] ✓  cpus 2.0→1.5  mem 2.00→2.00GB  (7.4ms)
+  [load] [load-gen] Logging in to http://localhost:3000...
+  [load] [load-gen] Authenticated OK
+  [load] [load-gen] POS session ready — 7017
+  [load] [load-gen] Starting 8 Tier-1 workers + 6 Tier-3 burst workers (interval=3s each)
+  [load] [load-gen] Running for 300s — output: /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/experiment/results/reps/rep1/group3_kpi.csv
+  [load] 
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 71ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 69ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 75ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 73ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 5s / 300s
+  [load]   Tier-1 (POS)    — n= 292  P50=     8ms  P95=    13ms  P99=    24ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=   4  P50=    72ms  P95=    75ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+
+[engine] Rule 4 — Memory Cooldown
+         Action : scale_down_mem
+         CPUs   : 1.5  |  Memory : 1.50 GB
+         Reason : current observed mean_mem=112MB < threshold 778MB  no SLA breaches  mem 2.00→1.50 GB
+[updater] ✓  cpus 1.5→1.5  mem 2.00→1.50GB  (8.2ms)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 73ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 74ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 77ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 77ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 82ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 79ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 85ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 86ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 84ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 89ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 10s / 300s
+  [load]   Tier-1 (POS)    — n= 586  P50=     8ms  P95=    13ms  P99=    22ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  14  P50=    77ms  P95=    89ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 90ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 91ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 87ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 90ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 93ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 93ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 92ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 96ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 94ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 100ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 15s / 300s
+  [load]   Tier-1 (POS)    — n= 878  P50=     8ms  P95=    13ms  P99=    19ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  24  P50=    86ms  P95=   100ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 19.8%  mem=   116MB  cpus=1.5  mem=1.5GB  LSTM buffer 20/60
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 103ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 99ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 100ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 100ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 102ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 104ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 106ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 109ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 107ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 20s / 300s
+  [load]   Tier-1 (POS)    — n=1164  P50=     8ms  P95=    13ms  P99=    19ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  33  P50=    90ms  P95=   109ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 112ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 114ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 117ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 118ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 121ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 119ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 122ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 122ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 124ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 127ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 25s / 300s
+  [load]   Tier-1 (POS)    — n=1451  P50=     8ms  P95=    13ms  P99=    17ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  43  P50=    94ms  P95=   127ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 21.5%  mem=   114MB  cpus=1.5  mem=1.5GB  LSTM buffer 30/60
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 124ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 123ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 136ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 131ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 135ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 136ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 135ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 135ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 132ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 140ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 30s / 300s
+  [load]   Tier-1 (POS)    — n=1738  P50=     8ms  P95=    13ms  P99=    17ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  53  P50=   100ms  P95=   140ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 144ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 140ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 137ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 140ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 144ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 140ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 143ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 141ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 148ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 35s / 300s
+  [load]   Tier-1 (POS)    — n=2018  P50=     8ms  P95=    13ms  P99=    17ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  62  P50=   107ms  P95=   148ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 21.4%  mem=   114MB  cpus=1.5  mem=1.5GB  LSTM buffer 40/60
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 153ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 148ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 151ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 156ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 154ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 155ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 160ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 153ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 162ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 164ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 40s / 300s
+  [load]   Tier-1 (POS)    — n=2304  P50=     8ms  P95=    13ms  P99=    17ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  72  P50=   118ms  P95=   164ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 162ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 154ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 156ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 167ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 165ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 163ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 171ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 169ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 179ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 45s / 300s
+  [load]   Tier-1 (POS)    — n=2606  P50=     8ms  P95=    14ms  P99=    18ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  81  P50=   122ms  P95=   179ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 22.8%  mem=   122MB  cpus=1.5  mem=1.5GB  LSTM buffer 50/60
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 169ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 168ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 178ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 183ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 176ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 186ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 182ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 189ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 184ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 50s / 300s
+  [load]   Tier-1 (POS)    — n=2902  P50=     8ms  P95=    14ms  P99=    19ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  90  P50=   129ms  P95=   189ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 188ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 192ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 190ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 196ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 192ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 201ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 199ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 205ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 206ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 205ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 55s / 300s
+  [load]   Tier-1 (POS)    — n=3186  P50=     8ms  P95=    14ms  P99=    20ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 100  P50=   135ms  P95=   199ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+
+[engine] Rule 3 — CPU Cooldown
+         Action : scale_down_cpu
+         CPUs   : 1.0  |  Memory : 1.50 GB
+         Reason : LSTM forecast mean_cpu=16.1% < 25.0%  no SLA breaches  cpus 1.5→1.0
+[updater] ✓  cpus 1.5→1.0  mem 1.50→1.50GB  (7.4ms)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 206ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 205ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 212ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 212ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 208ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 210ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 208ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 216ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 219ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 60s / 300s
+  [load]   Tier-1 (POS)    — n=3467  P50=     8ms  P95=    14ms  P99=    20ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 109  P50=   140ms  P95=   209ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 214ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 223ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 222ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 218ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 225ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 219ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 224ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 234ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 228ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 227ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 65s / 300s
+  [load]   Tier-1 (POS)    — n=3749  P50=     8ms  P95=    14ms  P99=    22ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 119  P50=   144ms  P95=   223ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+
+[engine] Rule 4 — Memory Cooldown
+         Action : scale_down_mem
+         CPUs   : 1.0  |  Memory : 1.00 GB
+         Reason : LSTM forecast mean_mem=147MB < threshold 584MB  no SLA breaches  mem 1.50→1.00 GB
+[updater] ✓  cpus 1.0→1.0  mem 1.50→1.00GB  (6.6ms)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 225ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 230ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 230ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 238ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 234ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 230ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 238ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 242ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 243ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 70s / 300s
+  [load]   Tier-1 (POS)    — n=4036  P50=     8ms  P95=    15ms  P99=    23ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 128  P50=   152ms  P95=   232ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 239ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 75s / 300s
+  [load]   Tier-1 (POS)    — n=4312  P50=     8ms  P95=    15ms  P99=    23ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 129  P50=   153ms  P95=   234ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 15.2%  mem=   118MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 80s / 300s
+  [load]   Tier-1 (POS)    — n=4594  P50=     8ms  P95=    16ms  P99=    24ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 129  P50=   153ms  P95=   234ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 9860ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 11139ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 11444ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 11999ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 11706ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 11425ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 85s / 300s
+  [load]   Tier-1 (POS)    — n=4874  P50=     8ms  P95=    16ms  P99=    25ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 135  P50=   154ms  P95=  2167ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 15.7%  mem=   142MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 90s / 300s
+  [load]   Tier-1 (POS)    — n=5163  P50=     8ms  P95=    16ms  P99=    26ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 135  P50=   154ms  P95=  2167ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 10323ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 95s / 300s
+  [load]   Tier-1 (POS)    — n=5444  P50=     9ms  P95=    17ms  P99=    26ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 136  P50=   154ms  P95=  9929ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 19.2%  mem=   131MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 12468ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 100s / 300s
+  [load]   Tier-1 (POS)    — n=5726  P50=     9ms  P95=    18ms  P99=    27ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 137  P50=   155ms  P95= 10405ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 14403ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 13996ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 15336ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 15780ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 105s / 300s
+  [load]   Tier-1 (POS)    — n=6016  P50=     9ms  P95=    19ms  P99=    28ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 141  P50=   156ms  P95= 11680ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 18.1%  mem=   132MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 110s / 300s
+  [load]   Tier-1 (POS)    — n=6295  P50=     9ms  P95=    19ms  P99=    29ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 141  P50=   156ms  P95= 11680ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 13837ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 115s / 300s
+  [load]   Tier-1 (POS)    — n=6582  P50=     9ms  P95=    19ms  P99=    29ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 142  P50=   158ms  P95= 11955ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 18.4%  mem=   139MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 14938ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 120s / 300s
+  [load]   Tier-1 (POS)    — n=6864  P50=     9ms  P95=    19ms  P99=    29ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 143  P50=   160ms  P95= 12374ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 17230ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 17335ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 18478ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 18265ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 125s / 300s
+  [load]   Tier-1 (POS)    — n=7147  P50=     9ms  P95=    20ms  P99=    30ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 147  P50=   162ms  P95= 14724ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 16.4%  mem=   122MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 130s / 300s
+  [load]   Tier-1 (POS)    — n=7424  P50=     9ms  P95=    20ms  P99=    31ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 147  P50=   162ms  P95= 14724ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 17756ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 135s / 300s
+  [load]   Tier-1 (POS)    — n=7706  P50=     9ms  P95=    20ms  P99=    31ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 148  P50=   163ms  P95= 15157ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 27.4%  mem=   137MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 19851ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 140s / 300s
+  [load]   Tier-1 (POS)    — n=7983  P50=     9ms  P95=    20ms  P99=    32ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 149  P50=   163ms  P95= 15558ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 19718ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 145s / 300s
+  [load]   Tier-1 (POS)    — n=8263  P50=    10ms  P95=    21ms  P99=    33ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 150  P50=   163ms  P95= 16433ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 18.0%  mem=   143MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 21894ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 150s / 300s
+  [load]   Tier-1 (POS)    — n=8542  P50=    10ms  P95=    21ms  P99=    33ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 151  P50=   164ms  P95= 17272ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 23654ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 24582ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 155s / 300s
+  [load]   Tier-1 (POS)    — n=8824  P50=    10ms  P95=    21ms  P99=    36ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 153  P50=   165ms  P95= 17908ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 23.7%  mem=   142MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 25019ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 160s / 300s
+  [load]   Tier-1 (POS)    — n=9106  P50=    10ms  P95=    21ms  P99=    37ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 154  P50=   166ms  P95= 18319ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 165s / 300s
+  [load]   Tier-1 (POS)    — n=9398  P50=    10ms  P95=    21ms  P99=    37ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 154  P50=   166ms  P95= 18319ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 23.0%  mem=   144MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 24203ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 170s / 300s
+  [load]   Tier-1 (POS)    — n=9674  P50=    10ms  P95=    22ms  P99=    37ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 155  P50=   167ms  P95= 18726ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 25600ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 175s / 300s
+  [load]   Tier-1 (POS)    — n=9948  P50=    10ms  P95=    22ms  P99=    40ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 156  P50=   167ms  P95= 19738ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 17.3%  mem=   146MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 29819ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 180s / 300s
+  [load]   Tier-1 (POS)    — n=10223  P50=    10ms  P95=    22ms  P99=    41ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n= 157  P50=   168ms  P95= 20055ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 28851ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 28636ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 185s / 300s
+  [load]   Tier-1 (POS)    — n=10496  P50=    10ms  P95=    22ms  P99=    44ms  SLA breaches: 1 (0.0%)
+  [load]   Tier-3 (Reports)— n= 159  P50=   169ms  P95= 23654ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 18.5%  mem=   153MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 190s / 300s
+  [load]   Tier-1 (POS)    — n=10769  P50=    10ms  P95=    23ms  P99=    45ms  SLA breaches: 1 (0.0%)
+  [load]   Tier-3 (Reports)— n= 159  P50=   169ms  P95= 23654ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 31063ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 195s / 300s
+  [load]   Tier-1 (POS)    — n=11046  P50=    10ms  P95=    23ms  P99=    45ms  SLA breaches: 1 (0.0%)
+  [load]   Tier-3 (Reports)— n= 160  P50=   169ms  P95= 24175ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 19.1%  mem=   130MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 31409ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 200s / 300s
+  [load]   Tier-1 (POS)    — n=11323  P50=    10ms  P95=    23ms  P99=    48ms  SLA breaches: 1 (0.0%)
+  [load]   Tier-3 (Reports)— n= 161  P50=   169ms  P95= 24544ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 205s / 300s
+  [load]   Tier-1 (POS)    — n=11603  P50=    11ms  P95=    23ms  P99=    49ms  SLA breaches: 3 (0.0%)
+  [load]   Tier-3 (Reports)— n= 161  P50=   169ms  P95= 24544ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 24.8%  mem=   150MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 210s / 300s
+  [load]   Tier-1 (POS)    — n=11883  P50=    11ms  P95=    23ms  P99=    48ms  SLA breaches: 3 (0.0%)
+  [load]   Tier-3 (Reports)— n= 161  P50=   169ms  P95= 24544ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 215s / 300s
+  [load]   Tier-1 (POS)    — n=12148  P50=    11ms  P95=    24ms  P99=    49ms  SLA breaches: 8 (0.1%)
+  [load]   Tier-3 (Reports)— n= 161  P50=   169ms  P95= 24544ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 43.2%  mem=   152MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 40910ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 220s / 300s
+  [load]   Tier-1 (POS)    — n=12393  P50=    11ms  P95=    25ms  P99=    55ms  SLA breaches: 18 (0.1%)
+  [load]   Tier-3 (Reports)— n= 162  P50=   170ms  P95= 24954ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 225s / 300s
+  [load]   Tier-1 (POS)    — n=12632  P50=    11ms  P95=    27ms  P99=    64ms  SLA breaches: 21 (0.2%)
+  [load]   Tier-3 (Reports)— n= 162  P50=   170ms  P95= 24954ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 55.4%  mem=   153MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 230s / 300s
+  [load]   Tier-1 (POS)    — n=12854  P50=    11ms  P95=    31ms  P99=    71ms  SLA breaches: 30 (0.2%)
+  [load]   Tier-3 (Reports)— n= 162  P50=   170ms  P95= 24954ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 30748ms (status 500)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 236s / 300s
+  [load]   Tier-1 (POS)    — n=13042  P50=    11ms  P95=    37ms  P99=    91ms  SLA breaches: 49 (0.4%)
+  [load]   Tier-3 (Reports)— n= 163  P50=   171ms  P95= 25484ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 35.1%  mem=   150MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 241s / 300s
+  [load]   Tier-1 (POS)    — n=13212  P50=    11ms  P95=    43ms  P99=   117ms  SLA breaches: 87 (0.7%)
+  [load]   Tier-3 (Reports)— n= 163  P50=   171ms  P95= 25484ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 58207ms (status 500)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 246s / 300s
+  [load]   Tier-1 (POS)    — n=13366  P50=    11ms  P95=    50ms  P99=   152ms  SLA breaches: 138 (1.0%)
+  [load]   Tier-3 (Reports)— n= 164  P50=   173ms  P95= 27877ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 38.4%  mem=   150MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 50038ms (status 500)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 63788ms (status 500)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 251s / 300s
+  [load]   Tier-1 (POS)    — n=13533  P50=    11ms  P95=    58ms  P99=   170ms  SLA breaches: 180 (1.3%)
+  [load]   Tier-3 (Reports)— n= 166  P50=   177ms  P95= 29480ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 63530ms (status 500)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 31629ms (status 500)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 256s / 300s
+  [load]   Tier-1 (POS)    — n=13690  P50=    11ms  P95=    67ms  P99=   186ms  SLA breaches: 230 (1.7%)
+  [load]   Tier-3 (Reports)— n= 168  P50=   179ms  P95= 30921ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 49.4%  mem=   132MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 261s / 300s
+  [load]   Tier-1 (POS)    — n=13830  P50=    12ms  P95=    78ms  P99=   209ms  SLA breaches: 298 (2.2%)
+  [load]   Tier-3 (Reports)— n= 168  P50=   179ms  P95= 30921ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 266s / 300s
+  [load]   Tier-1 (POS)    — n=14054  P50=    12ms  P95=    79ms  P99=   208ms  SLA breaches: 298 (2.1%)
+  [load]   Tier-3 (Reports)— n= 168  P50=   179ms  P95= 30921ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 50.4%  mem=   123MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 32173ms (status 500)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 271s / 300s
+  [load]   Tier-1 (POS)    — n=14289  P50=    12ms  P95=    79ms  P99=   206ms  SLA breaches: 298 (2.1%)
+  [load]   Tier-3 (Reports)— n= 169  P50=   179ms  P95= 31236ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 276s / 300s
+  [load]   Tier-1 (POS)    — n=14522  P50=    12ms  P95=    79ms  P99=   205ms  SLA breaches: 298 (2.1%)
+  [load]   Tier-3 (Reports)— n= 169  P50=   179ms  P95= 31236ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 44.9%  mem=   124MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 32430ms (status 500)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 281s / 300s
+  [load]   Tier-1 (POS)    — n=14781  P50=    12ms  P95=    78ms  P99=   203ms  SLA breaches: 298 (2.0%)
+  [load]   Tier-3 (Reports)— n= 170  P50=   181ms  P95= 31508ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 31771ms (status 500)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 31885ms (status 500)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 286s / 300s
+  [load]   Tier-1 (POS)    — n=15040  P50=    12ms  P95=    77ms  P99=   202ms  SLA breaches: 298 (2.0%)
+  [load]   Tier-3 (Reports)— n= 172  P50=   182ms  P95= 31811ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 31.4%  mem=   118MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 32855ms (status 500)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 32854ms (status 500)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 291s / 300s
+  [load]   Tier-1 (POS)    — n=15295  P50=    12ms  P95=    77ms  P99=   201ms  SLA breaches: 300 (2.0%)
+  [load]   Tier-3 (Reports)— n= 174  P50=   183ms  P95= 32237ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 296s / 300s
+  [load]   Tier-1 (POS)    — n=15563  P50=    12ms  P95=    77ms  P99=   200ms  SLA breaches: 300 (1.9%)
+  [load]   Tier-3 (Reports)— n= 174  P50=   183ms  P95= 32237ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu= 32.2%  mem=   116MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] [load-gen] Waiting for in-flight Tier-3 bursts to finish (measured up to ~125s each)…
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 301s / 300s
+  [load]   Tier-1 (POS)    — n=15799  P50=    12ms  P95=    76ms  P99=   199ms  SLA breaches: 300 (1.9%)
+  [load]   Tier-3 (Reports)— n= 174  P50=   183ms  P95= 32237ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+[governor] cycle  cpu=  0.0%  mem=   116MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+[governor] cycle  cpu=  0.2%  mem=   116MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+[governor] cycle  cpu=  0.0%  mem=   116MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+[governor] cycle  cpu= 24.9%  mem=   179MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+[governor] cycle  cpu=  0.0%  mem=   179MB  cpus=1.0  mem=1.0GB  LSTM buffer 60/60
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 32365ms (status 500)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 64782ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 70501ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 65535ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 63589ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 64961ms (status 201)
+  [load] 
+  [load] ════════════════════════════════════════════════════════════
+  [load]   FINAL SUMMARY
+  [load]   Total Tier-1 requests : 15799
+  [load]   SLA violations (>150ms): 300 (1.9%)
+  [load]   Results saved to: /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/experiment/results/reps/rep1/group3_kpi.csv
+  [load] ════════════════════════════════════════════════════════════
+[governor] Loop stopped — 36 scaling decisions logged
+[harness] Governor log → /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/experiment/results/reps/rep1/group3_governor.csv  (36 decisions)
+
+[harness] Group 3 summary:
+          TIER-1  n=15799  P50=12.4ms  P95=75.9ms  P99=198.5ms
+          SLA breaches: 300 (1.9%)
+
+[harness] Cooldown 90s — letting metrics settle…
+
+═════════════════════════════════════════════════════════════════
+  GROUP 1 — Static Allocation  [rep 2/5]  (300s)
+═════════════════════════════════════════════════════════════════
+[harness] Resetting container → 2.0 cpus  2.0GB
+[updater] ✓  cpus 1.0→2.0  mem 1.00→2.00GB  (17.6ms)
+[harness] semantic_request_logs cleared
+[harness] Transactional data reset — invoices cleared, stock restored
+[harness] Waiting for app to be healthy before starting…
+[governor] Static mode — no governor loop
+[harness] Starting load test (300s)…
+  [load] [load-gen] Logging in to http://localhost:3000...
+  [load] [load-gen] Authenticated OK
+  [load] [load-gen] POS session ready — 7017
+  [load] [load-gen] Starting 8 Tier-1 workers + 6 Tier-3 burst workers (interval=3s each)
+  [load] [load-gen] Running for 300s — output: /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/experiment/results/reps/rep2/group1_kpi.csv
+  [load] 
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 75ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 68ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 72ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 76ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 5s / 300s
+  [load]   Tier-1 (POS)    — n= 295  P50=     9ms  P95=    14ms  P99=    24ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=   4  P50=    74ms  P95=    76ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 77ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 76ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 75ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 74ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 82ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 81ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 86ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 88ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 86ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 94ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 10s / 300s
+  [load]   Tier-1 (POS)    — n= 593  P50=     8ms  P95=    13ms  P99=    23ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  14  P50=    77ms  P95=    94ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 87ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 95ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 94ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 88ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 95ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 91ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 92ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 97ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 95ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 93ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 15s / 300s
+  [load]   Tier-1 (POS)    — n= 872  P50=     8ms  P95=    13ms  P99=    18ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  24  P50=    87ms  P95=    97ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 97ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 97ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 101ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w3] bulk-generate completed in 103ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w4] bulk-generate completed in 106ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w5] bulk-generate completed in 103ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 103ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 104ms (status 201)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 110ms (status 201)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 20s / 300s
+  [load]   Tier-1 (POS)    — n=1169  P50=     8ms  P95=    13ms  P99=    18ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=  33  P50=    92ms  P95=   110ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────

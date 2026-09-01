@@ -1,0 +1,39 @@
+# DOCKER-GENIUS Monitor — NexCore ERP Configuration
+
+app:
+  name: "NexCore ERP"
+  container_name: "erp_app"
+  version: "1.0.0"
+
+dashboard:
+  port: 9090
+  refresh_ms: 1000
+  history_minutes: 10
+
+resource_limits:
+  initial_cpus: 2.0
+  initial_memory_gb: 2.0
+
+nginx_log:
+  enabled: false
+  path: "/var/log/nginx/access.log"
+
+semantic_db:
+  enabled: true
+  host: "localhost"
+  port: 3307
+  user: "root"
+  password: "rootpassword"
+  database: "demo_nexcore"
+  table: "semantic_request_logs"
+  tier_column: "priority_tier"
+  latency_column: "response_time_ms"
+  status_column: "status_code"
+  timestamp_column: "logged_at"
+  tier1_sla_ms: 150
+  tiers: ["TIER_1", "TIER_2", "TIER_3"]
+
+sla_thresholds:
+  TIER_1: 150
+  TIER_2: 500
+  TIER_3: 10000

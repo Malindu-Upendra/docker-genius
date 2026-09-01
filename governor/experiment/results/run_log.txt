@@ -1,0 +1,544 @@
+[updater] Connected — erp_app  cpus=1.0  mem=1.00GB
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  DOCKER-GENIUS Experiment
+  Groups  : [1, 2, 3]
+  Duration: 300s per group
+  Cooldown: 60s between groups
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+═════════════════════════════════════════════════════════════════
+  GROUP 1 — Static Allocation  (300s)
+═════════════════════════════════════════════════════════════════
+[harness] Resetting container → 2.0 cpus  2.0GB
+[updater] ✓  cpus 1.0→2.0  mem 1.00→2.00GB  (10.0ms)
+[harness] semantic_request_logs cleared
+[governor] Static mode — no governor loop
+[harness] Starting load test (300s)…
+  [load] [load-gen] Logging in to http://localhost:3000...
+  [load] [load-gen] Authenticated OK
+  [load] [load-gen] POS session ready — 7017
+  [load] [load-gen] Starting 8 Tier-1 workers + 3 Tier-3 burst workers (interval=8s each)
+  [load] [load-gen] Running for 300s — output: /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/experiment/results/group1_kpi.csv
+  [load] 
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 5s / 300s
+  [load]   Tier-1 (POS)    — n= 282  P50=    15ms  P95=    21ms  P99=    38ms  SLA breaches: 0 (0.0%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🟢  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 10s / 300s
+  [load]   Tier-1 (POS)    — n= 514  P50=    15ms  P95=    50ms  P99=   552ms  SLA breaches: 16 (3.1%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 15s / 300s
+  [load]   Tier-1 (POS)    — n= 597  P50=    16ms  P95=   524ms  P99=  1144ms  SLA breaches: 61 (10.2%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 20s / 300s
+  [load]   Tier-1 (POS)    — n= 780  P50=    17ms  P95=   443ms  P99=  1138ms  SLA breaches: 105 (13.5%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 25s / 300s
+  [load]   Tier-1 (POS)    — n= 965  P50=    17ms  P95=   431ms  P99=   770ms  SLA breaches: 143 (14.8%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 30s / 300s
+  [load]   Tier-1 (POS)    — n=1142  P50=    18ms  P95=   405ms  P99=   728ms  SLA breaches: 190 (16.6%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 35s / 300s
+  [load]   Tier-1 (POS)    — n=1309  P50=    19ms  P95=   408ms  P99=   710ms  SLA breaches: 238 (18.2%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 40s / 300s
+  [load]   Tier-1 (POS)    — n=1491  P50=    20ms  P95=   406ms  P99=   880ms  SLA breaches: 255 (17.1%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 45s / 300s
+  [load]   Tier-1 (POS)    — n=1601  P50=    21ms  P95=   439ms  P99=  1134ms  SLA breaches: 281 (17.6%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 50s / 300s
+  [load]   Tier-1 (POS)    — n=1730  P50=    22ms  P95=   442ms  P99=  1227ms  SLA breaches: 292 (16.9%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 55s / 300s
+  [load]   Tier-1 (POS)    — n=1901  P50=    23ms  P95=   441ms  P99=  1487ms  SLA breaches: 300 (15.8%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 60s / 300s
+  [load]   Tier-1 (POS)    — n=2042  P50=    24ms  P95=   443ms  P99=  1571ms  SLA breaches: 309 (15.1%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 65s / 300s
+  [load]   Tier-1 (POS)    — n=2223  P50=    23ms  P95=   457ms  P99=  1498ms  SLA breaches: 328 (14.8%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 70s / 300s
+  [load]   Tier-1 (POS)    — n=2422  P50=    23ms  P95=   492ms  P99=  1487ms  SLA breaches: 350 (14.5%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 75s / 300s
+  [load]   Tier-1 (POS)    — n=2687  P50=    23ms  P95=   443ms  P99=  1470ms  SLA breaches: 350 (13.0%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 80s / 300s
+  [load]   Tier-1 (POS)    — n=2949  P50=    23ms  P95=   406ms  P99=  1412ms  SLA breaches: 350 (11.9%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 85s / 300s
+  [load]   Tier-1 (POS)    — n=3209  P50=    22ms  P95=   371ms  P99=  1232ms  SLA breaches: 350 (10.9%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 90s / 300s
+  [load]   Tier-1 (POS)    — n=3476  P50=    22ms  P95=   349ms  P99=  1188ms  SLA breaches: 350 (10.1%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 95s / 300s
+  [load]   Tier-1 (POS)    — n=3740  P50=    22ms  P95=   336ms  P99=  1143ms  SLA breaches: 351 (9.4%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 100s / 300s
+  [load]   Tier-1 (POS)    — n=3994  P50=    23ms  P95=   320ms  P99=  1027ms  SLA breaches: 351 (8.8%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 105s / 300s
+  [load]   Tier-1 (POS)    — n=4259  P50=    23ms  P95=   294ms  P99=   975ms  SLA breaches: 351 (8.2%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 110s / 300s
+  [load]   Tier-1 (POS)    — n=4525  P50=    23ms  P95=   275ms  P99=   968ms  SLA breaches: 351 (7.8%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 115s / 300s
+  [load]   Tier-1 (POS)    — n=4801  P50=    22ms  P95=   256ms  P99=   960ms  SLA breaches: 351 (7.3%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 120s / 300s
+  [load]   Tier-1 (POS)    — n=5067  P50=    22ms  P95=   249ms  P99=   942ms  SLA breaches: 351 (6.9%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 125s / 300s
+  [load]   Tier-1 (POS)    — n=5329  P50=    22ms  P95=   237ms  P99=   903ms  SLA breaches: 351 (6.6%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 130s / 300s
+  [load]   Tier-1 (POS)    — n=5602  P50=    22ms  P95=   221ms  P99=   886ms  SLA breaches: 351 (6.3%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 135s / 300s
+  [load]   Tier-1 (POS)    — n=5835  P50=    22ms  P95=   217ms  P99=   869ms  SLA breaches: 362 (6.2%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 140s / 300s
+  [load]   Tier-1 (POS)    — n=6082  P50=    22ms  P95=   202ms  P99=   833ms  SLA breaches: 366 (6.0%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 145s / 300s
+  [load]   Tier-1 (POS)    — n=6345  P50=    23ms  P95=   191ms  P99=   809ms  SLA breaches: 366 (5.8%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 150s / 300s
+  [load]   Tier-1 (POS)    — n=6600  P50=    23ms  P95=   178ms  P99=   791ms  SLA breaches: 366 (5.5%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 155s / 300s
+  [load]   Tier-1 (POS)    — n=6849  P50=    23ms  P95=   167ms  P99=   770ms  SLA breaches: 366 (5.3%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 160s / 300s
+  [load]   Tier-1 (POS)    — n=7105  P50=    23ms  P95=   159ms  P99=   758ms  SLA breaches: 366 (5.2%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 165s / 300s
+  [load]   Tier-1 (POS)    — n=7363  P50=    23ms  P95=   149ms  P99=   736ms  SLA breaches: 366 (5.0%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 170s / 300s
+  [load]   Tier-1 (POS)    — n=7618  P50=    23ms  P95=   141ms  P99=   717ms  SLA breaches: 366 (4.8%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 175s / 300s
+  [load]   Tier-1 (POS)    — n=7877  P50=    23ms  P95=   134ms  P99=   698ms  SLA breaches: 366 (4.6%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 180s / 300s
+  [load]   Tier-1 (POS)    — n=8144  P50=    23ms  P95=   128ms  P99=   690ms  SLA breaches: 366 (4.5%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 185s / 300s
+  [load]   Tier-1 (POS)    — n=8407  P50=    23ms  P95=   124ms  P99=   679ms  SLA breaches: 366 (4.4%)
+  [load]   Tier-3 (Reports)— n=   0  P50=     0ms  P95=     0ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w0] bulk-generate completed in 180003ms (status 0)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 190s / 300s
+  [load]   Tier-1 (POS)    — n=8664  P50=    23ms  P95=   121ms  P99=   672ms  SLA breaches: 366 (4.2%)
+  [load]   Tier-3 (Reports)— n=   1  P50=180003ms  P95=180003ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] [TIER-3 burst w1] bulk-generate completed in 180003ms (status 0)
+  [load] 
+  [load] [TIER-3 burst w2] bulk-generate completed in 180004ms (status 0)
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 195s / 300s
+  [load]   Tier-1 (POS)    — n=8920  P50=    23ms  P95=   119ms  P99=   657ms  SLA breaches: 373 (4.2%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 200s / 300s
+  [load]   Tier-1 (POS)    — n=9141  P50=    23ms  P95=   121ms  P99=   655ms  SLA breaches: 386 (4.2%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 205s / 300s
+  [load]   Tier-1 (POS)    — n=9195  P50=    23ms  P95=   129ms  P99=   685ms  SLA breaches: 410 (4.5%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 210s / 300s
+  [load]   Tier-1 (POS)    — n=9208  P50=    23ms  P95=   134ms  P99=   718ms  SLA breaches: 422 (4.6%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 215s / 300s
+  [load]   Tier-1 (POS)    — n=9216  P50=    23ms  P95=   134ms  P99=   771ms  SLA breaches: 430 (4.7%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 220s / 300s
+  [load]   Tier-1 (POS)    — n=9224  P50=    23ms  P95=   137ms  P99=   843ms  SLA breaches: 438 (4.7%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 225s / 300s
+  [load]   Tier-1 (POS)    — n=9232  P50=    23ms  P95=   142ms  P99=   925ms  SLA breaches: 446 (4.8%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 230s / 300s
+  [load]   Tier-1 (POS)    — n=9240  P50=    23ms  P95=   146ms  P99=   970ms  SLA breaches: 454 (4.9%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 235s / 300s
+  [load]   Tier-1 (POS)    — n=9248  P50=    23ms  P95=   150ms  P99=  1143ms  SLA breaches: 462 (5.0%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🟡  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 240s / 300s
+  [load]   Tier-1 (POS)    — n=9256  P50=    23ms  P95=   155ms  P99=  1410ms  SLA breaches: 470 (5.1%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 245s / 300s
+  [load]   Tier-1 (POS)    — n=9264  P50=    23ms  P95=   159ms  P99=  1516ms  SLA breaches: 478 (5.2%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 250s / 300s
+  [load]   Tier-1 (POS)    — n=9272  P50=    23ms  P95=   162ms  P99=  1645ms  SLA breaches: 486 (5.2%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 255s / 300s
+  [load]   Tier-1 (POS)    — n=9280  P50=    23ms  P95=   167ms  P99=  1746ms  SLA breaches: 494 (5.3%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 260s / 300s
+  [load]   Tier-1 (POS)    — n=9288  P50=    23ms  P95=   170ms  P99=  1852ms  SLA breaches: 502 (5.4%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 265s / 300s
+  [load]   Tier-1 (POS)    — n=9296  P50=    23ms  P95=   175ms  P99=  2451ms  SLA breaches: 510 (5.5%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 270s / 300s
+  [load]   Tier-1 (POS)    — n=9304  P50=    23ms  P95=   179ms  P99=  5002ms  SLA breaches: 518 (5.6%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 275s / 300s
+  [load]   Tier-1 (POS)    — n=9312  P50=    23ms  P95=   182ms  P99=  5003ms  SLA breaches: 526 (5.6%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 280s / 300s
+  [load]   Tier-1 (POS)    — n=9320  P50=    23ms  P95=   189ms  P99=  5003ms  SLA breaches: 534 (5.7%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 285s / 300s
+  [load]   Tier-1 (POS)    — n=9328  P50=    23ms  P95=   194ms  P99=  5003ms  SLA breaches: 542 (5.8%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 290s / 300s
+  [load]   Tier-1 (POS)    — n=9336  P50=    23ms  P95=   198ms  P99=  5003ms  SLA breaches: 550 (5.9%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 295s / 300s
+  [load]   Tier-1 (POS)    — n=9344  P50=    23ms  P95=   205ms  P99=  5003ms  SLA breaches: 558 (6.0%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ────────────────────────────────────────────────────────────
+  [load]   Elapsed: 301s / 300s
+  [load]   Tier-1 (POS)    — n=9352  P50=    23ms  P95=   212ms  P99=  5003ms  SLA breaches: 566 (6.1%)
+  [load]   Tier-3 (Reports)— n=   3  P50=180003ms  P95=180004ms
+  [load]   SLA status: 🔴  (150ms threshold)
+  [load] ────────────────────────────────────────────────────────────
+  [load] 
+  [load] ════════════════════════════════════════════════════════════
+  [load]   FINAL SUMMARY
+  [load]   Total Tier-1 requests : 9352
+  [load]   SLA violations (>150ms): 566 (6.1%)
+  [load]   Results saved to: /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/experiment/results/group1_kpi.csv
+  [load] ════════════════════════════════════════════════════════════
+
+[harness] Group 1 summary:
+          TIER-1  n=9352  P50=23.3ms  P95=209.9ms  P99=5003.2ms
+          SLA breaches: 566 (6.05%)
+
+[harness] Cooldown 60s — letting metrics settle…
+
+═════════════════════════════════════════════════════════════════
+  GROUP 2 — Reactive-Only  (300s)
+═════════════════════════════════════════════════════════════════
+[harness] Resetting container → 2.0 cpus  2.0GB
+[harness] semantic_request_logs cleared
+[updater] Connected — erp_app  cpus=2.0  mem=2.00GB
+[engine] Initialized — mode=reactive  cpu_high=75.0%  mem_high=78.0%
+[governor] Loop started — mode=reactive  decision_interval=10s  sample_interval=1s
+[harness] Starting load test (300s)…
+
+[engine] Rule 3 — CPU Cooldown
+         Action : scale_down_cpu
+         CPUs   : 1.5  |  Memory : 2.00 GB
+         Reason : current observed mean_cpu=0.0% < 25.0%  no SLA breaches  cpus 2.0→1.5
+[updater] ✓  cpus 2.0→1.5  mem 2.00→2.00GB  (12.1ms)
+
+[engine] Rule 4 — Memory Cooldown
+         Action : scale_down_mem
+         CPUs   : 1.5  |  Memory : 1.50 GB
+         Reason : current observed mean_mem=396MB < threshold 778MB  no SLA breaches  mem 2.00→1.50 GB
+[updater] ✓  cpus 1.5→1.5  mem 2.00→1.50GB  (15.4ms)
+  [load] [load-gen] Login failed: HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=10)
+  [load] [load-gen] Logging in to http://localhost:3000...
+[governor] Loop stopped — 2 scaling decisions logged
+[harness] Governor log → /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/experiment/results/group2_governor.csv  (2 decisions)
+
+[harness] Group 2 summary:
+          TIER-1  n=10203  P50=12.7ms  P95=36.7ms  P99=131.0ms
+          SLA breaches: 83 (0.81%)
+
+[harness] Cooldown 60s — letting metrics settle…
+
+═════════════════════════════════════════════════════════════════
+  GROUP 3 — Proactive Hybrid  (300s)
+═════════════════════════════════════════════════════════════════
+[harness] Resetting container → 2.0 cpus  2.0GB
+[updater] ✓  cpus 1.5→2.0  mem 1.50→2.00GB  (12.0ms)
+[harness] semantic_request_logs cleared
+[updater] Connected — erp_app  cpus=2.0  mem=2.00GB
+[engine] Initialized — mode=proactive  cpu_high=75.0%  mem_high=78.0%
+[predictor] Model loaded from /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/lstm/model.keras
+[predictor] Window=60  Horizon=30  (buffer 0/60 filled)
+[governor] Loop started — mode=proactive  decision_interval=10s  sample_interval=1s
+[harness] Starting load test (300s)…
+
+[engine] Rule 3 — CPU Cooldown
+         Action : scale_down_cpu
+         CPUs   : 1.5  |  Memory : 2.00 GB
+         Reason : current observed mean_cpu=0.0% < 25.0%  no SLA breaches  cpus 2.0→1.5
+[updater] ✓  cpus 2.0→1.5  mem 2.00→2.00GB  (9.8ms)
+
+[engine] Rule 4 — Memory Cooldown
+         Action : scale_down_mem
+         CPUs   : 1.5  |  Memory : 1.50 GB
+         Reason : current observed mean_mem=396MB < threshold 778MB  no SLA breaches  mem 2.00→1.50 GB
+[updater] ✓  cpus 1.5→1.5  mem 2.00→1.50GB  (10.8ms)
+  [load] [load-gen] Login failed: HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=10)
+  [load] [load-gen] Logging in to http://localhost:3000...
+[governor] Loop stopped — 2 scaling decisions logged
+[harness] Governor log → /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/experiment/results/group3_governor.csv  (2 decisions)
+
+[harness] Group 3 summary:
+          TIER-1  n=9434  P50=21.2ms  P95=60.5ms  P99=149.1ms
+          SLA breaches: 95 (1.01%)
+[harness] Resetting container → 2.0 cpus  2.0GB
+[updater] ✓  cpus 1.5→2.0  mem 1.50→2.00GB  (11.8ms)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXPERIMENT COMPLETE — FINAL SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Group                        T1 n     P50     P95     P99  Breaches  Breach%
+─────────────────────────────────────────────────────────────────
+  Static Allocation          9352     23ms    210ms   5003ms       566     6.0%
+  Reactive-Only             10203     13ms     37ms    131ms        83     0.8%
+  Proactive Hybrid           9434     21ms     60ms    149ms        95     1.0%
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[harness] Summary saved → /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/experiment/results/experiment_summary.txt
+[harness] KPI CSVs      → /Users/malinduupendra/Documents/assignments.nosync/Research/docker-genius/governor/experiment/results/group*_kpi.csv
+[harness] Run analysis/mann_whitney.py next.

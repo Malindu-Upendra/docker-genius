@@ -1,0 +1,44 @@
+{
+  "dataset": {
+    "csv_path": "training_data.csv",
+    "windowed_samples": 1107
+  },
+  "gru": {
+    "cpu_mae_pct": 18.745,
+    "cpu_rmse_pct": 24.7,
+    "mem_mae_mb": 19.092,
+    "mem_rmse_mb": 22.666,
+    "train_wall_time_s": 19.3
+  },
+  "xgboost": {
+    "cpu_mae_pct": 19.985,
+    "cpu_rmse_pct": 26.548,
+    "mem_mae_mb": 20.659,
+    "mem_rmse_mb": 25.585,
+    "train_wall_time_s": 45.3
+  },
+  "transformer": {
+    "cpu_mae_pct": 17.028,
+    "cpu_rmse_pct": 24.507,
+    "mem_mae_mb": 19.439,
+    "mem_rmse_mb": 23.355,
+    "train_wall_time_s": 5.5
+  },
+  "arima": {
+    "cpu_mae_pct": 15.894,
+    "cpu_rmse_pct": 23.68,
+    "mem_mae_mb": 23.517,
+    "mem_rmse_mb": 30.653,
+    "cpu_order": [
+      1,
+      1,
+      1
+    ],
+    "mem_order": [
+      1,
+      1,
+      1
+    ],
+    "train_wall_time_s": 1.0
+  }
+}
