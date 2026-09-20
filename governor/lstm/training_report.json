@@ -48,5 +48,9 @@
     "test_mem_rmse_mb": 25.754,
     "inference_time_ms_mean": 25.72,
     "inference_time_runs": 20
+  },
+  "checksums_sha256": {
+    "model.keras": "942c5f50b69011e13e68caba873dfee57a11e561008f924b1fb963a1e7acf281",
+    "scaler.pkl": "8643da7ae6ecb7b89afe44d9a656678778404db1269698917fbc638ed291e7cb"
   }
 }

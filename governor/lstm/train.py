@@ -23,6 +23,7 @@ Usage:
 """
 
 import argparse
+import hashlib
 import json
 import pickle
 import platform
@@ -302,6 +303,10 @@ def train(csv_path: str):
             "test_mem_rmse_mb": round(mem_rmse, 3),
             "inference_time_ms_mean": round(inference_ms, 2),
             "inference_time_runs": n_timing_runs,
+        },
+        "checksums_sha256": {
+            "model.keras": hashlib.sha256(MODEL_PATH.read_bytes()).hexdigest(),
+            "scaler.pkl": hashlib.sha256(SCALER_PATH.read_bytes()).hexdigest(),
         },
     }
     with open(REPORT_PATH, "w") as f:
