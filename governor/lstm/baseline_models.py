@@ -46,15 +46,21 @@ def prepare_data(csv_path: str):
     scaler = MinMaxScaler(feature_range=(0, 1))
     scaled = scaler.fit_transform(df[lstm_train.FEATURES].values)
 
-    X, y = lstm_train.make_windows(scaled)
-    n = len(X)
-    train_end = int(n * (1 - lstm_train.VAL_SPLIT - lstm_train.TEST_SPLIT))
-    val_end   = int(n * (1 - lstm_train.TEST_SPLIT))
+    # Same embargoed, pre-windowing chronological split as train.py (temporal-
+    # leakage fix) -- this module must never re-derive its own un-embargoed
+    # split, or the "baseline vs LSTM" comparison would be evaluated on two
+    # different, non-comparable test sets.
+    (X_train, y_train), (X_val, y_val), (X_test, y_test) = \
+        lstm_train.make_embargoed_splits(scaled)
+    n = len(X_train) + len(X_val) + len(X_test)
+    n_raw = len(scaled)
+    train_end = int(n_raw * (1 - lstm_train.VAL_SPLIT - lstm_train.TEST_SPLIT))
+    val_end   = int(n_raw * (1 - lstm_train.TEST_SPLIT))
 
     splits = {
-        "X_train": X[:train_end],       "y_train": y[:train_end],
-        "X_val":   X[train_end:val_end], "y_val":   y[train_end:val_end],
-        "X_test":  X[val_end:],          "y_test":  y[val_end:],
+        "X_train": X_train, "y_train": y_train,
+        "X_val":   X_val,   "y_val":   y_val,
+        "X_test":  X_test,  "y_test":  y_test,
     }
     return df, scaler, splits, n, train_end, val_end
 
@@ -181,6 +187,70 @@ def run_transformer(scaler, splits) -> dict:
     return errs
 
 
+# ── Naive baselines (persistence, moving average, simple exponential smoothing) ──
+# Added per supervisor review item #20: "no naive forecasting baselines are
+# included ... compare complex models with persistence, moving average,
+# seasonal naive, and exponential smoothing before claiming value from deep
+# learning." Seasonal-naive is deliberately omitted: the training series
+# covers only ~20 minutes at 1 Hz, with no established seasonal period long
+# enough to define one honestly at this collection duration.
+
+def run_persistence(scaler, splits) -> dict:
+    """Repeat the last observed value across the whole forecast horizon."""
+    X_test, y_test = splits["X_test"], splits["y_test"]
+    last_obs = X_test[:, -1:, :]                       # (n, 1, 2)
+    pred = np.repeat(last_obs, lstm_train.HORIZON, axis=1)  # (n, H, 2)
+    errs = real_unit_errors(inverse_all(scaler, pred),
+                             inverse_all(scaler, y_test))
+    errs["train_wall_time_s"] = 0.0
+    return errs
+
+
+def run_moving_average(scaler, splits, k: int = 10) -> dict:
+    """Repeat the mean of the last k observed steps across the horizon."""
+    X_test, y_test = splits["X_test"], splits["y_test"]
+    avg = X_test[:, -k:, :].mean(axis=1, keepdims=True)     # (n, 1, 2)
+    pred = np.repeat(avg, lstm_train.HORIZON, axis=1)
+    errs = real_unit_errors(inverse_all(scaler, pred),
+                             inverse_all(scaler, y_test))
+    errs["train_wall_time_s"] = 0.0
+    errs["window_k"] = k
+    return errs
+
+
+def run_exp_smoothing(scaler, splits) -> dict:
+    """
+    Simple exponential smoothing, fit independently per test window on that
+    window's own WINDOW_SIZE input steps, forecast flat across the horizon
+    (SES has no trend/seasonal term, so its multi-step forecast is
+    necessarily flat -- this is a real, disclosed limitation of the method,
+    not a bug in this implementation).
+    """
+    from statsmodels.tsa.holtwinters import SimpleExpSmoothing
+
+    X_test, y_test = splits["X_test"], splits["y_test"]
+    n, H, F = len(X_test), lstm_train.HORIZON, lstm_train.N_FEATURES
+    pred = np.zeros((n, H, F), dtype=np.float32)
+    t0 = time.perf_counter()
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        for i in range(n):
+            for f in range(F):
+                series = X_test[i, :, f]
+                try:
+                    fit = SimpleExpSmoothing(series, initialization_method="estimated").fit()
+                    level = float(fit.forecast(1)[0])
+                except Exception:
+                    level = float(series[-1])
+                pred[i, :, f] = level
+    fit_s = time.perf_counter() - t0
+
+    errs = real_unit_errors(inverse_all(scaler, pred),
+                             inverse_all(scaler, y_test))
+    errs["train_wall_time_s"] = round(fit_s, 1)
+    return errs
+
+
 # ── ARIMA (univariate, real units, walk-forward via append(refit=False)) ─────
 
 def _fit_best_arima(series: np.ndarray):
@@ -199,7 +269,7 @@ def _fit_best_arima(series: np.ndarray):
     return best[1], best[2]
 
 
-def run_arima(df: pd.DataFrame, n_windows: int, train_end: int, val_end: int) -> dict:
+def run_arima(df: pd.DataFrame, n_test_windows: int, train_end: int, val_end: int) -> dict:
     """
     Walk-forward ARIMA on the raw (unscaled) cpu_pct / mem_mb series.
     Fit order + parameters on history through the first test forecast
@@ -207,6 +277,13 @@ def run_arima(df: pd.DataFrame, n_windows: int, train_end: int, val_end: int) ->
     subsequent test window append the one new real observation and
     re-forecast without refitting — the standard efficient walk-forward
     pattern, not a full refit per window.
+
+    `n_test_windows` is the actual count of embargoed test windows (from
+    make_embargoed_splits), NOT a raw-series window index -- ARIMA's test
+    segment still starts at raw index `val_end` with no further embargo of
+    its own (only the train/val and val/test *internal* boundaries need one;
+    see make_embargoed_splits), so origins are val_end + k + W - 1 for
+    k = 0 .. n_test_windows-1.
     """
     from statsmodels.tsa.arima.model import ARIMA
 
@@ -224,8 +301,8 @@ def run_arima(df: pd.DataFrame, n_windows: int, train_end: int, val_end: int) ->
         last_included = first_origin
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            for i in range(val_end, n_windows):
-                origin = i + W - 1
+            for k in range(n_test_windows):
+                origin = val_end + k + W - 1
                 if origin > last_included:
                     new_obs = series[last_included + 1: origin + 1]
                     cur = cur.append(new_obs, refit=False)
@@ -262,7 +339,7 @@ def run_arima(df: pd.DataFrame, n_windows: int, train_end: int, val_end: int) ->
 def main():
     ap = argparse.ArgumentParser(description="DOCKER-GENIUS baseline forecaster comparison")
     ap.add_argument("--data", default="lstm/training_data.csv")
-    ap.add_argument("--models", default="gru,xgboost,transformer,arima",
+    ap.add_argument("--models", default="persistence,moving_average,exp_smoothing,gru,xgboost,transformer,arima",
                      help="Comma-separated subset to run")
     args = ap.parse_args()
 
@@ -272,6 +349,24 @@ def main():
 
     requested = set(args.models.split(","))
     report = {"dataset": {"csv_path": args.data, "windowed_samples": n}}
+
+    if "persistence" in requested:
+        print("[baseline] Computing persistence baseline…")
+        report["persistence"] = run_persistence(scaler, splits)
+        print(f"  Persist — CPU MAE {report['persistence']['cpu_mae_pct']}%  "
+              f"RMSE {report['persistence']['cpu_rmse_pct']}%")
+
+    if "moving_average" in requested:
+        print("[baseline] Computing moving-average baseline…")
+        report["moving_average"] = run_moving_average(scaler, splits)
+        print(f"  MovAvg  — CPU MAE {report['moving_average']['cpu_mae_pct']}%  "
+              f"RMSE {report['moving_average']['cpu_rmse_pct']}%")
+
+    if "exp_smoothing" in requested:
+        print("[baseline] Fitting simple exponential smoothing per window…")
+        report["exp_smoothing"] = run_exp_smoothing(scaler, splits)
+        print(f"  SES     — CPU MAE {report['exp_smoothing']['cpu_mae_pct']}%  "
+              f"RMSE {report['exp_smoothing']['cpu_rmse_pct']}%")
 
     if "gru" in requested:
         print("[baseline] Training GRU…")
@@ -293,7 +388,7 @@ def main():
 
     if "arima" in requested:
         print("[baseline] Fitting ARIMA (walk-forward)…")
-        report["arima"] = run_arima(df, n, train_end, val_end)
+        report["arima"] = run_arima(df, len(splits["X_test"]), train_end, val_end)
         print(f"  ARIMA— CPU MAE {report['arima']['cpu_mae_pct']}%  "
               f"RMSE {report['arima']['cpu_rmse_pct']}%")
 

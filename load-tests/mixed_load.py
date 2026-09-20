@@ -250,9 +250,19 @@ def stats_printer(duration: int, start: float):
 
 def run(base: str, duration: int, output: str,
         n_tier1: int = N_TIER1, n_tier3: int = N_TIER3,
-        tier3_interval: int = TIER3_INTERVAL):
+        tier3_interval: int = TIER3_INTERVAL, seed: int | None = None):
     global N_TIER1, N_TIER3, TIER3_INTERVAL
     N_TIER1, N_TIER3, TIER3_INTERVAL = n_tier1, n_tier3, tier3_interval
+
+    if seed is not None:
+        # Seeds the shared global RNG before any worker thread starts, so a
+        # given seed reproduces the same statistical mix of item counts,
+        # products, quantities and prices across conditions/replicates.
+        # Thread scheduling still interleaves individual calls
+        # non-deterministically, so this pairs workloads distributionally,
+        # not as a byte-identical request sequence.
+        random.seed(seed)
+        print(f"[load-gen] Workload seed: {seed}")
 
     print(f"[load-gen] Logging in to {base}...")
     try:
@@ -343,7 +353,9 @@ if __name__ == "__main__":
                      help="Concurrent Tier-3 (bulk report) burst workers")
     ap.add_argument("--tier3-interval", default=TIER3_INTERVAL, type=int,
                      help="Seconds each Tier-3 worker waits between its own bursts")
+    ap.add_argument("--seed", default=None, type=int,
+                     help="Seed the workload RNG for reproducible/paired runs across conditions")
     args = ap.parse_args()
     run(args.base_url, args.duration, args.output,
         n_tier1=args.n_tier1, n_tier3=args.n_tier3,
-        tier3_interval=args.tier3_interval)
+        tier3_interval=args.tier3_interval, seed=args.seed)

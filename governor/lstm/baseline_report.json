@@ -1,44 +1,66 @@
 {
   "dataset": {
-    "csv_path": "training_data.csv",
-    "windowed_samples": 1107
+    "csv_path": "lstm/training_data.csv",
+    "windowed_samples": 749
+  },
+  "persistence": {
+    "cpu_mae_pct": 18.832,
+    "cpu_rmse_pct": 32.674,
+    "mem_mae_mb": 24.397,
+    "mem_rmse_mb": 31.57,
+    "train_wall_time_s": 0.0
+  },
+  "moving_average": {
+    "cpu_mae_pct": 17.524,
+    "cpu_rmse_pct": 26.727,
+    "mem_mae_mb": 27.18,
+    "mem_rmse_mb": 32.389,
+    "train_wall_time_s": 0.0,
+    "window_k": 10
+  },
+  "exp_smoothing": {
+    "cpu_mae_pct": 18.614,
+    "cpu_rmse_pct": 31.863,
+    "mem_mae_mb": 24.439,
+    "mem_rmse_mb": 31.573,
+    "train_wall_time_s": 0.3
   },
   "gru": {
-    "cpu_mae_pct": 18.745,
-    "cpu_rmse_pct": 24.7,
-    "mem_mae_mb": 19.092,
-    "mem_rmse_mb": 22.666,
-    "train_wall_time_s": 19.3
+    "cpu_mae_pct": 18.944,
+    "cpu_rmse_pct": 24.289,
+    "mem_mae_mb": 21.953,
+    "mem_rmse_mb": 25.33,
+    "train_wall_time_s": 9.5
   },
   "xgboost": {
-    "cpu_mae_pct": 19.985,
-    "cpu_rmse_pct": 26.548,
-    "mem_mae_mb": 20.659,
-    "mem_rmse_mb": 25.585,
-    "train_wall_time_s": 45.3
+    "cpu_mae_pct": 34.981,
+    "cpu_rmse_pct": 37.097,
+    "mem_mae_mb": 20.417,
+    "mem_rmse_mb": 25.629,
+    "train_wall_time_s": 44.0
   },
   "transformer": {
-    "cpu_mae_pct": 17.028,
-    "cpu_rmse_pct": 24.507,
-    "mem_mae_mb": 19.439,
-    "mem_rmse_mb": 23.355,
-    "train_wall_time_s": 5.5
+    "cpu_mae_pct": 19.197,
+    "cpu_rmse_pct": 25.118,
+    "mem_mae_mb": 20.398,
+    "mem_rmse_mb": 24.615,
+    "train_wall_time_s": 3.9
   },
   "arima": {
-    "cpu_mae_pct": 15.894,
-    "cpu_rmse_pct": 23.68,
-    "mem_mae_mb": 23.517,
-    "mem_rmse_mb": 30.653,
+    "cpu_mae_pct": 15.249,
+    "cpu_rmse_pct": 22.83,
+    "mem_mae_mb": 24.406,
+    "mem_rmse_mb": 31.566,
     "cpu_order": [
+      2,
       1,
-      1,
-      1
+      2
     ],
     "mem_order": [
       1,
       1,
       1
     ],
-    "train_wall_time_s": 1.0
+    "train_wall_time_s": 0.8
   }
 }

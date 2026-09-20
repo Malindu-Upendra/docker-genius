@@ -107,11 +107,11 @@ def wait_for_healthy(timeout: int = 180, poll_interval: float = 3.0) -> None:
         f"App did not become healthy (login) within {timeout}s before group start: {last_err}")
 
 
-def reset_container(updater: DockerUpdater):
-    """Reset erp_app to baseline resources."""
-    print(f"[harness] Resetting container → {BASELINE_CPUS} cpus  "
-          f"{BASELINE_MEM_GB}GB")
-    updater.apply(BASELINE_CPUS, BASELINE_MEM_GB)
+def reset_container(updater: DockerUpdater, cpus: float = BASELINE_CPUS,
+                     mem_gb: float = BASELINE_MEM_GB):
+    """Reset erp_app to the given resource allocation (default: baseline)."""
+    print(f"[harness] Resetting container → {cpus} cpus  {mem_gb}GB")
+    updater.apply(cpus, mem_gb)
 
 def clear_request_logs():
     """Truncate semantic_request_logs for a clean measurement window."""
@@ -222,7 +222,8 @@ def compute_summary(rows: list[dict], label: str) -> dict:
 
 def run_group(group: dict, duration: int, updater: DockerUpdater,
               kpi_path: Path, gov_path: Path, rep_label: str = "",
-              semantic_aware: bool = True):
+              semantic_aware: bool = True, seed: int | None = None,
+              static_cpus: float | None = None, static_mem_gb: float | None = None):
     num   = group["num"]
     label = group["label"]
     mode  = group["mode"]
@@ -244,7 +245,9 @@ def run_group(group: dict, duration: int, updater: DockerUpdater,
     gov_path.unlink(missing_ok=True)
 
     # 1. Reset resources + clear logs + restore identical starting data
-    reset_container(updater)
+    reset_container(updater,
+                     cpus=static_cpus if static_cpus is not None else BASELINE_CPUS,
+                     mem_gb=static_mem_gb if static_mem_gb is not None else BASELINE_MEM_GB)
     clear_request_logs()
     reset_transactional_data()
 
@@ -260,10 +263,13 @@ def run_group(group: dict, duration: int, updater: DockerUpdater,
 
     # 3. Launch load test as subprocess
     print(f"[harness] Starting load test ({duration}s)…")
+    load_cmd = [sys.executable, LOAD_SCRIPT,
+                "--duration", str(duration),
+                "--output",   str(kpi_path)]
+    if seed is not None:
+        load_cmd += ["--seed", str(seed)]
     load_proc = subprocess.Popen(
-        [sys.executable, LOAD_SCRIPT,
-         "--duration", str(duration),
-         "--output",   str(kpi_path)],
+        load_cmd,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,

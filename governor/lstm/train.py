@@ -47,12 +47,19 @@ BATCH_SIZE    = 32
 LEARNING_RATE = 0.001   # Adam — stated explicitly rather than left as an
                          # unstated framework default, since the paper's
                          # LSTM details table needs to cite a real number
-VAL_SPLIT    = 0.15     # of the full dataset
-TEST_SPLIT   = 0.15     # of the full dataset — held out, untouched by
+VAL_SPLIT    = 0.20     # of the full dataset -- widened from the original
+                         # 15% specifically to leave room for the EMBARGO
+                         # (see below): at only 1,196 raw samples, a 15%
+                         # val split leaves just ~89 raw rows once a
+                         # 90-step embargo is cut from it, i.e. zero windows.
+                         # 20% leaves ~149 raw rows -> 60 val windows.
+TEST_SPLIT   = 0.20     # of the full dataset — held out, untouched by
                          # training/early-stopping/checkpointing (proposal
                          # §3.2 promises train/val/test with MAE/RMSE on
                          # held-out test sequences; the previous version of
-                         # this script only had train/val)
+                         # this script only had train/val). Also widened
+                         # from 15% to 20% for the same embargo-headroom
+                         # reason as VAL_SPLIT above.
 PATIENCE     = 8        # early-stopping patience
 
 MODEL_PATH    = Path(__file__).parent / "model.keras"
@@ -81,6 +88,39 @@ def make_windows(values: np.ndarray):
         X.append(values[i : i + WINDOW_SIZE])
         y.append(values[i + WINDOW_SIZE : i + WINDOW_SIZE + HORIZON])
     return np.array(X, dtype=np.float32), np.array(y, dtype=np.float32)
+
+
+EMBARGO = WINDOW_SIZE + HORIZON  # >=90 steps, per the supervisor review's own
+                                  # example: a window straddling a split
+                                  # boundary lets the model see into the
+                                  # "held-out" segment during training, so
+                                  # the raw series must be split BEFORE
+                                  # windowing, with a gap this wide removed
+                                  # between segments (not created by slicing
+                                  # the already-windowed X/y arrays).
+
+
+def make_embargoed_splits(scaled: np.ndarray):
+    """
+    Split the raw scaled series chronologically into train/val/test segments
+    first, drop an EMBARGO-step gap at each internal boundary, and only then
+    slide windows independently within each segment. This guarantees no
+    window's input or target ever spans two segments, closing the temporal-
+    leakage gap the un-embargoed version of this split had (see
+    NEXT_STEPS.md and the paper's Temporal Leakage discussion).
+    """
+    n_raw = len(scaled)
+    train_end = int(n_raw * (1 - VAL_SPLIT - TEST_SPLIT))
+    val_end   = int(n_raw * (1 - TEST_SPLIT))
+
+    train_raw = scaled[: train_end - EMBARGO]
+    val_raw   = scaled[train_end : val_end - EMBARGO]
+    test_raw  = scaled[val_end :]
+
+    X_train, y_train = make_windows(train_raw)
+    X_val,   y_val   = make_windows(val_raw)
+    X_test,  y_test  = make_windows(test_raw)
+    return (X_train, y_train), (X_val, y_val), (X_test, y_test)
 
 
 # ── Model builder ─────────────────────────────────────────────────────────────
@@ -119,21 +159,17 @@ def train(csv_path: str):
     scaler = MinMaxScaler(feature_range=(0, 1))
     scaled = scaler.fit_transform(df[FEATURES].values)
 
-    # 3. Create sliding-window pairs
-    X, y = make_windows(scaled)
-    print(f"[train] Windows created — X: {X.shape}  y: {y.shape}")
-
-    # 4. Train/val/test split (temporal — no shuffle, so the held-out test
-    #    set is strictly the most recent slice in time; train/val fitting
-    #    and early stopping never see it)
-    n = len(X)
-    train_end = int(n * (1 - VAL_SPLIT - TEST_SPLIT))
-    val_end   = int(n * (1 - TEST_SPLIT))
-    X_train, y_train = X[:train_end],       y[:train_end]
-    X_val,   y_val   = X[train_end:val_end], y[train_end:val_end]
-    X_test,  y_test  = X[val_end:],          y[val_end:]
+    # 3. Split the RAW series chronologically first, drop an EMBARGO-step
+    #    gap at each internal boundary, and only then window each segment
+    #    independently -- see make_embargoed_splits() for why this order
+    #    matters (temporal-leakage fix; supervisor review item #9).
+    (X_train, y_train), (X_val, y_val), (X_test, y_test) = make_embargoed_splits(scaled)
+    n = len(X_train) + len(X_val) + len(X_test)
+    print(f"[train] Windows created (post-embargo) — "
+          f"train: {X_train.shape}  val: {X_val.shape}  test: {X_test.shape}")
     print(f"[train] Train: {len(X_train)}  Val: {len(X_val)}  Test: {len(X_test)}  "
-          f"(split {1-VAL_SPLIT-TEST_SPLIT:.0%}/{VAL_SPLIT:.0%}/{TEST_SPLIT:.0%})")
+          f"(split {1-VAL_SPLIT-TEST_SPLIT:.0%}/{VAL_SPLIT:.0%}/{TEST_SPLIT:.0%}, "
+          f"{EMBARGO}-step embargo at each internal boundary)")
     if len(X_test) == 0:
         print("[train] ERROR: test split is empty — collect more telemetry "
               "before training (need enough rows for a non-trivial held-out set).")
@@ -230,7 +266,8 @@ def train(csv_path: str):
             "train_samples": int(len(X_train)),
             "val_samples": int(len(X_val)),
             "test_samples": int(len(X_test)),
-            "split": f"{1 - VAL_SPLIT - TEST_SPLIT:.0%}/{VAL_SPLIT:.0%}/{TEST_SPLIT:.0%} (train/val/test, temporal, no shuffle)",
+            "split": f"{1 - VAL_SPLIT - TEST_SPLIT:.0%}/{VAL_SPLIT:.0%}/{TEST_SPLIT:.0%} (train/val/test, temporal, no shuffle, {EMBARGO}-step embargo at each internal boundary)",
+            "embargo_steps": EMBARGO,
         },
         "architecture": {
             "window_size_steps": WINDOW_SIZE,

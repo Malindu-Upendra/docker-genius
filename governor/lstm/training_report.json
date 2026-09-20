@@ -2,11 +2,12 @@
   "dataset": {
     "csv_path": "lstm/training_data.csv",
     "raw_rows": 1196,
-    "windowed_samples": 1107,
-    "train_samples": 774,
-    "val_samples": 166,
-    "test_samples": 167,
-    "split": "70%/15%/15% (train/val/test, temporal, no shuffle)"
+    "windowed_samples": 749,
+    "train_samples": 538,
+    "val_samples": 60,
+    "test_samples": 151,
+    "split": "60%/20%/20% (train/val/test, temporal, no shuffle, 90-step embargo at each internal boundary)",
+    "embargo_steps": 90
   },
   "architecture": {
     "window_size_steps": 60,
@@ -27,9 +28,9 @@
     "loss": "mse",
     "batch_size": 32,
     "max_epochs": 50,
-    "epochs_run": 19,
+    "epochs_run": 24,
     "early_stopping_patience": 8,
-    "train_wall_time_s": 10.0
+    "train_wall_time_s": 8.4
   },
   "hardware": {
     "platform": "macOS-15.4.1-arm64-arm-64bit",
@@ -39,13 +40,13 @@
     "tensorflow_version": "2.21.0"
   },
   "results": {
-    "val_mse_scaled": 0.045216,
-    "val_mae_scaled": 0.16548,
-    "test_cpu_mae_pct": 17.755,
-    "test_cpu_rmse_pct": 24.208,
-    "test_mem_mae_mb": 20.478,
-    "test_mem_rmse_mb": 23.786,
-    "inference_time_ms_mean": 26.73,
+    "val_mse_scaled": 0.053376,
+    "val_mae_scaled": 0.197451,
+    "test_cpu_mae_pct": 21.141,
+    "test_cpu_rmse_pct": 25.455,
+    "test_mem_mae_mb": 22.22,
+    "test_mem_rmse_mb": 25.754,
+    "inference_time_ms_mean": 25.72,
     "inference_time_runs": 20
   }
 }
