@@ -353,6 +353,7 @@ def merge_rep_kpis(num: int, repeats: int) -> Path:
 
 
 def main():
+    global RESULTS_DIR
     ap = argparse.ArgumentParser(
         description="DOCKER-GENIUS 3-group experiment controller"
     )
@@ -369,7 +370,17 @@ def main():
                          "rep's raw KPI CSV is kept under results/reps/repN/; "
                          "results/group*_kpi.csv is the pooled file across "
                          "all reps, which is what mann_whitney.py reads.")
+    ap.add_argument("--output-dir", type=str, default=None,
+                    help="Override the default experiment/results/ output "
+                         "directory -- use a distinct path per sweep/config "
+                         "so separate invocations never silently overwrite "
+                         "each other's raw per-rep data (see NEXT_STEPS.md's "
+                         "§1k data-retention gap for why this now exists).")
     args = ap.parse_args()
+
+    if args.output_dir:
+        RESULTS_DIR = Path(args.output_dir)
+        RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
     groups_to_run = [int(g) for g in args.groups.split(",")]
     updater       = DockerUpdater(container="erp_app")

@@ -1,0 +1,21 @@
+DOCKER-GENIUS Per-Replicate Breakdown — 2026-09-21T05:04:08.493209+00:00
+5 replicate(s), 300s each
+
+Reactive-Only
+  Rep      T1 n     P50     P95     P99  Breaches  Breach%
+  1        3719      9ms   2925ms   3035ms       666    17.9%
+  2        4417      8ms   2895ms   2936ms       624    14.1%
+  3        3696      9ms   2916ms   2994ms       656    17.8%
+  4        1897     12ms   5574ms   7164ms       527    27.8%
+  5        3345     10ms   2956ms   3122ms       664    19.9%
+  → mean breach% across reps: 19.5%  (range 14.1%–27.8%, spread 13.7 points)
+
+Proactive Hybrid
+  Rep      T1 n     P50     P95     P99  Breaches  Breach%
+  1        4354      8ms   2912ms   3046ms       624    14.3%
+  2        3493      9ms   2897ms   2924ms       672    19.2%
+  3        3418      9ms   2917ms   3016ms       672    19.7%
+  4        3162     10ms   3098ms   4240ms       632    20.0%
+  5        3272     10ms   2987ms   3098ms       664    20.3%
+  → mean breach% across reps: 18.7%  (range 14.3%–20.3%, spread 6.0 points)
+

@@ -1,0 +1,32 @@
+ts,cpu_pct,mem_mb,current_cpus,current_mem_gb,action,target_cpus,target_mem_gb,rule,reason,cycle_ms
+2026-09-21T04:52:33.764955+00:00,0.0,87.6,2.0,2.0,scale_down_cpu,1.0,2.0,Rule 3 — CPU Cooldown,current observed mean_cpu=0.0% < 25.0%  no SLA breaches  cpus 2.0→1.0,15.87
+2026-09-21T04:52:43.762837+00:00,98.38,85.6,1.0,2.0,scale_up_cpu,2.0,2.0,Rule 1 — Proactive CPU Scale-Up,current observed peak_cpu=98.4% > 75.0%  TIER_1 rps=4.07  cpus 1.0→2.0,8.65
+2026-09-21T04:52:53.767375+00:00,60.99,86.3,2.0,2.0,none,2.0,2.0,,cycle=3  current observed  cpu=61.0%  mem=86MB  tier1_rps=6.40  cpu_cd=1  mem_cd=0,8.13
+2026-09-21T04:53:03.775487+00:00,92.61,86.2,2.0,2.0,scale_up_cpu,3.0,2.0,Rule 1 — Proactive CPU Scale-Up,current observed peak_cpu=92.6% > 75.0%  TIER_1 rps=7.77  cpus 2.0→3.0,13.75
+2026-09-21T04:53:13.774888+00:00,56.88,85.9,3.0,2.0,none,3.0,2.0,,cycle=5  current observed  cpu=56.9%  mem=86MB  tier1_rps=10.17  cpu_cd=1  mem_cd=0,9.34
+2026-09-21T04:53:23.779103+00:00,98.07,85.8,3.0,2.0,scale_up_cpu,4.0,2.0,Rule 1 — Proactive CPU Scale-Up,current observed peak_cpu=98.1% > 75.0%  TIER_1 rps=11.53  cpus 3.0→4.0,8.46
+2026-09-21T04:53:33.781449+00:00,98.15,86.2,4.0,2.0,none,4.0,2.0,,cycle=7  current observed  cpu=98.2%  mem=86MB  tier1_rps=13.23  cpu_cd=1  mem_cd=0,9.64
+2026-09-21T04:53:43.786583+00:00,98.76,85.9,4.0,2.0,none,4.0,2.0,,cycle=8  current observed  cpu=98.8%  mem=86MB  tier1_rps=11.03  cpu_cd=0  mem_cd=0,9.69
+2026-09-21T04:53:53.792727+00:00,98.04,86.3,4.0,2.0,none,4.0,2.0,,cycle=9  current observed  cpu=98.0%  mem=86MB  tier1_rps=10.18  cpu_cd=0  mem_cd=0,10.73
+2026-09-21T04:54:03.795930+00:00,62.52,86.4,4.0,2.0,none,4.0,2.0,,cycle=10  current observed  cpu=62.5%  mem=86MB  tier1_rps=11.20  cpu_cd=0  mem_cd=0,8.85
+2026-09-21T04:54:13.800910+00:00,86.99,86.0,4.0,2.0,none,4.0,2.0,,cycle=11  current observed  cpu=87.0%  mem=86MB  tier1_rps=10.30  cpu_cd=0  mem_cd=0,8.76
+2026-09-21T04:54:23.807356+00:00,61.87,86.7,4.0,2.0,none,4.0,2.0,,cycle=12  current observed  cpu=61.9%  mem=87MB  tier1_rps=11.28  cpu_cd=0  mem_cd=0,10.12
+2026-09-21T04:54:33.809702+00:00,98.05,86.8,4.0,2.0,none,4.0,2.0,,cycle=13  current observed  cpu=98.0%  mem=87MB  tier1_rps=10.90  cpu_cd=0  mem_cd=0,9.87
+2026-09-21T04:54:43.815086+00:00,98.59,86.1,4.0,2.0,none,4.0,2.0,,cycle=14  current observed  cpu=98.6%  mem=86MB  tier1_rps=10.27  cpu_cd=0  mem_cd=0,10.15
+2026-09-21T04:54:53.816058+00:00,98.28,87.5,4.0,2.0,none,4.0,2.0,,cycle=15  current observed  cpu=98.3%  mem=88MB  tier1_rps=11.02  cpu_cd=0  mem_cd=0,9.92
+2026-09-21T04:55:03.817793+00:00,97.95,87.8,4.0,2.0,none,4.0,2.0,,cycle=16  current observed  cpu=98.0%  mem=88MB  tier1_rps=10.03  cpu_cd=0  mem_cd=0,10.27
+2026-09-21T04:55:13.818496+00:00,30.82,86.0,4.0,2.0,none,4.0,2.0,,cycle=17  current observed  cpu=30.8%  mem=86MB  tier1_rps=10.78  cpu_cd=0  mem_cd=0,9.51
+2026-09-21T04:55:23.819420+00:00,90.93,86.9,4.0,2.0,none,4.0,2.0,,cycle=18  current observed  cpu=90.9%  mem=87MB  tier1_rps=9.93  cpu_cd=0  mem_cd=0,8.83
+2026-09-21T04:55:33.820744+00:00,97.34,86.1,4.0,2.0,none,4.0,2.0,,cycle=19  current observed  cpu=97.3%  mem=86MB  tier1_rps=10.43  cpu_cd=0  mem_cd=0,9.84
+2026-09-21T04:55:43.822786+00:00,98.17,85.9,4.0,2.0,none,4.0,2.0,,cycle=20  current observed  cpu=98.2%  mem=86MB  tier1_rps=11.10  cpu_cd=0  mem_cd=0,11.0
+2026-09-21T04:55:53.872676+00:00,99.1,85.9,4.0,2.0,none,4.0,2.0,,cycle=21  current observed  cpu=99.1%  mem=86MB  tier1_rps=10.45  cpu_cd=0  mem_cd=0,55.77
+2026-09-21T04:56:03.838148+00:00,63.79,87.1,4.0,2.0,none,4.0,2.0,,cycle=22  current observed  cpu=63.8%  mem=87MB  tier1_rps=11.10  cpu_cd=0  mem_cd=0,13.23
+2026-09-21T04:56:13.838186+00:00,81.59,87.0,4.0,2.0,none,4.0,2.0,,cycle=23  current observed  cpu=81.6%  mem=87MB  tier1_rps=10.60  cpu_cd=0  mem_cd=0,9.69
+2026-09-21T04:56:23.902228+00:00,99.05,86.0,4.0,2.0,none,4.0,2.0,,cycle=24  current observed  cpu=99.0%  mem=86MB  tier1_rps=10.12  cpu_cd=0  mem_cd=0,65.26
+2026-09-21T04:56:33.850576+00:00,97.94,87.1,4.0,2.0,none,4.0,2.0,,cycle=25  current observed  cpu=97.9%  mem=87MB  tier1_rps=10.43  cpu_cd=0  mem_cd=0,12.84
+2026-09-21T04:56:43.853248+00:00,85.12,87.6,4.0,2.0,none,4.0,2.0,,cycle=26  current observed  cpu=85.1%  mem=88MB  tier1_rps=10.15  cpu_cd=0  mem_cd=0,10.78
+2026-09-21T04:56:53.854846+00:00,86.86,85.7,4.0,2.0,none,4.0,2.0,,cycle=27  current observed  cpu=86.9%  mem=86MB  tier1_rps=10.27  cpu_cd=0  mem_cd=0,11.51
+2026-09-21T04:57:03.860543+00:00,98.98,86.0,4.0,2.0,none,4.0,2.0,,cycle=28  current observed  cpu=99.0%  mem=86MB  tier1_rps=10.13  cpu_cd=0  mem_cd=0,12.04
+2026-09-21T04:57:13.861299+00:00,90.63,85.9,4.0,2.0,none,4.0,2.0,,cycle=29  current observed  cpu=90.6%  mem=86MB  tier1_rps=10.03  cpu_cd=0  mem_cd=0,7.72
+2026-09-21T04:57:23.870048+00:00,81.56,87.2,4.0,2.0,none,4.0,2.0,,cycle=30  current observed  cpu=81.6%  mem=87MB  tier1_rps=10.80  cpu_cd=0  mem_cd=0,16.18
+2026-09-21T04:57:33.863965+00:00,98.61,87.2,4.0,2.0,none,4.0,2.0,,cycle=31  current observed  cpu=98.6%  mem=87MB  tier1_rps=10.60  cpu_cd=0  mem_cd=0,9.4

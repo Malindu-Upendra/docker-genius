@@ -1,0 +1,7 @@
+DOCKER-GENIUS Experiment — 2026-09-21T02:55:38.292693+00:00
+Duration per group: 300s
+
+Group                        T1 n     P50     P95     P99  Breaches  Breach%
+─────────────────────────────────────────────────────────────────
+  Reactive-Only             18980      9ms   2893ms   2924ms      3296    17.4%
+  Proactive Hybrid          20714      9ms   2889ms   2921ms      3203    15.5%
