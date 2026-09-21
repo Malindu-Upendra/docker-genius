@@ -1,0 +1,32 @@
+{
+  "trained_on (n_tier1=8, n_tier3=2), held-out test split": {
+    "n_raw_samples": 1196,
+    "n_windows": 151,
+    "cpu_mae_pct": 21.141,
+    "cpu_rmse_pct": 25.455,
+    "mem_mae_mb": 22.22,
+    "mem_rmse_mb": 25.754,
+    "true_cpu_mean": 35.28,
+    "true_cpu_max": 112.85
+  },
+  "light (n_tier1=4, n_tier3=1)": {
+    "n_raw_samples": 303,
+    "n_windows": 214,
+    "cpu_mae_pct": 39.5,
+    "cpu_rmse_pct": 42.547,
+    "mem_mae_mb": 50.224,
+    "mem_rmse_mb": 50.498,
+    "true_cpu_mean": 44.15,
+    "true_cpu_max": 99.59
+  },
+  "heavy (n_tier1=12, n_tier3=3)": {
+    "n_raw_samples": 303,
+    "n_windows": 214,
+    "cpu_mae_pct": 9.062,
+    "cpu_rmse_pct": 11.256,
+    "mem_mae_mb": 64.215,
+    "mem_rmse_mb": 64.469,
+    "true_cpu_mean": 96.61,
+    "true_cpu_max": 100.47
+  }
+}
