@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
+import { runCpuBurnInWorker } from './cpu-burn-pool';
 
 interface FinancialAggregateFilter {
   fromDate?: Date;
@@ -27,6 +28,14 @@ interface FinancialAggregateFilter {
 // in-process timing). Verified this actually blocks concurrent Tier-1
 // checkouts (Node is single-threaded): 8 concurrent checkout workers vs
 // 3 concurrent bursts of this produced a 33.6% Tier-1 SLA breach rate.
+//
+// Left unchanged and still runs on the main thread by default — every
+// experiment already reported in this paper depended on this exact,
+// blocking behaviour to produce the contention it measures. The
+// `isolate_tier3` option below routes the same fixed amount of work
+// through a worker-thread pool instead (see cpu-burn-pool.ts / review item
+// #7's "separate worker/thread pools" remediation), as an opt-in
+// alternative to evaluate, not a replacement.
 const CPU_BURN_ITERATIONS = 800_000_000;
 
 function burnCpu(iterations: number): number {
@@ -318,7 +327,10 @@ export class ReportsService {
   }
 
   // TIER_3: Bulk report generation — sequential execution to maximize CPU load
-  async bulkGenerate(tenantId: string, options: { research_mode?: boolean; delay_ms?: number } = {}) {
+  async bulkGenerate(
+    tenantId: string,
+    options: { research_mode?: boolean; delay_ms?: number; isolate_tier3?: boolean } = {},
+  ) {
     const delayMs = options.delay_ms ?? 0;
     const results: Record<string, any> = {};
 
@@ -361,15 +373,22 @@ export class ReportsService {
     results['semantic_logs'] = await this.getSemanticLogReport(tenantId, oneHourAgo, undefined, true);
 
     // See CPU_BURN_ITERATIONS comment above — this is what actually makes
-    // Tier-3 load visible to the governor's CPU-based rules.
+    // Tier-3 load visible to the governor's CPU-based rules. isolate_tier3
+    // routes the same fixed amount of work through a worker thread instead
+    // of blocking this (main) event-loop thread — see cpu-burn-pool.ts.
     if (options.research_mode) {
-      burnCpu(CPU_BURN_ITERATIONS);
+      if (options.isolate_tier3) {
+        await runCpuBurnInWorker(CPU_BURN_ITERATIONS);
+      } else {
+        burnCpu(CPU_BURN_ITERATIONS);
+      }
     }
 
     return {
       generatedAt: new Date(),
       tenantId,
       researchMode: options.research_mode ?? false,
+      tier3Isolated: options.isolate_tier3 ?? false,
       reports: results,
     };
   }

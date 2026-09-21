@@ -16,6 +16,7 @@ import { TenantId } from '../../common/decorators/tenant.decorator';
 class BulkGenerateOptionsDto {
   @IsOptional() @IsBoolean() research_mode?: boolean;
   @IsOptional() @IsNumber() delay_ms?: number;
+  @IsOptional() @IsBoolean() isolate_tier3?: boolean;
 }
 
 class FinancialAggregateFilterDto {
