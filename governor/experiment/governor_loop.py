@@ -19,9 +19,15 @@ and 30-step horizon are defined in samples, and the model was trained on
 the rule engine actually makes decisions.
 
 Mode selection:
-  "proactive" → uses LSTMPredictor  (Group 3 — full DOCKER-GENIUS)
+  "proactive" → uses a predictor (Group 3 — full DOCKER-GENIUS)
   "reactive"  → uses current values only  (Group 2 — reactive baseline)
   "static"    → loop does not start at all  (Group 1 — control)
+
+Predictor backend (proactive mode only) is selected via the DG_PREDICTOR
+env var — "lstm" (default, unchanged behaviour) or "arima". Added to test
+whether the LSTM's 0% recall on real CPU>75% events (vs. ARIMA's 6.3% in
+an offline check) was masking any real benefit of proactive governance —
+see the paper's Threats to Validity / forecast diagnostics discussion.
 """
 
 from __future__ import annotations
@@ -51,6 +57,7 @@ SAMPLE_INTERVAL   = 1    # seconds between telemetry samples fed to the LSTM
                          # cadence the model is fed a differently-paced
                          # signal than it learned from.
 CONTAINER         = os.environ.get("DG_CONTAINER", "erp_app")
+PREDICTOR_BACKEND = os.environ.get("DG_PREDICTOR", "lstm")   # "lstm" (default) or "arima"
 SOCKET_PATHS      = [
     "/var/run/docker.sock",
     os.path.expanduser("~/.docker/run/docker.sock"),
@@ -156,8 +163,12 @@ class GovernorLoop:
 
         if mode == "proactive":
             try:
-                from lstm.predictor import LSTMPredictor
-                self._predictor = LSTMPredictor()
+                if PREDICTOR_BACKEND == "arima":
+                    from lstm.arima_predictor import ARIMAPredictor
+                    self._predictor = ARIMAPredictor()
+                else:
+                    from lstm.predictor import LSTMPredictor
+                    self._predictor = LSTMPredictor()
             except FileNotFoundError as e:
                 print(f"[governor] WARNING: {e}")
                 print("[governor] Falling back to reactive mode for this run.")
@@ -289,7 +300,7 @@ class GovernorLoop:
             self._updater.apply(decision.target_cpus, decision.target_mem_gb)
         else:
             # Print a brief heartbeat every cycle
-            lstm_status = (f"LSTM buffer {self._predictor.buffer_fill()}"
+            lstm_status = (f"{PREDICTOR_BACKEND} buffer {self._predictor.buffer_fill()}"
                            if self._predictor else "reactive")
             print(f"[governor] cycle  cpu={cpu:5.1f}%  mem={mem_mb:6.0f}MB  "
                   f"cpus={current_cpus}  mem={current_mem_gb:.1f}GB  "

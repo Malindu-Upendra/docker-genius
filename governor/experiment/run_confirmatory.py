@@ -144,7 +144,14 @@ def run_pass(configs_to_run: list[str], rep_labels: list[str], seeds: list[int],
 
 
 def main():
+    global RESULTS_DIR
     ap = argparse.ArgumentParser(description="DOCKER-GENIUS confirmatory experiment")
+    ap.add_argument("--output-dir", type=str, default=None,
+                    help="Override the default experiment/confirmatory_results/ "
+                         "output directory -- use a distinct path for any partial "
+                         "re-run (e.g. a different predictor backend) so it never "
+                         "overwrites the original, already-reported confirmatory "
+                         "data at the default path.")
     ap.add_argument("--duration", type=int, default=300)
     ap.add_argument("--cooldown", type=int, default=90)
     ap.add_argument("--repeats", type=int, default=15,
@@ -161,6 +168,10 @@ def main():
                           "once the configuration is locked")
     ap.add_argument("--unseen-seed", type=int, default=99999)
     args = ap.parse_args()
+
+    if args.output_dir:
+        RESULTS_DIR = Path(args.output_dir)
+        RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
     configs_to_run = args.configs.split(",")
     updater = DockerUpdater(container="erp_app")

@@ -1,0 +1,14 @@
+ts,cpu_pct,mem_mb,current_cpus,current_mem_gb,action,target_cpus,target_mem_gb,rule,reason,cycle_ms
+2026-10-21T11:22:39.633193+00:00,0.0,57.8,0.5,0.5,none,0.5,0.5,,cycle=1  current observed  cpu=0.0%  mem=58MB  tier1_rps=0.00  cpu_cd=0  mem_cd=0,13.12
+2026-10-21T11:22:49.733782+00:00,48.55,61.6,0.5,0.5,none,0.5,0.5,,cycle=2  current observed  cpu=48.5%  mem=62MB  tier1_rps=3.90  cpu_cd=0  mem_cd=0,108.8
+2026-10-21T11:22:59.634597+00:00,49.73,61.7,0.5,0.5,none,0.5,0.5,,cycle=3  current observed  cpu=49.7%  mem=62MB  tier1_rps=4.20  cpu_cd=0  mem_cd=0,7.78
+2026-10-21T11:23:09.636816+00:00,49.62,62.2,0.5,0.5,none,0.5,0.5,,cycle=4  current observed  cpu=49.6%  mem=62MB  tier1_rps=4.33  cpu_cd=0  mem_cd=0,8.18
+2026-10-21T11:23:19.642515+00:00,49.53,62.2,0.5,0.5,none,0.5,0.5,,cycle=5  current observed  cpu=49.5%  mem=62MB  tier1_rps=4.47  cpu_cd=0  mem_cd=0,9.79
+2026-10-21T11:23:29.643686+00:00,49.53,63.3,0.5,0.5,none,0.5,0.5,,cycle=6  current observed  cpu=49.5%  mem=63MB  tier1_rps=4.60  cpu_cd=0  mem_cd=0,8.12
+2026-10-21T11:23:40.047459+00:00,50.06,64.2,0.5,0.5,scale_up_cpu,1.0,0.5,Rule 1 — Proactive CPU Scale-Up,LSTM forecast peak_cpu=85.0% > 75.0%  TIER_1 rps=4.88  cpus 0.5→1.0,409.78
+2026-10-21T11:23:49.693802+00:00,93.08,64.5,1.0,0.5,scale_up_cpu,1.5,0.5,Rule 1 — Proactive CPU Scale-Up,LSTM forecast peak_cpu=100.0% > 75.0%  TIER_1 rps=1.27  cpus 1.0→1.5,51.08
+2026-10-21T11:23:59.697398+00:00,99.21,64.6,1.5,0.5,scale_up_cpu,2.0,0.5,Rule 1 — Proactive CPU Scale-Up,LSTM forecast peak_cpu=112.6% > 75.0%  TIER_1 rps=1.23  cpus 1.5→2.0,52.94
+2026-10-21T11:24:09.693601+00:00,98.73,62.7,2.0,0.5,scale_up_cpu,2.5,0.5,Rule 1 — Proactive CPU Scale-Up,LSTM forecast peak_cpu=116.5% > 75.0%  TIER_1 rps=1.37  cpus 2.0→2.5,48.95
+2026-10-21T11:24:19.696551+00:00,99.11,62.7,2.5,0.5,scale_up_cpu,3.0,0.5,Rule 1 — Proactive CPU Scale-Up,LSTM forecast peak_cpu=117.2% > 75.0%  TIER_1 rps=1.67  cpus 2.5→3.0,51.32
+2026-10-21T11:24:29.702182+00:00,89.87,62.9,3.0,0.5,scale_up_cpu,3.5,0.5,Rule 1 — Proactive CPU Scale-Up,LSTM forecast peak_cpu=117.2% > 75.0%  TIER_1 rps=1.85  cpus 3.0→3.5,51.89
+2026-10-21T11:24:39.715103+00:00,98.38,62.2,3.5,0.5,scale_up_cpu,4.0,0.5,Rule 1 — Proactive CPU Scale-Up,LSTM forecast peak_cpu=117.6% > 75.0%  TIER_1 rps=1.87  cpus 3.5→4.0,60.5

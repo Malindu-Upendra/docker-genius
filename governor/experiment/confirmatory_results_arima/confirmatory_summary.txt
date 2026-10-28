@@ -1,0 +1,15 @@
+DOCKER-GENIUS Confirmatory Experiment — 2026-10-21T08:24:03.993529+00:00
+Duration: 300s  Repeats: 5  Base seed: 1000  Include unseen: False
+
+Config                               T1 n     P50     P95     P99  Breaches  Breach%
+────────────────────────────────────────────────────────────────────────────────
+  proactive — Full System (Proactive Hybrid)   5696   3090ms   4096ms   4313ms      2977    52.3%
+
+Per-replicate breach rates (raw input for run-level analysis):
+
+proactive — Full System (Proactive Hybrid)
+  rep1     breach%=  54.6  n=1084
+  rep2     breach%=  54.0  n=1111
+  rep3     breach%=  51.3  n=1153
+  rep4     breach%=  48.8  n=1215
+  rep5     breach%=  53.0  n=1133

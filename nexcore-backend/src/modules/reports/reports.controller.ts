@@ -17,6 +17,7 @@ class BulkGenerateOptionsDto {
   @IsOptional() @IsBoolean() research_mode?: boolean;
   @IsOptional() @IsNumber() delay_ms?: number;
   @IsOptional() @IsBoolean() isolate_tier3?: boolean;
+  @IsOptional() @IsBoolean() stress_memory?: boolean;
 }
 
 class FinancialAggregateFilterDto {

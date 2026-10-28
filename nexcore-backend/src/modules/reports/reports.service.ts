@@ -46,6 +46,42 @@ function burnCpu(iterations: number): number {
   return acc;
 }
 
+// Deliberately MEMORY-bound work, separate from burnCpu() above. CPU
+// throttling under Docker's --cpus never crashes a process -- it only
+// slows it down -- so the CPU burn alone cannot demonstrate the real
+// industry failure mode this project's proposal cites: a container
+// getting OOM-killed and restarted under resource exhaustion. Measured
+// directly: even 10 concurrent research-mode bulk-generate calls (the
+// existing CPU burn) only pushed erp_app's resident memory to ~90MB,
+// nowhere near enough to threaten any realistic container memory limit.
+//
+// This simulates a real, common memory-pressure cause -- an unbounded
+// in-memory cache of recent export buffers (e.g. "let users re-download
+// their last few reports without re-querying") -- by retaining actual
+// allocated Buffers (not transient garbage immediately freed) up to
+// MEMORY_RETENTION_SLOTS at a time, each MEMORY_BURN_MB in size. Entirely
+// opt-in via `stress_memory`, independent of `research_mode`/
+// `isolate_tier3` above, so it cannot affect any already-reported result.
+// Overridable per demo scenario -- the plateau (slots x burn size) needs
+// to actually exceed whatever container memory ceiling is being tested,
+// so a tighter ceiling (e.g. 512MB) needs a higher plateau than the one
+// already verified to OOM a 200MB ceiling (10 x 24MB = 240MB plateau).
+const MEMORY_BURN_MB = Number(process.env.DG_MEMORY_BURN_MB ?? 24);
+const MEMORY_RETENTION_SLOTS = Number(process.env.DG_MEMORY_RETENTION_SLOTS ?? 10);
+const _retainedExportBuffers: Buffer[] = [];
+
+function memoryBurn(mb: number): void {
+  // Buffer.alloc (not allocUnsafe) zero-fills, which forces the OS to
+  // actually commit real resident pages -- an uninitialised allocation
+  // can be lazily backed and may not count against cgroup memory the
+  // same way until touched.
+  const buf = Buffer.alloc(mb * 1024 * 1024, 1);
+  _retainedExportBuffers.push(buf);
+  while (_retainedExportBuffers.length > MEMORY_RETENTION_SLOTS) {
+    _retainedExportBuffers.shift();
+  }
+}
+
 @Injectable()
 export class ReportsService {
   constructor(private readonly dataSource: DataSource) {}
@@ -329,7 +365,7 @@ export class ReportsService {
   // TIER_3: Bulk report generation — sequential execution to maximize CPU load
   async bulkGenerate(
     tenantId: string,
-    options: { research_mode?: boolean; delay_ms?: number; isolate_tier3?: boolean } = {},
+    options: { research_mode?: boolean; delay_ms?: number; isolate_tier3?: boolean; stress_memory?: boolean } = {},
   ) {
     const delayMs = options.delay_ms ?? 0;
     const results: Record<string, any> = {};
@@ -384,11 +420,19 @@ export class ReportsService {
       }
     }
 
+    // See MEMORY_BURN_MB comment above — independent of research_mode, so
+    // the CPU-burn-based results already reported are never affected by
+    // enabling this.
+    if (options.stress_memory) {
+      memoryBurn(MEMORY_BURN_MB);
+    }
+
     return {
       generatedAt: new Date(),
       tenantId,
       researchMode: options.research_mode ?? false,
       tier3Isolated: options.isolate_tier3 ?? false,
+      memoryStressed: options.stress_memory ?? false,
       reports: results,
     };
   }

@@ -58,6 +58,14 @@ N_TIER1       = 8      # concurrent Tier-1 worker threads
 # differentiable 15-30% range (measured 17.8% in isolation).
 N_TIER3       = 2      # concurrent Tier-3 burst workers
 TIER3_INTERVAL = 4     # seconds each Tier-3 worker waits between its own bursts
+# Off by default -- only for the illustrative OOM/pod-restart demo scenario,
+# never for any statistically-reported experiment. Independent of
+# research_mode, so enabling it cannot affect any already-reported result.
+STRESS_MEMORY = os.environ.get("DG_STRESS_MEMORY", "0") == "1"
+# Off by default -- routes the research-mode CPU burn onto a worker thread
+# (see cpu-burn-pool.ts / review item #7) instead of blocking the main
+# event loop. Independent of research_mode's own on/off state.
+ISOLATE_TIER3 = os.environ.get("DG_ISOLATE_TIER3", "0") == "1"
 PRINT_INTERVAL = 5     # seconds between stats printout
 
 # ── Shared state ─────────────────────────────────────────────────────────────
@@ -190,9 +198,14 @@ def tier3_burst(base: str, worker_id: int = 0, interval: int = TIER3_INTERVAL):
 
         t0 = time.perf_counter()
         try:
+            payload = {"research_mode": True}
+            if STRESS_MEMORY:
+                payload["stress_memory"] = True
+            if ISOLATE_TIER3:
+                payload["isolate_tier3"] = True
             resp = requests.post(f"{base}/api/reports/bulk-generate",
                                  headers=headers(token),
-                                 json={"research_mode": True},
+                                 json=payload,
                                  timeout=180)
             latency_ms = (time.perf_counter() - t0) * 1000
             status     = resp.status_code

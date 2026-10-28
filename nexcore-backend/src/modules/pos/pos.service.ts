@@ -74,7 +74,15 @@ export class PosService {
           const totalAmount = subtotal - discountAmount + taxAmount;
           const amountTendered = dto.payments.reduce((s, p) => s + p.amount, 0);
 
-          if (amountTendered < totalAmount) {
+          // Compare in integer cents, not raw floats: a caller that rounds
+          // its own total to 2dp before sending payment (as any real client
+          // naturally would) can otherwise be short by a sub-cent floating-
+          // point remainder against this reduce()'s unrounded sum, and get
+          // spuriously rejected here even though the payment was correct to
+          // the cent. Observed causing ~10% of load-test checkouts to fail
+          // with "insufficient payment" despite exact-cent payment amounts.
+          const toCents = (n: number) => Math.round(n * 100);
+          if (toCents(amountTendered) < toCents(totalAmount)) {
             throw new BadRequestException(`Insufficient payment: tendered ${amountTendered}, required ${totalAmount}`);
           }
 

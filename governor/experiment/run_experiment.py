@@ -376,6 +376,18 @@ def main():
                          "so separate invocations never silently overwrite "
                          "each other's raw per-rep data (see NEXT_STEPS.md's "
                          "§1k data-retention gap for why this now exists).")
+    ap.add_argument("--start-cpus", type=float, default=None,
+                    help="Override the starting CPU allocation every group in "
+                         "this run resets to (default: BASELINE_CPUS=%.1f). For "
+                         "demo scenarios only (e.g. the OOM/pod-restart "
+                         "illustration) -- never set this for a run whose "
+                         "numbers will be reported, since it changes the "
+                         "starting conditions away from every other reported "
+                         "experiment." % BASELINE_CPUS)
+    ap.add_argument("--start-mem-gb", type=float, default=None,
+                    help="Override the starting memory allocation every group "
+                         "in this run resets to (default: BASELINE_MEM_GB=%.1f). "
+                         "Same demo-only caveat as --start-cpus." % BASELINE_MEM_GB)
     args = ap.parse_args()
 
     if args.output_dir:
@@ -418,7 +430,9 @@ def main():
             gov_path = rep_dir / f"group{group['num']}_governor.csv"
             try:
                 summary = run_group(group, args.duration, updater,
-                                     kpi_path, gov_path, rep_label)
+                                     kpi_path, gov_path, rep_label,
+                                     static_cpus=args.start_cpus,
+                                     static_mem_gb=args.start_mem_gb)
             except GroupFailedError as e:
                 print(f"\n[harness] ✗ ABORTING — {e}")
                 print("[harness] Resetting container to baseline before exit.")

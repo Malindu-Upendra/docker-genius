@@ -67,6 +67,13 @@ services:
       DB_DATABASE: demo_nexcore
       JWT_SECRET: docker-genius-jwt-secret-2026
       JWT_EXPIRES_IN: 24h
+      # Calibrated for the OOM/pod-restart illustration in the paper's
+      # "Why Does Prediction Not Help?" section -- the plateau (slots x
+      # burn size = 640MB) reliably exceeds a 512MB container ceiling under
+      # sustained TIER_3 load, while still being well above normal idle
+      # usage (~45MB) so the app is unaffected outside that scenario.
+      DG_MEMORY_BURN_MB: "32"
+      DG_MEMORY_RETENTION_SLOTS: "20"
     ports:
       - "3000:3000"
     restart: on-failure:5
