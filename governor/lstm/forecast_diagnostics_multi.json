@@ -1,0 +1,34 @@
+{
+  "persistence": {
+    "threshold_pct": 75.0,
+    "n_test_windows": 151,
+    "n_true_events": 126,
+    "n_predicted_events": 17,
+    "tp": 14,
+    "fn": 112,
+    "fp": 3,
+    "tn": 22,
+    "recall": 0.111,
+    "precision": 0.824,
+    "false_alarm_rate": 0.12,
+    "median_lead_time_s": 0.0,
+    "mean_lead_time_s": 2.4,
+    "n_lead_time_samples": 14
+  },
+  "gru": {
+    "threshold_pct": 75.0,
+    "n_test_windows": 151,
+    "n_true_events": 126,
+    "n_predicted_events": 0,
+    "tp": 0,
+    "fn": 126,
+    "fp": 0,
+    "tn": 25,
+    "recall": 0.0,
+    "precision": null,
+    "false_alarm_rate": 0.0,
+    "median_lead_time_s": null,
+    "mean_lead_time_s": null,
+    "n_lead_time_samples": 0
+  }
+}

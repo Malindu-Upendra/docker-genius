@@ -1,0 +1,57 @@
+{
+  "dataset": {
+    "csv_path": "lstm/training_data.csv",
+    "raw_rows": 1196,
+    "windowed_samples": 749,
+    "train_samples": 538,
+    "val_samples": 60,
+    "test_samples": 151,
+    "split": "60%/20%/20% (train/val/test, temporal, no shuffle, 90-step embargo at each internal boundary)",
+    "embargo_steps": 90
+  },
+  "architecture": {
+    "cell_type": "GRU",
+    "window_size_steps": 60,
+    "horizon_steps": 30,
+    "features": [
+      "cpu_pct",
+      "mem_mb"
+    ],
+    "gru_units": [
+      64,
+      32
+    ],
+    "dropout": 0.2
+  },
+  "training_config": {
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "loss": "mse",
+    "batch_size": 32,
+    "max_epochs": 50,
+    "epochs_run": 23,
+    "early_stopping_patience": 8,
+    "train_wall_time_s": 10.2
+  },
+  "hardware": {
+    "platform": "macOS-15.4.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm",
+    "python_version": "3.12.13",
+    "tensorflow_version": "2.21.0"
+  },
+  "results": {
+    "val_mse_scaled": 0.053469,
+    "val_mae_scaled": 0.194465,
+    "test_cpu_mae_pct": 19.527,
+    "test_cpu_rmse_pct": 24.611,
+    "test_mem_mae_mb": 22.181,
+    "test_mem_rmse_mb": 25.573,
+    "inference_time_ms_mean": 31.98,
+    "inference_time_runs": 20
+  },
+  "checksums_sha256": {
+    "gru_model.keras": "446afa543a9d1f0686d0480e730fc8bc71c5ef75027235b1365e36574522d3c6",
+    "gru_scaler.pkl": "8643da7ae6ecb7b89afe44d9a656678778404db1269698917fbc638ed291e7cb"
+  }
+}

@@ -24,10 +24,14 @@ Mode selection:
   "static"    → loop does not start at all  (Group 1 — control)
 
 Predictor backend (proactive mode only) is selected via the DG_PREDICTOR
-env var — "lstm" (default, unchanged behaviour) or "arima". Added to test
-whether the LSTM's 0% recall on real CPU>75% events (vs. ARIMA's 6.3% in
-an offline check) was masking any real benefit of proactive governance —
-see the paper's Threats to Validity / forecast diagnostics discussion.
+env var — "lstm" (default, unchanged behaviour), "arima", "persistence", or
+"gru". Added to test whether the LSTM's 0% recall on real CPU>75% events
+(vs. ARIMA's 6.3% in an offline check) was masking any real benefit of
+proactive governance — see the paper's Threats to Validity / forecast
+diagnostics discussion. "persistence" and "gru" extend the same check to a
+second and third alternative forecaster (a zero-effort naive baseline and a
+second trained neural network), since a conclusion drawn from ARIMA alone
+is only one data point.
 """
 
 from __future__ import annotations
@@ -166,6 +170,12 @@ class GovernorLoop:
                 if PREDICTOR_BACKEND == "arima":
                     from lstm.arima_predictor import ARIMAPredictor
                     self._predictor = ARIMAPredictor()
+                elif PREDICTOR_BACKEND == "persistence":
+                    from lstm.persistence_predictor import PersistencePredictor
+                    self._predictor = PersistencePredictor()
+                elif PREDICTOR_BACKEND == "gru":
+                    from lstm.gru_predictor import GRUPredictor
+                    self._predictor = GRUPredictor()
                 else:
                     from lstm.predictor import LSTMPredictor
                     self._predictor = LSTMPredictor()
