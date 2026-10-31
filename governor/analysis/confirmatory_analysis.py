@@ -33,13 +33,22 @@ OUT_PATH = RESULTS_DIR / "confirmatory_analysis.json"
 
 # Per-replicate TIER_1 breach rates (%), rep1..rep15, read from
 # confirmatory_summary.txt's "Per-replicate breach rates" section.
+#
+# NOTE: this replaces an earlier version of this table that was generated
+# from a confirmatory run executed with the rule engine's *default* step
+# size/cooldown env vars rather than the locked aggressive configuration
+# (Section sec:locked-configuration) the experiment was designed to test.
+# That misconfigured run is preserved for audit purposes at
+# experiment/confirmatory_results_v1_misconfigured/. The data below is from
+# the corrected re-run (DG_CPU_STEP=1.5 DG_MEM_STEP_MB=1024
+# DG_COOLDOWN_CYCLES=2), executed 2026-10-31.
 DATA = {
-    "static_equal": [19.6, 19.4, 19.3, 19.5, 19.6, 19.8, 19.4, 14.7, 18.1, 17.3, 19.4, 19.4, 11.7, 17.9, 19.2],
-    "reactive":     [19.7, 19.9, 14.7, 19.5, 19.9, 19.4, 18.4, 19.6, 19.6, 19.8, 18.2, 15.1, 19.6, 18.4, 19.4],
-    "lstm_only":    [19.5, 19.9, 19.4, 19.4, 19.1, 19.6, 18.5, 19.5, 16.3, 17.2, 14.2, 19.5, 19.3, 17.2, 19.6],
-    "proactive":    [19.4, 19.2, 19.6, 18.9, 19.2, 20.0, 19.6, 19.5, 19.2, 19.4, 17.3, 17.2, 17.3, 18.1, 18.6],
+    "static_equal": [14.2, 16.1, 15.0, 19.5, 20.3, 14.4, 9.8, 11.7, 15.6, 16.0, 14.4, 18.7, 13.6, 13.9, 17.2],
+    "reactive":     [19.9, 12.0, 22.4, 11.0, 23.4, 12.6, 18.4, 11.0, 15.9, 16.2, 12.8, 12.4, 14.4, 14.0, 18.8],
+    "lstm_only":    [19.8, 16.2, 22.1, 23.6, 12.3, 21.2, 12.9, 19.8, 12.3, 13.4, 15.9, 18.7, 13.3, 16.0, 13.3],
+    "proactive":    [19.6, 13.7, 19.8, 18.1, 19.6, 18.7, 18.5, 11.9, 18.2, 10.6, 15.5, 16.5, 16.0, 15.2, 11.8],
 }
-UNSEEN = {"static_equal": 19.2, "reactive": 19.3, "lstm_only": 19.3, "proactive": 19.8}
+UNSEEN = {"static_equal": 12.8, "reactive": 19.6, "lstm_only": 18.6, "proactive": 15.2}
 
 N_PERM = 100_000
 N_BOOT = 100_000

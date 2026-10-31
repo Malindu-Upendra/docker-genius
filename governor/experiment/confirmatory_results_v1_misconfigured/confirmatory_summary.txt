@@ -1,0 +1,83 @@
+DOCKER-GENIUS Confirmatory Experiment — 2026-09-20T20:07:59.136390+00:00
+Duration: 300s  Repeats: 15  Base seed: 1000  Include unseen: True
+
+Config                               T1 n     P50     P95     P99  Breaches  Breach%
+────────────────────────────────────────────────────────────────────────────────
+  static_equal — Static (Equal-Resource)  55399      9ms   2893ms   2926ms      9989    18.0%
+  reactive — Reactive-Only (Semantic)  53801      9ms   2897ms   2931ms     10014    18.6%
+  lstm_only — LSTM Only (No Semantic)  54364      9ms   2896ms   2927ms     10023    18.4%
+  proactive — Full System (Proactive Hybrid)  53462      9ms   2896ms   2927ms     10051    18.8%
+
+Per-replicate breach rates (raw input for run-level analysis):
+
+static_equal — Static (Equal-Resource)
+  rep1     breach%=  19.6  n=3447
+  rep2     breach%=  19.4  n=3497
+  rep3     breach%=  19.3  n=3478
+  rep4     breach%=  19.5  n=3482
+  rep5     breach%=  19.6  n=3476
+  rep6     breach%=  19.8  n=3377
+  rep7     breach%=  19.4  n=3493
+  rep8     breach%=  14.7  n=4310
+  rep9     breach%=  18.1  n=3674
+  rep10    breach%=  17.3  n=3836
+  rep11    breach%=  19.4  n=3498
+  rep12    breach%=  19.4  n=3503
+  rep13    breach%=  11.7  n=5112
+  rep14    breach%=  17.9  n=3710
+  rep15    breach%=  19.2  n=3506
+  unseen   breach%=  19.2  n=3501
+
+reactive — Reactive-Only (Semantic)
+  rep1     breach%=  19.7  n=3410
+  rep2     breach%=  19.9  n=3374
+  rep3     breach%=  14.7  n=4313
+  rep4     breach%=  19.5  n=3475
+  rep5     breach%=  19.9  n=3373
+  rep6     breach%=  19.4  n=3459
+  rep7     breach%=  18.4  n=3601
+  rep8     breach%=  19.6  n=3424
+  rep9     breach%=  19.6  n=3431
+  rep10    breach%=  19.8  n=3443
+  rep11    breach%=  18.2  n=3656
+  rep12    breach%=  15.1  n=4250
+  rep13    breach%=  19.6  n=3465
+  rep14    breach%=  18.4  n=3649
+  rep15    breach%=  19.4  n=3478
+  unseen   breach%=  19.3  n=3483
+
+lstm_only — LSTM Only (No Semantic)
+  rep1     breach%=  19.5  n=3485
+  rep2     breach%=  19.9  n=3390
+  rep3     breach%=  19.4  n=3462
+  rep4     breach%=  19.4  n=3509
+  rep5     breach%=  19.1  n=3510
+  rep6     breach%=  19.6  n=3465
+  rep7     breach%=  18.5  n=3587
+  rep8     breach%=  19.5  n=3439
+  rep9     breach%=  16.3  n=3968
+  rep10    breach%=  17.2  n=3816
+  rep11    breach%=  14.2  n=4461
+  rep12    breach%=  19.5  n=3481
+  rep13    breach%=  19.3  n=3512
+  rep14    breach%=  17.2  n=3809
+  rep15    breach%=  19.6  n=3470
+  unseen   breach%=  19.3  n=3487
+
+proactive — Full System (Proactive Hybrid)
+  rep1     breach%=  19.4  n=3512
+  rep2     breach%=  19.2  n=3496
+  rep3     breach%=  19.6  n=3470
+  rep4     breach%=  18.9  n=3552
+  rep5     breach%=  19.2  n=3496
+  rep6     breach%=  20.0  n=3407
+  rep7     breach%=  19.6  n=3425
+  rep8     breach%=  19.5  n=3444
+  rep9     breach%=  19.2  n=3494
+  rep10    breach%=  19.4  n=3473
+  rep11    breach%=  17.3  n=3784
+  rep12    breach%=  17.2  n=3835
+  rep13    breach%=  17.3  n=3789
+  rep14    breach%=  18.1  n=3673
+  rep15    breach%=  18.6  n=3612
+  unseen   breach%=  19.8  n=3443
