@@ -1,83 +1,122 @@
-DOCKER-GENIUS Confirmatory Experiment — 2026-10-31T14:12:26.902764+00:00
-Duration: 300s  Repeats: 15  Base seed: 1000  Include unseen: True
+DOCKER-GENIUS Confirmatory Experiment v3 (corrected) — 2026-11-05T14:17:03.202245+00:00
+Duration: 300s  Repeats: 15  Base seed: 2000  Include unseen: True
+Tier-1 duty cycle: 200.0s on / 100.0s off
 
-Config                               T1 n     P50     P95     P99  Breaches  Breach%
-────────────────────────────────────────────────────────────────────────────────
-  static_equal — Static (Equal-Resource)  62468      8ms   2912ms   2996ms      9312    14.9%
-  reactive — Reactive-Only (Semantic)  62134      8ms   2917ms   3389ms      9281    14.9%
-  lstm_only — LSTM Only (No Semantic)  59014      8ms   2920ms   3144ms      9446    16.0%
-  proactive — Full System (Proactive Hybrid)  59969      8ms   2923ms   3448ms      9443    15.8%
+Config                                       T1 n     P50     P95     P99  Breaches  Breach%
+──────────────────────────────────────────────────────────────────────────────────────────
+  static_equal — Static (Equal-Resource)    29800   1239ms   2872ms   6319ms     23682    79.5%
+  A_base — Reactive — No Semantic, No LSTM  29789   1262ms   2908ms   4576ms     23855    80.1%
+  B_semantic — Reactive — Semantic Only     29840   1362ms   3271ms   5714ms     24425    81.8%
+  C_lstm — Proactive — LSTM Only (No Semantic)  29804   1269ms   2884ms   3639ms     24011    80.6%
+  D_full — Proactive — Full System (Semantic + LSTM)  29833   1313ms   3194ms  10686ms     24176    81.0%
+  E_isolation — Full System + Request-Class Isolation  29824     11ms     26ms     34ms        78     0.3%
 
 Per-replicate breach rates (raw input for run-level analysis):
 
 static_equal — Static (Equal-Resource)
-  rep1     breach%=  14.2  n=4331
-  rep2     breach%=  16.1  n=3966
-  rep3     breach%=  15.0  n=4210
-  rep4     breach%=  19.5  n=2916
-  rep5     breach%=  20.3  n=2922
-  rep6     breach%=  14.4  n=4333
-  rep7     breach%=   9.8  n=5734
-  rep8     breach%=  11.7  n=5189
-  rep9     breach%=  15.6  n=4109
-  rep10    breach%=  16.0  n=4011
-  rep11    breach%=  14.4  n=4323
-  rep12    breach%=  18.7  n=3559
-  rep13    breach%=  13.6  n=4523
-  rep14    breach%=  13.9  n=4540
-  rep15    breach%=  17.2  n=3802
-  unseen   breach%=  12.8  n=4761
+  rep1     breach%=  79.2  n=2066
+  rep2     breach%=  80.3  n=1913
+  rep3     breach%=  83.2  n=1975
+  rep4     breach%=  80.5  n=1996
+  rep5     breach%=  77.8  n=1954
+  rep6     breach%=  81.7  n=2049
+  rep7     breach%=  78.3  n=2016
+  rep8     breach%=  79.4  n=2003
+  rep9     breach%=  80.1  n=1960
+  rep10    breach%=  80.6  n=1993
+  rep11    breach%=  79.3  n=1970
+  rep12    breach%=  73.8  n=2071
+  rep13    breach%=  79.6  n=1980
+  rep14    breach%=  79.9  n=1856
+  rep15    breach%=  78.4  n=1998
+  unseen   breach%=  79.9  n=2008
 
-reactive — Reactive-Only (Semantic)
-  rep1     breach%=  19.9  n=3336
-  rep2     breach%=  12.0  n=5006
-  rep3     breach%=  22.4  n=2789
-  rep4     breach%=  11.0  n=4782
-  rep5     breach%=  23.4  n=2593
-  rep6     breach%=  12.6  n=4817
-  rep7     breach%=  18.4  n=3602
-  rep8     breach%=  11.0  n=5329
-  rep9     breach%=  15.9  n=4025
-  rep10    breach%=  16.2  n=4008
-  rep11    breach%=  12.8  n=4734
-  rep12    breach%=  12.4  n=4831
-  rep13    breach%=  14.4  n=4345
-  rep14    breach%=  14.0  n=4444
-  rep15    breach%=  18.8  n=3493
-  unseen   breach%=  19.6  n=3432
+A_base — Reactive — No Semantic, No LSTM
+  rep1     breach%=  75.7  n=2065
+  rep2     breach%=  79.2  n=1916
+  rep3     breach%=  79.4  n=1975
+  rep4     breach%=  92.1  n=1994
+  rep5     breach%=  79.8  n=1959
+  rep6     breach%=  77.3  n=2045
+  rep7     breach%=  81.1  n=2017
+  rep8     breach%=  81.8  n=2005
+  rep9     breach%=  80.8  n=1954
+  rep10    breach%=  81.1  n=1992
+  rep11    breach%=  76.6  n=1971
+  rep12    breach%=  76.5  n=2069
+  rep13    breach%=  81.2  n=1980
+  rep14    breach%=  81.0  n=1849
+  rep15    breach%=  78.0  n=1998
+  unseen   breach%=  78.3  n=2014
 
-lstm_only — LSTM Only (No Semantic)
-  rep1     breach%=  19.8  n=3360
-  rep2     breach%=  16.2  n=3993
-  rep3     breach%=  22.1  n=2857
-  rep4     breach%=  23.6  n=2542
-  rep5     breach%=  12.3  n=4801
-  rep6     breach%=  21.2  n=2948
-  rep7     breach%=  12.9  n=4713
-  rep8     breach%=  19.8  n=3401
-  rep9     breach%=  12.3  n=4869
-  rep10    breach%=  13.4  n=4608
-  rep11    breach%=  15.9  n=4025
-  rep12    breach%=  18.7  n=3544
-  rep13    breach%=  13.3  n=4625
-  rep14    breach%=  16.0  n=4005
-  rep15    breach%=  13.3  n=4723
-  unseen   breach%=  18.6  n=3578
+B_semantic — Reactive — Semantic Only
+  rep1     breach%=  79.2  n=2074
+  rep2     breach%=  77.4  n=1915
+  rep3     breach%=  91.1  n=1981
+  rep4     breach%=  84.9  n=1992
+  rep5     breach%=  88.4  n=1954
+  rep6     breach%=  88.6  n=2048
+  rep7     breach%=  80.7  n=2017
+  rep8     breach%=  80.1  n=2008
+  rep9     breach%=  82.3  n=1959
+  rep10    breach%=  81.2  n=2000
+  rep11    breach%=  78.7  n=1975
+  rep12    breach%=  77.1  n=2078
+  rep13    breach%=  80.7  n=1986
+  rep14    breach%=  79.2  n=1849
+  rep15    breach%=  78.1  n=2004
+  unseen   breach%=  80.7  n=2028
 
-proactive — Full System (Proactive Hybrid)
-  rep1     breach%=  19.6  n=3379
-  rep2     breach%=  13.7  n=4559
-  rep3     breach%=  19.8  n=3064
-  rep4     breach%=  18.1  n=3173
-  rep5     breach%=  19.6  n=3268
-  rep6     breach%=  18.7  n=3551
-  rep7     breach%=  18.5  n=3591
-  rep8     breach%=  11.9  n=4983
-  rep9     breach%=  18.2  n=3639
-  rep10    breach%=  10.6  n=5295
-  rep11    breach%=  15.5  n=4182
-  rep12    breach%=  16.5  n=3919
-  rep13    breach%=  16.0  n=4075
-  rep14    breach%=  15.2  n=4221
-  rep15    breach%=  11.8  n=5070
-  unseen   breach%=  15.2  n=4143
+C_lstm — Proactive — LSTM Only (No Semantic)
+  rep1     breach%=  77.2  n=2065
+  rep2     breach%=  79.2  n=1916
+  rep3     breach%=  80.7  n=1974
+  rep4     breach%=  83.8  n=1993
+  rep5     breach%=  80.3  n=1961
+  rep6     breach%=  80.1  n=2042
+  rep7     breach%=  84.9  n=2016
+  rep8     breach%=  85.1  n=2008
+  rep9     breach%=  80.5  n=1954
+  rep10    breach%=  79.5  n=1992
+  rep11    breach%=  78.9  n=1973
+  rep12    breach%=  81.1  n=2071
+  rep13    breach%=  79.3  n=1981
+  rep14    breach%=  79.6  n=1856
+  rep15    breach%=  78.1  n=2002
+  unseen   breach%=  77.6  n=2012
+
+D_full — Proactive — Full System (Semantic + LSTM)
+  rep1     breach%=  77.2  n=2070
+  rep2     breach%=  94.4  n=1912
+  rep3     breach%=  80.9  n=1981
+  rep4     breach%=  82.6  n=1999
+  rep5     breach%=  79.8  n=1955
+  rep6     breach%=  82.0  n=2041
+  rep7     breach%=  79.3  n=2021
+  rep8     breach%=  81.2  n=2010
+  rep9     breach%=  80.6  n=1959
+  rep10    breach%=  80.7  n=1994
+  rep11    breach%=  80.7  n=1974
+  rep12    breach%=  79.2  n=2077
+  rep13    breach%=  79.9  n=1987
+  rep14    breach%=  79.7  n=1855
+  rep15    breach%=  78.1  n=1998
+  unseen   breach%=  77.6  n=2006
+
+E_isolation — Full System + Request-Class Isolation
+  rep1     breach%=   0.2  n=2066
+  rep2     breach%=   0.1  n=1910
+  rep3     breach%=   0.3  n=1978
+  rep4     breach%=   0.4  n=1995
+  rep5     breach%=   0.4  n=1958
+  rep6     breach%=   0.1  n=2043
+  rep7     breach%=   0.4  n=2023
+  rep8     breach%=   0.2  n=2007
+  rep9     breach%=   0.1  n=1953
+  rep10    breach%=   0.2  n=1997
+  rep11    breach%=   0.1  n=1972
+  rep12    breach%=   1.2  n=2094
+  rep13    breach%=   0.1  n=1981
+  rep14    breach%=   0.0  n=1849
+  rep15    breach%=   0.1  n=1998
+  unseen   breach%=   0.1  n=2007

@@ -1,0 +1,34 @@
+ts,cpu_pct,cpu_pct_norm,mem_mb,current_cpus,current_mem_gb,action,target_cpus,target_mem_gb,rule,reason,tier1_active,no_recent_breach,tier1_rps,tier1_breach_count,governor_cpu_pct,cycle_ms
+2026-11-05T06:13:32.724614+00:00,0.0,0.0,158.9,2.0,2.0,scale_down_cpu,1.5,2.0,Rule 3 — CPU Cooldown,current observed mean_cpu=0.0% raw (0.0% of 2.0-core limit) < 25.0%  no SLA breaches  cpus 2.0→1.5,True,True,0.0,0,0.1,13.57
+2026-11-05T06:13:42.737043+00:00,98.63,65.75,152.2,1.5,2.0,scale_down_mem,1.5,1.5,Rule 4 — Memory Cooldown,current observed mean_mem=152MB < threshold 778MB  no SLA breaches  mem 2.00→1.50 GB,True,True,1.317,0,0.1,15.88
+2026-11-05T06:13:52.739596+00:00,58.88,39.25,160.5,1.5,1.5,none,1.5,1.5,,cycle=3  current observed  cpu=58.9%  mem=160MB  tier1_rps=3.32  cpu_cd=4  mem_cd=5,True,True,3.317,2,0.1,13.6
+2026-11-05T06:14:02.752102+00:00,99.02,66.01,162.4,1.5,1.5,none,1.5,1.5,,cycle=4  current observed  cpu=99.0%  mem=162MB  tier1_rps=4.92  cpu_cd=3  mem_cd=4,True,True,4.917,2,0.1,16.01
+2026-11-05T06:14:12.759524+00:00,55.02,36.68,162.3,1.5,1.5,none,1.5,1.5,,cycle=5  current observed  cpu=55.0%  mem=162MB  tier1_rps=6.63  cpu_cd=2  mem_cd=3,True,True,6.633,3,0.1,13.3
+2026-11-05T06:14:22.759192+00:00,98.29,65.53,161.0,1.5,1.5,none,1.5,1.5,,cycle=6  current observed  cpu=98.3%  mem=161MB  tier1_rps=8.48  cpu_cd=1  mem_cd=2,True,True,8.483,3,0.1,8.94
+2026-11-05T06:14:32.973086+00:00,98.54,54.19,161.2,1.5,1.5,none,1.5,1.5,,cycle=7  LSTM forecast  cpu=81.3%  mem=165MB  tier1_rps=10.22  cpu_cd=0  mem_cd=1,True,True,10.217,3,2.0,221.42
+2026-11-05T06:14:42.806098+00:00,98.51,53.35,160.8,1.5,1.5,scale_down_mem,1.5,1.0,Rule 4 — Memory Cooldown,LSTM forecast mean_mem=164MB < threshold 584MB  no SLA breaches  mem 1.50→1.00 GB,True,True,10.183,3,0.6,47.75
+2026-11-05T06:14:52.804749+00:00,98.29,53.89,160.9,1.5,1.0,none,1.5,1.0,,cycle=9  LSTM forecast  cpu=80.8%  mem=165MB  tier1_rps=9.92  cpu_cd=0  mem_cd=5,True,True,9.917,1,0.5,44.99
+2026-11-05T06:15:02.820260+00:00,54.61,53.89,159.6,1.5,1.0,none,1.5,1.0,,cycle=10  LSTM forecast  cpu=80.8%  mem=165MB  tier1_rps=10.03  cpu_cd=0  mem_cd=4,True,True,10.033,1,0.6,55.94
+2026-11-05T06:15:12.816731+00:00,92.74,54.34,159.4,1.5,1.0,none,1.5,1.0,,cycle=11  LSTM forecast  cpu=81.5%  mem=165MB  tier1_rps=10.28  cpu_cd=0  mem_cd=3,True,True,10.283,0,0.5,51.74
+2026-11-05T06:15:22.822483+00:00,69.42,55.02,159.5,1.5,1.0,none,1.5,1.0,,cycle=12  LSTM forecast  cpu=82.5%  mem=165MB  tier1_rps=10.02  cpu_cd=0  mem_cd=2,True,True,10.017,0,0.6,54.79
+2026-11-05T06:15:32.818142+00:00,98.77,54.22,159.5,1.5,1.0,none,1.5,1.0,,cycle=13  LSTM forecast  cpu=81.3%  mem=165MB  tier1_rps=9.30  cpu_cd=0  mem_cd=1,True,True,9.3,0,0.4,44.49
+2026-11-05T06:15:42.822104+00:00,99.25,55.13,160.4,1.5,1.0,none,1.5,1.0,,cycle=14  LSTM forecast  cpu=82.7%  mem=165MB  tier1_rps=9.33  cpu_cd=0  mem_cd=0,True,True,9.333,0,0.4,43.98
+2026-11-05T06:15:52.821617+00:00,98.86,54.53,161.4,1.5,1.0,none,1.5,1.0,,cycle=15  LSTM forecast  cpu=81.8%  mem=165MB  tier1_rps=9.28  cpu_cd=0  mem_cd=0,True,True,9.283,0,0.4,36.41
+2026-11-05T06:16:02.846708+00:00,86.26,54.24,161.1,1.5,1.0,none,1.5,1.0,,cycle=16  LSTM forecast  cpu=81.4%  mem=165MB  tier1_rps=9.30  cpu_cd=0  mem_cd=0,True,True,9.3,0,0.5,53.68
+2026-11-05T06:16:12.836563+00:00,28.09,53.67,160.9,1.5,1.0,none,1.5,1.0,,cycle=17  LSTM forecast  cpu=80.5%  mem=165MB  tier1_rps=9.10  cpu_cd=0  mem_cd=0,True,True,9.1,0,0.4,36.55
+2026-11-05T06:16:22.864497+00:00,98.52,53.31,161.9,1.5,1.0,none,1.5,1.0,,cycle=18  LSTM forecast  cpu=80.0%  mem=165MB  tier1_rps=8.98  cpu_cd=0  mem_cd=0,True,True,8.983,1,0.5,61.61
+2026-11-05T06:16:32.867581+00:00,98.1,54.95,161.1,1.5,1.0,none,1.5,1.0,,cycle=19  LSTM forecast  cpu=82.4%  mem=165MB  tier1_rps=9.68  cpu_cd=0  mem_cd=0,True,True,9.683,2,0.6,62.74
+2026-11-05T06:16:42.845240+00:00,98.91,53.6,160.6,1.5,1.0,none,1.5,1.0,,cycle=20  LSTM forecast  cpu=80.4%  mem=165MB  tier1_rps=9.85  cpu_cd=0  mem_cd=0,True,True,9.85,2,0.4,37.15
+2026-11-05T06:16:52.861852+00:00,80.52,53.41,160.3,1.5,1.0,none,1.5,1.0,,cycle=21  LSTM forecast  cpu=80.1%  mem=165MB  tier1_rps=9.70  cpu_cd=0  mem_cd=0,True,True,9.7,2,0.5,48.64
+2026-11-05T06:17:02.888545+00:00,74.23,53.52,163.6,1.5,1.0,none,1.5,1.0,,cycle=22  LSTM forecast  cpu=80.3%  mem=165MB  tier1_rps=8.32  cpu_cd=0  mem_cd=0,True,True,8.317,2,0.6,73.98
+2026-11-05T06:17:12.859000+00:00,98.05,51.88,160.5,1.5,1.0,none,1.5,1.0,,cycle=23  LSTM forecast  cpu=77.8%  mem=165MB  tier1_rps=6.55  cpu_cd=0  mem_cd=0,True,True,6.55,2,0.4,43.59
+2026-11-05T06:17:22.862295+00:00,97.85,51.61,160.5,1.5,1.0,none,1.5,1.0,,cycle=24  LSTM forecast  cpu=77.4%  mem=165MB  tier1_rps=5.07  cpu_cd=0  mem_cd=0,True,True,5.067,1,0.5,42.91
+2026-11-05T06:17:32.874574+00:00,98.53,50.73,160.5,1.5,1.0,none,1.5,1.0,,cycle=25  LSTM forecast  cpu=76.1%  mem=165MB  tier1_rps=3.43  cpu_cd=0  mem_cd=0,True,True,3.433,0,0.5,45.06
+2026-11-05T06:17:42.875377+00:00,84.41,50.69,160.4,1.5,1.0,none,1.5,1.0,,cycle=26  LSTM forecast  cpu=76.0%  mem=166MB  tier1_rps=1.88  cpu_cd=0  mem_cd=0,True,True,1.883,0,0.5,44.45
+2026-11-05T06:17:52.875061+00:00,9.44,50.64,163.1,1.5,1.0,none,1.5,1.0,,cycle=27  LSTM forecast  cpu=76.0%  mem=166MB  tier1_rps=0.35  cpu_cd=0  mem_cd=0,True,True,0.35,0,0.5,43.54
+2026-11-05T06:18:02.884128+00:00,98.58,50.49,160.4,1.5,1.0,none,1.5,1.0,,cycle=28  LSTM forecast  cpu=75.7%  mem=165MB  tier1_rps=0.00  cpu_cd=0  mem_cd=0,True,True,0.0,0,0.5,42.5
+2026-11-05T06:18:12.928663+00:00,98.51,51.55,160.4,1.5,1.0,none,1.5,1.0,,cycle=29  LSTM forecast  cpu=77.3%  mem=165MB  tier1_rps=0.00  cpu_cd=0  mem_cd=0,True,True,0.0,0,0.7,76.9
+2026-11-05T06:18:22.905944+00:00,98.76,50.51,160.4,1.5,1.0,none,1.5,1.0,,cycle=30  LSTM forecast  cpu=75.8%  mem=165MB  tier1_rps=0.00  cpu_cd=0  mem_cd=0,True,True,0.0,0,0.5,44.08
+2026-11-05T06:18:32.901359+00:00,98.71,50.99,160.4,1.5,1.0,none,1.5,1.0,,cycle=31  LSTM forecast  cpu=76.5%  mem=165MB  tier1_rps=0.00  cpu_cd=0  mem_cd=0,True,True,0.0,0,0.4,38.72
+2026-11-05T06:18:42.952495+00:00,0.0,36.45,160.3,1.5,1.0,none,1.5,1.0,,cycle=32  LSTM forecast  cpu=54.7%  mem=167MB  tier1_rps=0.12  cpu_cd=0  mem_cd=0,True,True,0.117,0,0.7,79.7
+2026-11-05T06:18:52.932371+00:00,0.0,24.33,160.3,1.5,1.0,scale_down_cpu,1.0,1.0,Rule 3 — CPU Cooldown,LSTM forecast mean_cpu=29.9% raw (19.9% of 1.5-core limit) < 25.0%  no SLA breaches  cpus 1.5→1.0,True,True,0.117,0,0.6,56.61

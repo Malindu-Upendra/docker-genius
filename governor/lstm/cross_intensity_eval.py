@@ -44,7 +44,7 @@ def trained_on_baseline(model, scaler):
     unseen-intensity numbers below are compared against."""
     df = lstm_train.load_data(str(HERE / "training_data.csv"))
     scaled = scaler.transform(df[lstm_train.FEATURES].values)
-    (_, _), (_, _), (X_test, y_test) = lstm_train.make_embargoed_splits(scaled)
+    (_, _), (_, _), (X_test, y_test) = lstm_train.split_raw_embargoed(scaled)
 
     pred_scaled = model.predict(X_test, verbose=0)
 
@@ -64,6 +64,9 @@ def trained_on_baseline(model, scaler):
         "mem_rmse_mb": round(float(np.sqrt(np.mean(mem_err ** 2))), 3),
         "true_cpu_mean": round(float(true[:, :, 0].mean()), 2),
         "true_cpu_max": round(float(true[:, :, 0].max()), 2),
+        "true_mem_mean": round(float(true[:, :, 1].mean()), 2),
+        "true_mem_min": round(float(true[:, :, 1].min()), 2),
+        "true_mem_max": round(float(true[:, :, 1].max()), 2),
     }
 
 
@@ -94,6 +97,9 @@ def evaluate(csv_path: Path, model, scaler):
         "mem_rmse_mb": round(float(np.sqrt(np.mean(mem_err ** 2))), 3),
         "true_cpu_mean": round(float(true[:, :, 0].mean()), 2),
         "true_cpu_max": round(float(true[:, :, 0].max()), 2),
+        "true_mem_mean": round(float(true[:, :, 1].mean()), 2),
+        "true_mem_min": round(float(true[:, :, 1].min()), 2),
+        "true_mem_max": round(float(true[:, :, 1].max()), 2),
     }
 
 

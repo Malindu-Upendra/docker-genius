@@ -223,7 +223,9 @@ def compute_summary(rows: list[dict], label: str) -> dict:
 def run_group(group: dict, duration: int, updater: DockerUpdater,
               kpi_path: Path, gov_path: Path, rep_label: str = "",
               semantic_aware: bool = True, seed: int | None = None,
-              static_cpus: float | None = None, static_mem_gb: float | None = None):
+              static_cpus: float | None = None, static_mem_gb: float | None = None,
+              isolate_tier3: bool = False, tier1_idle_s: float = 0.0,
+              tier1_active_s: float | None = None):
     num   = group["num"]
     label = group["label"]
     mode  = group["mode"]
@@ -262,17 +264,26 @@ def run_group(group: dict, duration: int, updater: DockerUpdater,
     governor.start()
 
     # 3. Launch load test as subprocess
-    print(f"[harness] Starting load test ({duration}s)…")
+    print(f"[harness] Starting load test ({duration}s)…"
+          + (" [ISOLATED: TIER_3 on worker thread]" if isolate_tier3 else ""))
     load_cmd = [sys.executable, LOAD_SCRIPT,
                 "--duration", str(duration),
                 "--output",   str(kpi_path)]
     if seed is not None:
         load_cmd += ["--seed", str(seed)]
+    if tier1_idle_s > 0:
+        load_cmd += ["--tier1-idle-s", str(tier1_idle_s)]
+        if tier1_active_s is not None:
+            load_cmd += ["--tier1-active-s", str(tier1_active_s)]
+    load_env = dict(os.environ)
+    if isolate_tier3:
+        load_env["DG_ISOLATE_TIER3"] = "1"
     load_proc = subprocess.Popen(
         load_cmd,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
+        env=load_env,
     )
 
     # 4. Stream load test output while governor runs

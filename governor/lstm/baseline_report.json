@@ -1,6 +1,6 @@
 {
   "dataset": {
-    "csv_path": "lstm/training_data.csv",
+    "csv_path": "training_data.csv",
     "windowed_samples": 749
   },
   "persistence": {
@@ -23,28 +23,28 @@
     "cpu_rmse_pct": 31.863,
     "mem_mae_mb": 24.439,
     "mem_rmse_mb": 31.573,
-    "train_wall_time_s": 0.3
+    "train_wall_time_s": 0.4
   },
   "gru": {
-    "cpu_mae_pct": 18.944,
-    "cpu_rmse_pct": 24.289,
-    "mem_mae_mb": 21.953,
-    "mem_rmse_mb": 25.33,
-    "train_wall_time_s": 9.5
+    "cpu_mae_pct": 20.339,
+    "cpu_rmse_pct": 24.995,
+    "mem_mae_mb": 22.155,
+    "mem_rmse_mb": 25.575,
+    "train_wall_time_s": 9.1
   },
   "xgboost": {
-    "cpu_mae_pct": 34.981,
-    "cpu_rmse_pct": 37.097,
-    "mem_mae_mb": 20.417,
-    "mem_rmse_mb": 25.629,
-    "train_wall_time_s": 44.0
+    "cpu_mae_pct": 34.949,
+    "cpu_rmse_pct": 37.055,
+    "mem_mae_mb": 20.399,
+    "mem_rmse_mb": 25.613,
+    "train_wall_time_s": 71.5
   },
   "transformer": {
-    "cpu_mae_pct": 19.197,
-    "cpu_rmse_pct": 25.118,
-    "mem_mae_mb": 20.398,
-    "mem_rmse_mb": 24.615,
-    "train_wall_time_s": 3.9
+    "cpu_mae_pct": 22.788,
+    "cpu_rmse_pct": 25.813,
+    "mem_mae_mb": 20.143,
+    "mem_rmse_mb": 24.64,
+    "train_wall_time_s": 6.8
   },
   "arima": {
     "cpu_mae_pct": 15.249,
@@ -61,6 +61,6 @@
       1,
       1
     ],
-    "train_wall_time_s": 0.8
+    "train_wall_time_s": 1.4
   }
 }

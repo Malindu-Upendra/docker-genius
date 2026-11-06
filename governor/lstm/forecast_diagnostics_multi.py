@@ -24,7 +24,7 @@ def get_test_split():
     with open(HERE / "scaler.pkl", "rb") as f:
         scaler = pickle.load(f)   # same scaler fit used for LSTM/GRU (same data, same fit call)
     scaled = scaler.transform(df[lstm_train.FEATURES].values)
-    (_, _), (_, _), (X_test, y_test) = lstm_train.make_embargoed_splits(scaled)
+    (_, _), (_, _), (X_test, y_test) = lstm_train.split_raw_embargoed(scaled)
     return df, scaler, X_test, y_test
 
 

@@ -46,6 +46,14 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
+try:
+    import psutil
+    _GOVERNOR_PROCESS = psutil.Process(os.getpid())
+    _GOVERNOR_PROCESS.cpu_percent()  # prime the internal measurement window
+except ImportError:
+    psutil = None
+    _GOVERNOR_PROCESS = None
+
 # Add governor root to path so sibling packages resolve
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -284,9 +292,20 @@ class GovernorLoop:
             current_mem_gb = current_mem_gb,
         )
 
+        # Review item B10/D5 — the governor's own process shares the same
+        # Docker Desktop VM vCPU budget as the governed container, and the
+        # LSTM/ARIMA forecast step runs inside this cycle. % is relative to
+        # one host core (psutil convention), comparable across forecaster
+        # backends to see whether e.g. ARIMA's per-cycle refit costs
+        # measurably more than LSTM inference or the persistence no-op.
+        governor_cpu_pct = (
+            round(_GOVERNOR_PROCESS.cpu_percent(), 2) if _GOVERNOR_PROCESS else None
+        )
+
         entry = {
             "ts"           : datetime.now(timezone.utc).isoformat(),
             "cpu_pct"      : cpu,
+            "cpu_pct_norm" : decision.cpu_norm_pct,
             "mem_mb"       : mem_mb,
             "current_cpus" : current_cpus,
             "current_mem_gb": current_mem_gb,
@@ -295,6 +314,14 @@ class GovernorLoop:
             "target_mem_gb": decision.target_mem_gb,
             "rule"         : decision.triggered_rule,
             "reason"       : decision.reason,
+            # Review item B4 — gate-state diagnostics, one row per governor
+            # decision cycle, so run-level fraction-of-cycles-gated can be
+            # computed post hoc without re-running anything.
+            "tier1_active"      : decision.tier1_active,
+            "no_recent_breach"  : decision.no_recent_breach,
+            "tier1_rps"         : decision.tier1_rps,
+            "tier1_breach_count": decision.tier1_breach_count,
+            "governor_cpu_pct"  : governor_cpu_pct,
             # Wall-clock time to read docker stats, run the LSTM forecast (if
             # proactive), and evaluate the rule engine — i.e. everything up
             # to the decision being ready, excluding the actual Docker Update

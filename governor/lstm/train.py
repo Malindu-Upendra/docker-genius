@@ -101,27 +101,68 @@ EMBARGO = WINDOW_SIZE + HORIZON  # >=90 steps, per the supervisor review's own
                                   # the already-windowed X/y arrays).
 
 
-def make_embargoed_splits(scaled: np.ndarray):
+def split_raw_embargoed(raw_or_scaled: np.ndarray):
     """
-    Split the raw scaled series chronologically into train/val/test segments
-    first, drop an EMBARGO-step gap at each internal boundary, and only then
-    slide windows independently within each segment. This guarantees no
-    window's input or target ever spans two segments, closing the temporal-
-    leakage gap the un-embargoed version of this split had (see
-    NEXT_STEPS.md and the paper's Temporal Leakage discussion).
+    Just the chronological train/val/test boundary + embargo logic, with NO
+    scaler fitting -- for scripts (diagnostics, cross-intensity eval) that
+    load an already-fitted scaler.pkl from disk, transform the full raw
+    series with it, and need to re-derive the SAME split used at training
+    time to extract (for example) the test segment only. Equivalent to
+    passing already-scaled values through the split half of
+    make_embargoed_splits_and_scaler() below, without the (re-)fitting step.
     """
-    n_raw = len(scaled)
+    n_raw = len(raw_or_scaled)
     train_end = int(n_raw * (1 - VAL_SPLIT - TEST_SPLIT))
     val_end   = int(n_raw * (1 - TEST_SPLIT))
 
-    train_raw = scaled[: train_end - EMBARGO]
-    val_raw   = scaled[train_end : val_end - EMBARGO]
-    test_raw  = scaled[val_end :]
+    train_seg = raw_or_scaled[: train_end - EMBARGO]
+    val_seg   = raw_or_scaled[train_end : val_end - EMBARGO]
+    test_seg  = raw_or_scaled[val_end :]
 
-    X_train, y_train = make_windows(train_raw)
-    X_val,   y_val   = make_windows(val_raw)
-    X_test,  y_test  = make_windows(test_raw)
+    X_train, y_train = make_windows(train_seg)
+    X_val,   y_val   = make_windows(val_seg)
+    X_test,  y_test  = make_windows(test_seg)
     return (X_train, y_train), (X_val, y_val), (X_test, y_test)
+
+
+def make_embargoed_splits_and_scaler(raw_values: np.ndarray):
+    """
+    Split the RAW (unscaled) series chronologically into train/val/test
+    segments first, drop an EMBARGO-step gap at each internal boundary, fit
+    the MinMaxScaler on the TRAIN segment ONLY, and only then transform and
+    window each segment independently.
+
+    Supersedes the earlier make_embargoed_splits(scaled), which took an
+    already-scaled array -- that array had been produced by
+    scaler.fit_transform() on the FULL dataset (train+val+test combined),
+    so the scaler's min/max (and therefore every value the model ever sees
+    in scaled space) silently encoded the held-out test set's own range.
+    This is a real leakage bug of the same family as the temporal-window
+    leakage review item #9 already fixed: both let information from data
+    the model is not supposed to have seen influence what it is trained on.
+    Fitting the scaler on the train segment only closes this gap; val/test
+    are transformed with that same fitted scaler, so values outside the
+    training range legitimately land outside [0, 1] rather than being
+    folded back in by a scaler that already knew about them.
+    """
+    n_raw = len(raw_values)
+    train_end = int(n_raw * (1 - VAL_SPLIT - TEST_SPLIT))
+    val_end   = int(n_raw * (1 - TEST_SPLIT))
+
+    train_raw = raw_values[: train_end - EMBARGO]
+    val_raw   = raw_values[train_end : val_end - EMBARGO]
+    test_raw  = raw_values[val_end :]
+
+    from sklearn.preprocessing import MinMaxScaler
+    scaler = MinMaxScaler(feature_range=(0, 1))
+    train_scaled = scaler.fit_transform(train_raw)
+    val_scaled   = scaler.transform(val_raw)
+    test_scaled  = scaler.transform(test_raw)
+
+    X_train, y_train = make_windows(train_scaled)
+    X_val,   y_val   = make_windows(val_scaled)
+    X_test,  y_test  = make_windows(test_scaled)
+    return (X_train, y_train), (X_val, y_val), (X_test, y_test), scaler
 
 
 # ── Model builder ─────────────────────────────────────────────────────────────
@@ -150,21 +191,19 @@ def build_model():
 # ── Training ──────────────────────────────────────────────────────────────────
 
 def train(csv_path: str):
-    from sklearn.preprocessing import MinMaxScaler
     from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
     # 1. Load raw data
     df = load_data(csv_path)
 
-    # 2. Fit scaler on full dataset
-    scaler = MinMaxScaler(feature_range=(0, 1))
-    scaled = scaler.fit_transform(df[FEATURES].values)
-
-    # 3. Split the RAW series chronologically first, drop an EMBARGO-step
-    #    gap at each internal boundary, and only then window each segment
-    #    independently -- see make_embargoed_splits() for why this order
-    #    matters (temporal-leakage fix; supervisor review item #9).
-    (X_train, y_train), (X_val, y_val), (X_test, y_test) = make_embargoed_splits(scaled)
+    # 2-3. Split the RAW series chronologically first, drop an EMBARGO-step
+    #    gap at each internal boundary, fit the scaler on the TRAIN segment
+    #    only, and only then transform/window each segment independently --
+    #    see make_embargoed_splits_and_scaler() for why both the split order
+    #    (temporal-leakage fix; review item #9) and the scaler-fit scope
+    #    (train-only; closes a second, scaler-level leakage gap) matter.
+    (X_train, y_train), (X_val, y_val), (X_test, y_test), scaler = \
+        make_embargoed_splits_and_scaler(df[FEATURES].values)
     n = len(X_train) + len(X_val) + len(X_test)
     print(f"[train] Windows created (post-embargo) — "
           f"train: {X_train.shape}  val: {X_val.shape}  test: {X_test.shape}")

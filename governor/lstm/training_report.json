@@ -1,6 +1,6 @@
 {
   "dataset": {
-    "csv_path": "lstm/training_data.csv",
+    "csv_path": "training_data.csv",
     "raw_rows": 1196,
     "windowed_samples": 749,
     "train_samples": 538,
@@ -28,9 +28,9 @@
     "loss": "mse",
     "batch_size": 32,
     "max_epochs": 50,
-    "epochs_run": 24,
+    "epochs_run": 35,
     "early_stopping_patience": 8,
-    "train_wall_time_s": 8.4
+    "train_wall_time_s": 12.1
   },
   "hardware": {
     "platform": "macOS-15.4.1-arm64-arm-64bit",
@@ -40,17 +40,17 @@
     "tensorflow_version": "2.21.0"
   },
   "results": {
-    "val_mse_scaled": 0.053376,
-    "val_mae_scaled": 0.197451,
-    "test_cpu_mae_pct": 21.141,
-    "test_cpu_rmse_pct": 25.455,
-    "test_mem_mae_mb": 22.22,
-    "test_mem_rmse_mb": 25.754,
-    "inference_time_ms_mean": 25.72,
+    "val_mse_scaled": 0.08417,
+    "val_mae_scaled": 0.247149,
+    "test_cpu_mae_pct": 23.292,
+    "test_cpu_rmse_pct": 27.166,
+    "test_mem_mae_mb": 23.324,
+    "test_mem_rmse_mb": 26.818,
+    "inference_time_ms_mean": 27.98,
     "inference_time_runs": 20
   },
   "checksums_sha256": {
-    "model.keras": "942c5f50b69011e13e68caba873dfee57a11e561008f924b1fb963a1e7acf281",
-    "scaler.pkl": "8643da7ae6ecb7b89afe44d9a656678778404db1269698917fbc638ed291e7cb"
+    "model.keras": "eb27a7388af0155bd238f809e238e70fa95689c1f3d77991403143177fbf6ab4",
+    "scaler.pkl": "9da3773f66aeb50eeef59117f5a6fe3a74442b2c666199b7cdf894964520ebea"
   }
 }

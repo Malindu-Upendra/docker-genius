@@ -40,20 +40,18 @@ REPORT_PATH = Path(__file__).parent / "baseline_report.json"
 # ── Shared data prep (identical split to lstm/train.py) ───────────────────────
 
 def prepare_data(csv_path: str):
-    from sklearn.preprocessing import MinMaxScaler
-
     df = lstm_train.load_data(csv_path)
-    scaler = MinMaxScaler(feature_range=(0, 1))
-    scaled = scaler.fit_transform(df[lstm_train.FEATURES].values)
 
-    # Same embargoed, pre-windowing chronological split as train.py (temporal-
-    # leakage fix) -- this module must never re-derive its own un-embargoed
-    # split, or the "baseline vs LSTM" comparison would be evaluated on two
-    # different, non-comparable test sets.
-    (X_train, y_train), (X_val, y_val), (X_test, y_test) = \
-        lstm_train.make_embargoed_splits(scaled)
+    # Same embargoed, pre-windowing chronological split AND train-only
+    # scaler fit as train.py (temporal-leakage fix, review item #9, plus the
+    # scaler-level leakage fix -- see make_embargoed_splits_and_scaler's
+    # docstring) -- this module must never re-derive its own split or
+    # scaler, or the "baseline vs LSTM" comparison would be evaluated on
+    # two different, non-comparable test sets.
+    (X_train, y_train), (X_val, y_val), (X_test, y_test), scaler = \
+        lstm_train.make_embargoed_splits_and_scaler(df[lstm_train.FEATURES].values)
     n = len(X_train) + len(X_val) + len(X_test)
-    n_raw = len(scaled)
+    n_raw = len(df)
     train_end = int(n_raw * (1 - lstm_train.VAL_SPLIT - lstm_train.TEST_SPLIT))
     val_end   = int(n_raw * (1 - lstm_train.TEST_SPLIT))
 

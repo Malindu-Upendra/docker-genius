@@ -100,6 +100,15 @@ class ScalingDecision:
     reason         : str   = ""       # human-readable reason (for thesis logging)
     ts             : str   = field(default_factory=lambda:
                                    datetime.now(timezone.utc).isoformat())
+    # Gate-state diagnostics (review item B4) — logged on every cycle
+    # (including "no action") regardless of whether a rule fired, so the
+    # fraction of cycles where the semantic gate is actually false can be
+    # computed after the run instead of inferred.
+    tier1_active      : bool  = True
+    no_recent_breach  : bool  = True
+    tier1_rps         : float = 0.0
+    tier1_breach_count: int   = 0
+    cpu_norm_pct      : float = 0.0   # eval_cpu normalised to current core limit
 
     def __str__(self):
         if self.action == "none":
@@ -191,6 +200,22 @@ class RuleEngine:
             eval_mem_avg = current_mem_mb
             source = "current observed"
 
+        # ĉ = container CPU usage divided by the CURRENT core limit L_cpu
+        # (0-100% meaning "fully using whatever is currently allocated").
+        # _read_cpu_mem()/the LSTM both report cpu in the Docker-stats
+        # convention where 100% = one full core, so a fixed CPU_HIGH=75
+        # compared directly against that raw value does not mean "75% of
+        # the current allocation" — it means "an event loop busy for ~0.75
+        # of one core", independent of whether 1, 2 or 4 cores are
+        # allocated. Memory's thresholds are already "% of current limit"
+        # (mem_high_mb/mem_low_mb below); CPU is normalised the same way
+        # here so Rule 1/Rule 3 mean what their docstrings say.
+        # eval_cpu/eval_cpu_avg are already in "% of one core" units (100 =
+        # one full core), so dividing by the number of allocated cores
+        # (not multiplying by 100 again) gives "% of current allocation".
+        eval_cpu_norm     = (eval_cpu     / current_cpus) if current_cpus > 0 else eval_cpu
+        eval_cpu_avg_norm = (eval_cpu_avg / current_cpus) if current_cpus > 0 else eval_cpu_avg
+
         mem_limit_mb  = current_mem_gb * 1024
         mem_high_mb   = mem_limit_mb * MEM_HIGH_PCT  / 100
         mem_low_mb    = mem_limit_mb * MEM_LOW_PCT   / 100
@@ -198,19 +223,36 @@ class RuleEngine:
         # Fetch DB tier stats (non-blocking; falls back gracefully)
         tier = self._get_tier_stats()
 
+        # Gate states (review item B4) computed once, attached to every
+        # returned decision below via _mk(), so a run's cycle log can
+        # report what fraction of cycles found tier1_active=False or
+        # no_recent_breach=False (i.e. how often the semantic gate could
+        # actually have changed the outcome, as opposed to always being
+        # true/false by construction of the workload).
+        tier1_active     = (tier.tier1_rps > 0)            if self.semantic_aware else True
+        no_recent_breach = (tier.tier1_breach_count == 0)  if self.semantic_aware else True
+
+        def _mk(**kw) -> ScalingDecision:
+            kw.setdefault("tier1_active", tier1_active)
+            kw.setdefault("no_recent_breach", no_recent_breach)
+            kw.setdefault("tier1_rps", tier.tier1_rps)
+            kw.setdefault("tier1_breach_count", tier.tier1_breach_count)
+            kw.setdefault("cpu_norm_pct", round(eval_cpu_norm, 2))
+            return ScalingDecision(**kw)
+
         # ── Rule 1 — Proactive CPU Scale-Up ──────────────────────────────────
-        tier1_active = (tier.tier1_rps > 0) if self.semantic_aware else True
-        if (eval_cpu > CPU_HIGH and tier1_active
+        if (eval_cpu_norm > CPU_HIGH and tier1_active
                 and current_cpus < MAX_CPUS):
             new_cpus = min(round(current_cpus + CPU_STEP, 2), MAX_CPUS)
             self._cpu_cooldown = COOLDOWN_CYCLES
             self._mem_cooldown = max(self._mem_cooldown, COOLDOWN_CYCLES // 2)
-            return ScalingDecision(
+            return _mk(
                 action         = "scale_up_cpu",
                 target_cpus    = new_cpus,
                 target_mem_gb  = current_mem_gb,
                 triggered_rule = "Rule 1 — Proactive CPU Scale-Up",
-                reason         = (f"{source} peak_cpu={eval_cpu:.1f}% > {CPU_HIGH}%  "
+                reason         = (f"{source} peak_cpu={eval_cpu:.1f}% raw "
+                                  f"({eval_cpu_norm:.1f}% of {current_cpus}-core limit) > {CPU_HIGH}%  "
                                   f"TIER_1 rps={tier.tier1_rps:.2f}  "
                                   f"cpus {current_cpus}→{new_cpus}"),
             )
@@ -222,7 +264,7 @@ class RuleEngine:
                 round(current_mem_gb + MEM_STEP_MB / 1024, 3), MAX_MEM_GB
             )
             self._mem_cooldown = COOLDOWN_CYCLES
-            return ScalingDecision(
+            return _mk(
                 action         = "scale_up_mem",
                 target_cpus    = current_cpus,
                 target_mem_gb  = new_mem_gb,
@@ -233,19 +275,19 @@ class RuleEngine:
             )
 
         # ── Rule 3 — CPU Cooldown (Scale-Down) ───────────────────────────────
-        no_recent_breach = (tier.tier1_breach_count == 0) if self.semantic_aware else True
-        if (eval_cpu_avg < CPU_LOW
+        if (eval_cpu_avg_norm < CPU_LOW
                 and no_recent_breach
                 and self._cpu_cooldown == 0
                 and current_cpus > MIN_CPUS):
             new_cpus = max(round(current_cpus - CPU_STEP, 2), MIN_CPUS)
             self._cpu_cooldown = COOLDOWN_CYCLES
-            return ScalingDecision(
+            return _mk(
                 action         = "scale_down_cpu",
                 target_cpus    = new_cpus,
                 target_mem_gb  = current_mem_gb,
                 triggered_rule = "Rule 3 — CPU Cooldown",
-                reason         = (f"{source} mean_cpu={eval_cpu_avg:.1f}% < {CPU_LOW}%  "
+                reason         = (f"{source} mean_cpu={eval_cpu_avg:.1f}% raw "
+                                  f"({eval_cpu_avg_norm:.1f}% of {current_cpus}-core limit) < {CPU_LOW}%  "
                                   f"no SLA breaches  "
                                   f"cpus {current_cpus}→{new_cpus}"),
             )
@@ -259,7 +301,7 @@ class RuleEngine:
                 round(current_mem_gb - MEM_STEP_MB / 1024, 3), MIN_MEM_GB
             )
             self._mem_cooldown = COOLDOWN_CYCLES
-            return ScalingDecision(
+            return _mk(
                 action         = "scale_down_mem",
                 target_cpus    = current_cpus,
                 target_mem_gb  = new_mem_gb,
@@ -271,7 +313,7 @@ class RuleEngine:
             )
 
         # No rule triggered
-        return ScalingDecision(
+        return _mk(
             action  = "none",
             target_cpus   = current_cpus,
             target_mem_gb = current_mem_gb,

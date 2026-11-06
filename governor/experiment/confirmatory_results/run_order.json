@@ -1,0 +1,210 @@
+[
+  {
+    "rep": "rep1",
+    "seed": 2001,
+    "order": [
+      "B_semantic",
+      "D_full",
+      "static_equal",
+      "E_isolation",
+      "A_base",
+      "C_lstm"
+    ],
+    "ts": "2026-11-05T03:12:40.532219+00:00"
+  },
+  {
+    "rep": "rep2",
+    "seed": 2002,
+    "order": [
+      "C_lstm",
+      "A_base",
+      "D_full",
+      "static_equal",
+      "E_isolation",
+      "B_semantic"
+    ],
+    "ts": "2026-11-05T03:52:56.886995+00:00"
+  },
+  {
+    "rep": "rep3",
+    "seed": 2003,
+    "order": [
+      "static_equal",
+      "A_base",
+      "E_isolation",
+      "D_full",
+      "C_lstm",
+      "B_semantic"
+    ],
+    "ts": "2026-11-05T04:34:39.323679+00:00"
+  },
+  {
+    "rep": "rep4",
+    "seed": 2004,
+    "order": [
+      "D_full",
+      "A_base",
+      "B_semantic",
+      "static_equal",
+      "C_lstm",
+      "E_isolation"
+    ],
+    "ts": "2026-11-05T05:16:25.292707+00:00"
+  },
+  {
+    "rep": "rep5",
+    "seed": 2005,
+    "order": [
+      "D_full",
+      "A_base",
+      "C_lstm",
+      "E_isolation",
+      "static_equal",
+      "B_semantic"
+    ],
+    "ts": "2026-11-05T05:58:07.868198+00:00"
+  },
+  {
+    "rep": "rep6",
+    "seed": 2006,
+    "order": [
+      "B_semantic",
+      "E_isolation",
+      "static_equal",
+      "A_base",
+      "C_lstm",
+      "D_full"
+    ],
+    "ts": "2026-11-05T06:39:50.376706+00:00"
+  },
+  {
+    "rep": "rep7",
+    "seed": 2007,
+    "order": [
+      "D_full",
+      "C_lstm",
+      "B_semantic",
+      "static_equal",
+      "E_isolation",
+      "A_base"
+    ],
+    "ts": "2026-11-05T07:21:32.968355+00:00"
+  },
+  {
+    "rep": "rep8",
+    "seed": 2008,
+    "order": [
+      "C_lstm",
+      "A_base",
+      "static_equal",
+      "B_semantic",
+      "E_isolation",
+      "D_full"
+    ],
+    "ts": "2026-11-05T08:03:15.714812+00:00"
+  },
+  {
+    "rep": "rep9",
+    "seed": 2009,
+    "order": [
+      "B_semantic",
+      "D_full",
+      "C_lstm",
+      "static_equal",
+      "E_isolation",
+      "A_base"
+    ],
+    "ts": "2026-11-05T08:44:58.370726+00:00"
+  },
+  {
+    "rep": "rep10",
+    "seed": 2010,
+    "order": [
+      "E_isolation",
+      "A_base",
+      "B_semantic",
+      "D_full",
+      "static_equal",
+      "C_lstm"
+    ],
+    "ts": "2026-11-05T09:26:40.355794+00:00"
+  },
+  {
+    "rep": "rep11",
+    "seed": 2011,
+    "order": [
+      "E_isolation",
+      "static_equal",
+      "B_semantic",
+      "C_lstm",
+      "D_full",
+      "A_base"
+    ],
+    "ts": "2026-11-05T10:08:21.890504+00:00"
+  },
+  {
+    "rep": "rep12",
+    "seed": 2012,
+    "order": [
+      "D_full",
+      "C_lstm",
+      "static_equal",
+      "B_semantic",
+      "E_isolation",
+      "A_base"
+    ],
+    "ts": "2026-11-05T10:50:03.578515+00:00"
+  },
+  {
+    "rep": "rep13",
+    "seed": 2013,
+    "order": [
+      "D_full",
+      "C_lstm",
+      "B_semantic",
+      "E_isolation",
+      "static_equal",
+      "A_base"
+    ],
+    "ts": "2026-11-05T11:31:45.234347+00:00"
+  },
+  {
+    "rep": "rep14",
+    "seed": 2014,
+    "order": [
+      "C_lstm",
+      "E_isolation",
+      "static_equal",
+      "A_base",
+      "D_full",
+      "B_semantic"
+    ],
+    "ts": "2026-11-05T12:13:27.024918+00:00"
+  },
+  {
+    "rep": "rep15",
+    "seed": 2015,
+    "order": [
+      "E_isolation",
+      "static_equal",
+      "A_base",
+      "D_full",
+      "C_lstm",
+      "B_semantic"
+    ],
+    "ts": "2026-11-05T12:55:08.701082+00:00"
+  },
+  {
+    "rep": "unseen",
+    "seed": 98999,
+    "order": [
+      "B_semantic",
+      "D_full",
+      "static_equal",
+      "A_base",
+      "E_isolation",
+      "C_lstm"
+    ],
+    "ts": "2026-11-05T13:36:50.287841+00:00"
+  }
+]

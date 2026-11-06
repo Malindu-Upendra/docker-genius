@@ -43,7 +43,7 @@ def load_test_predictions(csv_path: str):
         scaler: MinMaxScaler = pickle.load(f)
     scaled = scaler.transform(df[lstm_train.FEATURES].values)
 
-    (_, _), (_, _), (X_test, y_test) = lstm_train.make_embargoed_splits(scaled)
+    (_, _), (_, _), (X_test, y_test) = lstm_train.split_raw_embargoed(scaled)
 
     model = load_model(Path(__file__).parent / "model.keras")
     pred_scaled = model.predict(X_test, verbose=0)

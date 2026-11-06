@@ -1,0 +1,35 @@
+{
+  "dataset": {
+    "csv_path": "lstm/training_data.csv",
+    "raw_rows": 1196,
+    "test_samples": 151
+  },
+  "training_config": {
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "loss": "pinball(quantile=0.75)",
+    "quantile": 0.75,
+    "batch_size": 32,
+    "max_epochs": 50,
+    "epochs_run": 11,
+    "early_stopping_patience": 8,
+    "train_wall_time_s": 4.7
+  },
+  "hardware": {
+    "platform": "macOS-15.4.1-arm64-arm-64bit",
+    "tensorflow_version": "2.21.0"
+  },
+  "results": {
+    "val_loss_scaled": 0.113314,
+    "val_mae_scaled": 0.365634,
+    "test_cpu_mae_pct": 52.698,
+    "test_cpu_rmse_pct": 56.155,
+    "test_cpu_bias_pp": 49.692,
+    "test_mem_mae_mb": 19.437,
+    "test_mem_rmse_mb": 23.911
+  },
+  "checksums_sha256": {
+    "model_quantile.keras": "b77999475cbbe8dcd5fa2e3c697c7b8851a87e20e2e298463d927a9b377767da",
+    "scaler_quantile.pkl": "9da3773f66aeb50eeef59117f5a6fe3a74442b2c666199b7cdf894964520ebea"
+  }
+}

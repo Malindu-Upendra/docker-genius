@@ -63,16 +63,15 @@ def build_gru_model():
 
 
 def train(csv_path: str):
-    from sklearn.preprocessing import MinMaxScaler
     from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
     df = lstm_train.load_data(csv_path)
 
-    scaler = MinMaxScaler(feature_range=(0, 1))
-    scaled = scaler.fit_transform(df[lstm_train.FEATURES].values)
-
-    (X_train, y_train), (X_val, y_val), (X_test, y_test) = \
-        lstm_train.make_embargoed_splits(scaled)
+    # Train-only scaler fit (see train.py's make_embargoed_splits_and_scaler
+    # docstring) -- the earlier version of this script fit the scaler on the
+    # full dataset, the same leakage bug fixed there.
+    (X_train, y_train), (X_val, y_val), (X_test, y_test), scaler = \
+        lstm_train.make_embargoed_splits_and_scaler(df[lstm_train.FEATURES].values)
     n = len(X_train) + len(X_val) + len(X_test)
     print(f"[train_gru] Windows (post-embargo) — train: {X_train.shape}  "
           f"val: {X_val.shape}  test: {X_test.shape}")
