@@ -79,12 +79,17 @@ class MetricsStore:
         self.db_ok          = False
         # Tier data (last N minutes)
         self.tier_stats     = {}   # {tier: {p50, p95, p99, count, breaches}}
-        self.rps            = 0.0
+        self.rps            = 0
         self.total_requests = 0
         self.error_rate     = 0.0
         # Governor state
         self.current_cpus   = 2.0
         self.current_mem_gb = 2.0
+        # Endpoint-level exploration (optional — needs endpoint_column/method_column in config)
+        self.endpoint_tracking = False
+        self.top_endpoints  = []   # [{endpoint, method, tier, count, avg_ms, max_ms, errors}]
+        self.slow_requests  = []   # [{endpoint, method, tier, latency_ms, status, ts}] — slowest in window
+        self.error_log      = []   # [{endpoint, method, tier, latency_ms, status, ts}] — status >= 400, newest first
 
 store = MetricsStore()
 
@@ -153,13 +158,16 @@ def db_poller(cfg):
         print("[monitor] mysql-connector-python not installed — DB metrics disabled")
         return
 
-    table     = db_cfg["table"]
-    tier_col  = db_cfg["tier_column"]
-    lat_col   = db_cfg["latency_column"]
-    stat_col  = db_cfg["status_column"]
-    ts_col    = db_cfg["timestamp_column"]
-    sla_map   = cfg.get("sla_thresholds", {"TIER_1": 150})
-    window    = cfg["dashboard"]["history_minutes"]
+    table      = db_cfg["table"]
+    tier_col   = db_cfg["tier_column"]
+    lat_col    = db_cfg["latency_column"]
+    stat_col   = db_cfg["status_column"]
+    ts_col     = db_cfg["timestamp_column"]
+    endpoint_col = db_cfg.get("endpoint_column")
+    method_col   = db_cfg.get("method_column")
+    track_endpoints = bool(endpoint_col and method_col)
+    sla_map    = cfg.get("sla_thresholds", {"TIER_1": 150})
+    window     = cfg["dashboard"]["history_minutes"]
 
     conn_args = {
         "host":     db_cfg["host"],
@@ -211,19 +219,77 @@ def db_poller(cfg):
                 total_reqs += row["n"]
                 total_errs += row["errors"]
 
-            # RPS over last 60 s
+            # RPS over last 60 s — whole number, no decimals
             cur.execute(f"SELECT COUNT(*) AS n FROM {table} WHERE {ts_col} >= %s",
                         (datetime.now(timezone.utc) - timedelta(seconds=60),))
             rps_row = cur.fetchone()
+            rps = int(round(float(rps_row["n"] if rps_row else 0) / 60.0))
+
+            top_endpoints, slow_requests, error_log = [], [], []
+            if track_endpoints:
+                # Which endpoint is driving latency up — aggregated, worst avg first
+                cur.execute(f"""
+                    SELECT {endpoint_col} AS endpoint, {method_col} AS method, {tier_col} AS tier,
+                           COUNT(*) AS n, AVG({lat_col}) AS avg_ms, MAX({lat_col}) AS max_ms,
+                           SUM(CASE WHEN {stat_col} >= 400 THEN 1 ELSE 0 END) AS errors
+                    FROM {table}
+                    WHERE {ts_col} >= %s
+                    GROUP BY {endpoint_col}, {method_col}, {tier_col}
+                    ORDER BY avg_ms DESC
+                    LIMIT 15
+                """, (since,))
+                for r in cur.fetchall():
+                    top_endpoints.append({
+                        "endpoint": r["endpoint"], "method": r["method"], "tier": r["tier"],
+                        "count": int(r["n"]), "avg_ms": round(float(r["avg_ms"] or 0), 1),
+                        "max_ms": int(r["max_ms"] or 0), "errors": int(r["errors"] or 0),
+                    })
+
+                # Individual slowest requests in the window — "explore which went high"
+                cur.execute(f"""
+                    SELECT {endpoint_col} AS endpoint, {method_col} AS method, {tier_col} AS tier,
+                           {lat_col} AS latency_ms, {stat_col} AS status, {ts_col} AS ts
+                    FROM {table}
+                    WHERE {ts_col} >= %s
+                    ORDER BY {lat_col} DESC
+                    LIMIT 40
+                """, (since,))
+                for r in cur.fetchall():
+                    slow_requests.append({
+                        "endpoint": r["endpoint"], "method": r["method"], "tier": r["tier"],
+                        "latency_ms": int(r["latency_ms"]), "status": int(r["status"]),
+                        "ts": r["ts"].isoformat() if hasattr(r["ts"], "isoformat") else str(r["ts"]),
+                    })
+
+                # Crashed / failed endpoints (4xx + 5xx), newest first
+                cur.execute(f"""
+                    SELECT {endpoint_col} AS endpoint, {method_col} AS method, {tier_col} AS tier,
+                           {lat_col} AS latency_ms, {stat_col} AS status, {ts_col} AS ts
+                    FROM {table}
+                    WHERE {ts_col} >= %s AND {stat_col} >= 400
+                    ORDER BY {ts_col} DESC
+                    LIMIT 40
+                """, (since,))
+                for r in cur.fetchall():
+                    error_log.append({
+                        "endpoint": r["endpoint"], "method": r["method"], "tier": r["tier"],
+                        "latency_ms": int(r["latency_ms"]), "status": int(r["status"]),
+                        "ts": r["ts"].isoformat() if hasattr(r["ts"], "isoformat") else str(r["ts"]),
+                    })
+
             cur.close()
             conn.close()
 
             with store.lock:
                 store.tier_stats     = tier_stats
                 store.total_requests = int(total_reqs)
-                store.rps            = round(float(rps_row["n"] if rps_row else 0) / 60.0, 2)
+                store.rps            = rps
                 store.error_rate     = round(float(total_errs) / float(total_reqs) * 100, 1) if total_reqs else 0.0
                 store.db_ok          = True
+                store.endpoint_tracking = track_endpoints
+                store.top_endpoints   = top_endpoints
+                store.slow_requests   = slow_requests
+                store.error_log       = error_log
 
         except Exception as e:
             with store.lock:
@@ -264,6 +330,10 @@ def snapshot():
             "error_rate"    : store.error_rate,
             "current_cpus"  : store.current_cpus,
             "current_mem_gb": store.current_mem_gb,
+            "endpoint_tracking": store.endpoint_tracking,
+            "top_endpoints" : store.top_endpoints,
+            "slow_requests" : store.slow_requests,
+            "error_log"     : store.error_log,
             "ts"            : datetime.now(timezone.utc).isoformat(),
         })
 
@@ -293,6 +363,10 @@ def stream():
                     "error_rate"    : store.error_rate,
                     "current_cpus"  : store.current_cpus,
                     "current_mem_gb": store.current_mem_gb,
+                    "endpoint_tracking": store.endpoint_tracking,
+                    "top_endpoints" : store.top_endpoints,
+                    "slow_requests" : store.slow_requests,
+                    "error_log"     : store.error_log,
                     "ts"            : datetime.now(timezone.utc).isoformat(),
                 }
             yield f"data: {json.dumps(data)}\n\n"

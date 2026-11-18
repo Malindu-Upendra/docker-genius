@@ -30,6 +30,8 @@ semantic_db:
   latency_column: "response_time_ms"
   status_column: "status_code"
   timestamp_column: "logged_at"
+  endpoint_column: "endpoint_path"
+  method_column: "http_method"
   tier1_sla_ms: 150
   tiers: ["TIER_1", "TIER_2", "TIER_3"]
 

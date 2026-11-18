@@ -71,9 +71,35 @@
   .gov-bars { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .gov-bar-label { display: flex; justify-content: space-between; font-size: 12px; color: #64748b; margin-bottom: 6px; }
   .gov-bar-track { height: 8px; background: #0f172a; border-radius: 99px; overflow: hidden; }
-  .gov-bar-fill { height: 100%; border-radius: 99px; transition: width .5s ease; }
-  .gov-cpu-fill { background: linear-gradient(90deg, #6366f1, #818cf8); }
-  .gov-mem-fill { background: linear-gradient(90deg, #059669, #34d399); }
+  .gov-bar-fill { height: 100%; border-radius: 99px; transition: width .5s ease, background .4s ease; }
+  /* Allocation severity colors: <=2 green, 2-4 yellow, >=4 (max) red */
+  .sev-green  { background: linear-gradient(90deg, #059669, #34d399) !important; }
+  .sev-yellow { background: linear-gradient(90deg, #b45309, #fbbf24) !important; }
+  .sev-red    { background: linear-gradient(90deg, #991b1b, #f87171) !important; }
+  .txt-green  { color: #4ade80 !important; }
+  .txt-yellow { color: #fbbf24 !important; }
+  .txt-red    { color: #f87171 !important; }
+
+  /* Explore / endpoint sections */
+  .explore-section { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 16px; margin-bottom: 20px; }
+  .explore-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 12px; flex-wrap: wrap; }
+  .explore-title { font-size: 13px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: .05em; }
+  .explore-sub { font-size: 11px; color: #475569; margin-top: 2px; }
+  .search-input { background: #0f172a; border: 1px solid #334155; color: #e2e8f0; border-radius: 8px; padding: 6px 12px; font-size: 13px; width: 240px; outline: none; }
+  .search-input:focus { border-color: #6366f1; }
+  .search-input::placeholder { color: #475569; }
+  .log-wrap { max-height: 320px; overflow-y: auto; }
+  .lat-ok { color: #4ade80; }
+  .lat-warn { color: #fbbf24; font-weight: 600; }
+  .lat-bad { color: #f87171; font-weight: 700; }
+  .status-badge { padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 700; }
+  .status-2xx { background: #052e16; color: #4ade80; }
+  .status-4xx { background: #3f1d0a; color: #fb923c; }
+  .status-5xx { background: #450a0a; color: #f87171; }
+  .endpoint-path { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #cbd5e1; }
+  .method-badge { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; background: #334155; color: #94a3b8; margin-right: 6px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 1100px) { .grid-2 { grid-template-columns: 1fr; } }
 
   /* Footer */
   .footer { text-align: center; padding: 12px; font-size: 11px; color: #334155; }
@@ -177,6 +203,47 @@
     </div>
   </div>
 
+  <!-- Top Endpoints + Crashed/Error log -->
+  <div class="grid-2">
+    <div class="explore-section">
+      <div class="explore-header">
+        <div>
+          <div class="explore-title">🔥 Top Endpoints by Latency</div>
+          <div class="explore-sub">Which endpoint is driving latency up (last 10 min, avg ms)</div>
+        </div>
+      </div>
+      <div class="log-wrap" id="endpointsBody">
+        <div class="no-db">Waiting for request data...</div>
+      </div>
+    </div>
+
+    <div class="explore-section">
+      <div class="explore-header">
+        <div>
+          <div class="explore-title">🚨 Crashed / Failed Endpoints</div>
+          <div class="explore-sub">Requests with 4xx/5xx status (last 10 min, newest first)</div>
+        </div>
+      </div>
+      <div class="log-wrap" id="errorLogBody">
+        <div class="no-db">No errors — all requests OK</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Request Explorer -->
+  <div class="explore-section">
+    <div class="explore-header">
+      <div>
+        <div class="explore-title">🔍 Live Request Explorer — Slowest Requests</div>
+        <div class="explore-sub">Every request above, sorted slowest-first — filter by endpoint to dig into exactly what went high</div>
+      </div>
+      <input type="text" class="search-input" id="logFilter" placeholder="Filter by endpoint, e.g. /api/reports...">
+    </div>
+    <div class="log-wrap" id="slowLogBody">
+      <div class="no-db">Waiting for request data...</div>
+    </div>
+  </div>
+
 </div>
 
 <div class="footer">
@@ -231,6 +298,42 @@ function setPill(id, ok, label) {
   g(id).innerHTML = '<span class="pill-dot"></span>' + label;
 }
 
+// Allocation severity against the 4-vCPU / 4GB governor ceiling:
+// <=2 (half the ceiling or below) = green, between 2 and 4 = yellow, >=4 (maxed out) = red.
+var ALLOC_CEILING = 4;
+function allocSeverity(val) {
+  if (val >= ALLOC_CEILING) return 'red';
+  if (val > ALLOC_CEILING / 2) return 'yellow';
+  return 'green';
+}
+function sevRank(s) { return s === 'red' ? 2 : s === 'yellow' ? 1 : 0; }
+
+// HTTP status -> badge class
+function statusBadgeClass(code) {
+  if (code >= 500) return 'status-5xx';
+  if (code >= 400) return 'status-4xx';
+  return 'status-2xx';
+}
+
+// Per-tier SLA thresholds (mirrors config.yaml sla_thresholds) for log-row latency coloring.
+var SLA_MS = { TIER_1: 150, TIER_2: 500, TIER_3: 10000 };
+function latencyClass(ms, tier) {
+  var sla = SLA_MS[tier] || 500;
+  if (ms > sla) return 'lat-bad';
+  if (ms > sla * 0.7) return 'lat-warn';
+  return 'lat-ok';
+}
+
+function fmtTime(iso) {
+  try { return new Date(iso).toLocaleTimeString(); } catch (e) { return iso; }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"]/g, function(c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+  });
+}
+
 function renderTiers(stats) {
   if (!stats || !Object.keys(stats).length) {
     g('tierBody').innerHTML = '<div class="no-db">No request data — browse the ERP or run the load generator</div>';
@@ -273,6 +376,74 @@ function renderTiers(stats) {
   }
 }
 
+function renderTopEndpoints(rows) {
+  if (!rows || !rows.length) {
+    g('endpointsBody').innerHTML = '<div class="no-db">No request data — browse the ERP or run the load generator</div>';
+    return;
+  }
+  var html = '<table><thead><tr><th>Endpoint</th><th>Tier</th><th>Reqs</th><th>Avg</th><th>Max</th><th>Errors</th></tr></thead><tbody>';
+  rows.forEach(function(r) {
+    var badge = r.tier === 'TIER_1' ? 't1' : r.tier === 'TIER_2' ? 't2' : 't3';
+    html += '<tr>'
+      + '<td><span class="method-badge">' + escapeHtml(r.method) + '</span><span class="endpoint-path">' + escapeHtml(r.endpoint) + '</span></td>'
+      + '<td><span class="tier-badge ' + badge + '">' + r.tier + '</span></td>'
+      + '<td>' + r.count.toLocaleString() + '</td>'
+      + '<td class="' + latencyClass(r.avg_ms, r.tier) + '">' + r.avg_ms + ' ms</td>'
+      + '<td class="' + latencyClass(r.max_ms, r.tier) + '">' + r.max_ms + ' ms</td>'
+      + '<td>' + (r.errors > 0 ? '<span class="breach-badge">' + r.errors + '</span>' : '<span class="ok-badge">0</span>') + '</td>'
+      + '</tr>';
+  });
+  html += '</tbody></table>';
+  g('endpointsBody').innerHTML = html;
+}
+
+function renderErrorLog(rows) {
+  if (!rows || !rows.length) {
+    g('errorLogBody').innerHTML = '<div class="no-db">No errors — all requests OK</div>';
+    return;
+  }
+  var html = '<table><thead><tr><th>Time</th><th>Endpoint</th><th>Tier</th><th>Status</th><th>Latency</th></tr></thead><tbody>';
+  rows.forEach(function(r) {
+    var badge = r.tier === 'TIER_1' ? 't1' : r.tier === 'TIER_2' ? 't2' : 't3';
+    html += '<tr>'
+      + '<td>' + fmtTime(r.ts) + '</td>'
+      + '<td><span class="method-badge">' + escapeHtml(r.method) + '</span><span class="endpoint-path">' + escapeHtml(r.endpoint) + '</span></td>'
+      + '<td><span class="tier-badge ' + badge + '">' + r.tier + '</span></td>'
+      + '<td><span class="status-badge ' + statusBadgeClass(r.status) + '">' + r.status + '</span></td>'
+      + '<td>' + r.latency_ms + ' ms</td>'
+      + '</tr>';
+  });
+  html += '</tbody></table>';
+  g('errorLogBody').innerHTML = html;
+}
+
+var lastSlowRequests = [];
+function renderSlowLog() {
+  var filter = (g('logFilter').value || '').trim().toLowerCase();
+  var rows = lastSlowRequests;
+  if (filter) {
+    rows = rows.filter(function(r) { return r.endpoint.toLowerCase().indexOf(filter) !== -1; });
+  }
+  if (!rows.length) {
+    g('slowLogBody').innerHTML = '<div class="no-db">' + (filter ? 'No requests match "' + escapeHtml(filter) + '"' : 'Waiting for request data...') + '</div>';
+    return;
+  }
+  var html = '<table><thead><tr><th>Time</th><th>Endpoint</th><th>Tier</th><th>Status</th><th>Latency</th></tr></thead><tbody>';
+  rows.forEach(function(r) {
+    var badge = r.tier === 'TIER_1' ? 't1' : r.tier === 'TIER_2' ? 't2' : 't3';
+    html += '<tr>'
+      + '<td>' + fmtTime(r.ts) + '</td>'
+      + '<td><span class="method-badge">' + escapeHtml(r.method) + '</span><span class="endpoint-path">' + escapeHtml(r.endpoint) + '</span></td>'
+      + '<td><span class="tier-badge ' + badge + '">' + r.tier + '</span></td>'
+      + '<td><span class="status-badge ' + statusBadgeClass(r.status) + '">' + r.status + '</span></td>'
+      + '<td class="' + latencyClass(r.latency_ms, r.tier) + '">' + r.latency_ms + ' ms</td>'
+      + '</tr>';
+  });
+  html += '</tbody></table>';
+  g('slowLogBody').innerHTML = html;
+}
+g('logFilter').addEventListener('input', renderSlowLog);
+
 // ─── Main tick — called every second by setInterval ───────────────────────────
 function tick() {
   fetch('/api/snapshot')
@@ -294,10 +465,9 @@ function tick() {
       g('kCpu').textContent    = d.cpu_pct.toFixed(1) + '%';
       g('kMem').textContent    = d.mem_mb.toFixed(0) + ' MB';
       g('kMemSub').textContent = d.mem_pct.toFixed(1) + '% of ' + d.mem_limit_mb.toFixed(0) + ' MB';
-      g('kRps').textContent    = d.rps.toFixed(2);
+      g('kRps').textContent    = Math.round(d.rps);
       g('kTotal').textContent  = (d.total_requests||0).toLocaleString() + ' total (window)';
       g('kErr').textContent    = d.error_rate.toFixed(1) + '%';
-      g('kLimits').textContent = d.current_cpus + ' CPUs / ' + d.current_mem_gb + ' GB';
 
       // Tier-1 P95
       if (d.tier_stats && d.tier_stats['TIER_1']) {
@@ -310,14 +480,31 @@ function tick() {
       addPoint(cpuChart, now, d.cpu_pct);
       addPoint(memChart, now, d.mem_mb);
 
-      // Governor bars
+      // Governor bars — colored by how close the allocation is to the 4-vCPU/4GB ceiling
+      var cpuSev = allocSeverity(d.current_cpus);
+      var memSev = allocSeverity(d.current_mem_gb);
       g('govCpuBar').style.width   = Math.min(100, d.current_cpus / 4 * 100) + '%';
       g('govMemBar').style.width   = Math.min(100, d.current_mem_gb / 4 * 100) + '%';
+      g('govCpuBar').className     = 'gov-bar-fill sev-' + cpuSev;
+      g('govMemBar').className     = 'gov-bar-fill sev-' + memSev;
+      g('govCpuLabel').className   = 'txt-' + cpuSev;
+      g('govMemLabel').className   = 'txt-' + memSev;
       g('govCpuLabel').textContent = d.current_cpus + ' / 4 vCPUs';
       g('govMemLabel').textContent = d.current_mem_gb + ' / 4 GB';
 
+      // Governor Limits KPI — colored by whichever resource is closer to maxed out
+      var worstSev = sevRank(cpuSev) >= sevRank(memSev) ? cpuSev : memSev;
+      g('kLimits').className  = 'kpi-value txt-' + worstSev;
+      g('kLimits').textContent = d.current_cpus + ' CPUs / ' + d.current_mem_gb + ' GB';
+
       // Tier table
       renderTiers(d.tier_stats);
+
+      // Endpoint exploration (top endpoints / slow requests / crashed endpoints)
+      renderTopEndpoints(d.top_endpoints);
+      renderErrorLog(d.error_log);
+      lastSlowRequests = d.slow_requests || [];
+      renderSlowLog();
 
       // Clock
       g('ts').textContent  = now;
