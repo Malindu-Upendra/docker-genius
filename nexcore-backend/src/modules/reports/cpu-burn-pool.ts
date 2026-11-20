@@ -37,6 +37,13 @@ function release(): void {
   }
 }
 
+// Exposes the pool's live occupancy so the governor dashboard can show the
+// isolation mechanism (ii) actually working in real time, rather than only
+// provable after the fact from the confirmatory experiment's logs.
+export function getPoolStats() {
+  return { active, queued: queue.length, maxConcurrent: MAX_CONCURRENT_BURNS };
+}
+
 export async function runCpuBurnInWorker(iterations: number): Promise<number> {
   await acquire();
   try {

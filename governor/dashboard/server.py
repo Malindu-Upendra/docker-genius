@@ -20,12 +20,17 @@ import http.client
 import threading
 import time
 import math
+import urllib.request
+import urllib.error
 from collections import deque
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 import yaml
 from flask import Flask, Response, render_template_string, jsonify
+
+LIVE_STATE_PATH = Path(__file__).parent / "live_state.json"
+LIVE_STATE_STALE_S = 30   # governor_loop isn't running (or died) if older than this
 
 # ── Docker Stats ──────────────────────────────────────────────────────────────
 
@@ -90,8 +95,56 @@ class MetricsStore:
         self.top_endpoints  = []   # [{endpoint, method, tier, count, avg_ms, max_ms, errors}]
         self.slow_requests  = []   # [{endpoint, method, tier, latency_ms, status, ts}] — slowest in window
         self.error_log      = []   # [{endpoint, method, tier, latency_ms, status, ts}] — status >= 400, newest first
+        # Per-tenant breakdown (optional — needs tenant_column in config)
+        self.tenant_tracking = False
+        self.tenant_stats   = []   # [{tenant, count, avg_ms, breaches}]
+        # "Time since last..." — searched further back than the main window so
+        # this stays meaningful even when nothing bad happened recently.
+        self.last_breach_ts = None
+        self.last_crash_ts  = None
+        # TIER_3 worker-thread isolation pool (optional — app.base_url + isolation_pool in config)
+        self.pool_ok     = False
+        self.pool_active = 0
+        self.pool_queued = 0
+        self.pool_max    = 0
 
 store = MetricsStore()
+
+# ── Isolation pool poller (optional — polls the NestJS app's own /internal/pool-stats) ─
+
+def pool_poller(cfg):
+    pool_cfg = cfg.get("isolation_pool", {})
+    if not pool_cfg.get("enabled"):
+        return
+    url = cfg["app"]["base_url"].rstrip("/") + pool_cfg.get("path", "/api/internal/pool-stats")
+    while True:
+        try:
+            with urllib.request.urlopen(url, timeout=2) as resp:
+                data = json.loads(resp.read().decode())
+            with store.lock:
+                store.pool_ok     = True
+                store.pool_active = int(data.get("active", 0))
+                store.pool_queued = int(data.get("queued", 0))
+                store.pool_max    = int(data.get("maxConcurrent", 0))
+        except Exception:
+            with store.lock:
+                store.pool_ok = False
+        time.sleep(1)
+
+# ── Live governor-loop state (optional — written by experiment/governor_loop.py) ──────
+
+def read_live_governor_state():
+    """Reads live_state.json if it exists and was written recently. Returns
+    None if the file is missing or stale (governor loop not currently running
+    live — formal experiments don't write this, so its absence is normal)."""
+    try:
+        mtime = LIVE_STATE_PATH.stat().st_mtime
+        if time.time() - mtime > LIVE_STATE_STALE_S:
+            return None
+        with open(LIVE_STATE_PATH) as f:
+            return json.load(f)
+    except Exception:
+        return None
 
 # ── Docker Stats poller ───────────────────────────────────────────────────────
 
@@ -165,9 +218,12 @@ def db_poller(cfg):
     ts_col     = db_cfg["timestamp_column"]
     endpoint_col = db_cfg.get("endpoint_column")
     method_col   = db_cfg.get("method_column")
+    tenant_col   = db_cfg.get("tenant_column")
     track_endpoints = bool(endpoint_col and method_col)
+    track_tenants   = bool(tenant_col)
     sla_map    = cfg.get("sla_thresholds", {"TIER_1": 150})
     window     = cfg["dashboard"]["history_minutes"]
+    tier1_sla  = sla_map.get("TIER_1", 150)
 
     conn_args = {
         "host":     db_cfg["host"],
@@ -277,6 +333,40 @@ def db_poller(cfg):
                         "ts": r["ts"].isoformat() if hasattr(r["ts"], "isoformat") else str(r["ts"]),
                     })
 
+            tenant_stats = []
+            if track_tenants:
+                cur.execute(f"""
+                    SELECT {tenant_col} AS tenant, COUNT(*) AS n, AVG({lat_col}) AS avg_ms,
+                           SUM(CASE WHEN {tier_col} = 'TIER_1' AND {lat_col} > %s THEN 1 ELSE 0 END) AS breaches
+                    FROM {table}
+                    WHERE {ts_col} >= %s
+                    GROUP BY {tenant_col}
+                    ORDER BY n DESC
+                    LIMIT 10
+                """, (tier1_sla, since))
+                for r in cur.fetchall():
+                    tenant_stats.append({
+                        "tenant": str(r["tenant"]), "count": int(r["n"]),
+                        "avg_ms": round(float(r["avg_ms"] or 0), 1), "breaches": int(r["breaches"] or 0),
+                    })
+
+            # "Time since last..." — looked up beyond the main window (24h back) so
+            # these stay meaningful even when the recent window is clean.
+            lookback = datetime.now(timezone.utc) - timedelta(hours=24)
+            cur.execute(f"""
+                SELECT MAX({ts_col}) AS ts FROM {table}
+                WHERE {tier_col} = 'TIER_1' AND {lat_col} > %s AND {ts_col} >= %s
+            """, (tier1_sla, lookback))
+            row = cur.fetchone()
+            last_breach_ts = row["ts"].isoformat() if row and row["ts"] else None
+
+            cur.execute(f"""
+                SELECT MAX({ts_col}) AS ts FROM {table}
+                WHERE {stat_col} >= 400 AND {ts_col} >= %s
+            """, (lookback,))
+            row = cur.fetchone()
+            last_crash_ts = row["ts"].isoformat() if row and row["ts"] else None
+
             cur.close()
             conn.close()
 
@@ -290,6 +380,10 @@ def db_poller(cfg):
                 store.top_endpoints   = top_endpoints
                 store.slow_requests   = slow_requests
                 store.error_log       = error_log
+                store.tenant_tracking = track_tenants
+                store.tenant_stats    = tenant_stats
+                store.last_breach_ts  = last_breach_ts
+                store.last_crash_ts   = last_crash_ts
 
         except Exception as e:
             with store.lock:
@@ -312,10 +406,22 @@ def index():
     html_path = Path(__file__).parent / "index.html"
     return html_path.read_text()
 
+def _governor_live_fields():
+    state = read_live_governor_state()
+    if not state:
+        return {"governor_mode": None, "forecast_cpu_pct": None, "forecast_mem_mb": None, "scaling_decisions": []}
+    latest = state.get("latest") or {}
+    return {
+        "governor_mode"    : state.get("mode"),
+        "forecast_cpu_pct" : latest.get("forecast_cpu_pct"),
+        "forecast_mem_mb"  : latest.get("forecast_mem_mb"),
+        "scaling_decisions": state.get("recent_decisions", []),
+    }
+
 @app.route("/api/snapshot")
 def snapshot():
     with store.lock:
-        return jsonify({
+        payload = {
             "app_name"      : _cfg["app"]["name"],
             "container"     : _cfg["app"]["container_name"],
             "cpu_pct"       : store.cpu_pct,
@@ -334,8 +440,18 @@ def snapshot():
             "top_endpoints" : store.top_endpoints,
             "slow_requests" : store.slow_requests,
             "error_log"     : store.error_log,
+            "tenant_tracking": store.tenant_tracking,
+            "tenant_stats"  : store.tenant_stats,
+            "last_breach_ts": store.last_breach_ts,
+            "last_crash_ts" : store.last_crash_ts,
+            "pool_ok"       : store.pool_ok,
+            "pool_active"   : store.pool_active,
+            "pool_queued"   : store.pool_queued,
+            "pool_max"      : store.pool_max,
             "ts"            : datetime.now(timezone.utc).isoformat(),
-        })
+        }
+    payload.update(_governor_live_fields())
+    return jsonify(payload)
 
 @app.route("/api/history")
 def history():
@@ -367,8 +483,17 @@ def stream():
                     "top_endpoints" : store.top_endpoints,
                     "slow_requests" : store.slow_requests,
                     "error_log"     : store.error_log,
+                    "tenant_tracking": store.tenant_tracking,
+                    "tenant_stats"  : store.tenant_stats,
+                    "last_breach_ts": store.last_breach_ts,
+                    "last_crash_ts" : store.last_crash_ts,
+                    "pool_ok"       : store.pool_ok,
+                    "pool_active"   : store.pool_active,
+                    "pool_queued"   : store.pool_queued,
+                    "pool_max"      : store.pool_max,
                     "ts"            : datetime.now(timezone.utc).isoformat(),
                 }
+            data.update(_governor_live_fields())
             yield f"data: {json.dumps(data)}\n\n"
             time.sleep(_cfg["dashboard"]["refresh_ms"] / 1000)
     return Response(generate(), mimetype="text/event-stream",
@@ -394,6 +519,7 @@ def main():
 
     threading.Thread(target=docker_poller, args=(_cfg,), daemon=True).start()
     threading.Thread(target=db_poller,     args=(_cfg,), daemon=True).start()
+    threading.Thread(target=pool_poller,   args=(_cfg,), daemon=True).start()
 
     port = _cfg["dashboard"]["port"]
     print(f"[monitor] Dashboard: http://localhost:{port}")

@@ -68,6 +68,13 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(SemanticLoggerMiddleware)
+      // Excludes the pool-stats monitoring route — the dashboard polls it every
+      // second and would otherwise dominate every request-level metric (RPS,
+      // tenant/endpoint breakdowns, error rate) with monitoring traffic rather
+      // than real ERP activity. Path is relative to the global prefix set in
+      // main.ts (setGlobalPrefix('api')) — Nest re-applies that prefix itself,
+      // so including "api/" here would double it up and never match.
+      .exclude({ path: 'internal/pool-stats', method: RequestMethod.ALL })
       .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }

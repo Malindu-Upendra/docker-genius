@@ -41,10 +41,19 @@ import json
 import os
 import socket
 import sys
+import tempfile
 import threading
 import time
+from collections import deque
 from datetime import datetime, timezone
 from pathlib import Path
+
+# Live state file the governor dashboard polls for the LSTM forecast overlay
+# and the scaling-decision timeline — written once per decision cycle, read
+# independently by dashboard/server.py. Not used by, or required for, any
+# formal experiment; purely a live-monitoring convenience.
+LIVE_STATE_PATH = Path(__file__).parent.parent / "dashboard" / "live_state.json"
+MAX_RECENT_DECISIONS = 20
 
 try:
     import psutil
@@ -155,6 +164,7 @@ class GovernorLoop:
         self._stop    = threading.Event()
         self._thread  = None
         self._log: list[dict] = []
+        self._recent_decisions: deque = deque(maxlen=MAX_RECENT_DECISIONS)
 
         # Latest telemetry reading, refreshed at SAMPLE_INTERVAL by the
         # sampler thread and consumed by the decision cycle every
@@ -329,12 +339,19 @@ class GovernorLoop:
             # fixed inter-cycle sleep. This is the metric the scalability
             # test compares between N=1 and N=2 concurrent governor instances.
             "cycle_ms"     : round((time.perf_counter() - _cycle_t0) * 1000, 2),
+            "forecast_cpu_pct": round(forecast["mean_cpu_pct"], 2) if forecast else None,
+            "forecast_mem_mb" : round(forecast["mean_mem_mb"], 1) if forecast else None,
         }
         self._log.append(entry)
 
         if decision.action != "none":
             print(f"\n{decision}")
             self._updater.apply(decision.target_cpus, decision.target_mem_gb)
+            self._recent_decisions.append({
+                "ts": entry["ts"], "rule": decision.triggered_rule, "reason": decision.reason,
+                "old_cpus": current_cpus, "new_cpus": decision.target_cpus,
+                "old_mem_gb": current_mem_gb, "new_mem_gb": decision.target_mem_gb,
+            })
         else:
             # Print a brief heartbeat every cycle
             lstm_status = (f"{PREDICTOR_BACKEND} buffer {self._predictor.buffer_fill()}"
@@ -342,3 +359,22 @@ class GovernorLoop:
             print(f"[governor] cycle  cpu={cpu:5.1f}%  mem={mem_mb:6.0f}MB  "
                   f"cpus={current_cpus}  mem={current_mem_gb:.1f}GB  "
                   f"{lstm_status}")
+
+        self._write_live_state(entry)
+
+    def _write_live_state(self, entry: dict) -> None:
+        """Atomic write so the dashboard never reads a half-written file."""
+        state = {
+            "mode"              : self.mode,
+            "predictor_backend" : PREDICTOR_BACKEND if self._predictor else None,
+            "latest"            : entry,
+            "recent_decisions"  : list(self._recent_decisions),
+        }
+        try:
+            LIVE_STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+            fd, tmp_path = tempfile.mkstemp(dir=LIVE_STATE_PATH.parent, prefix=".live_state_")
+            with os.fdopen(fd, "w") as f:
+                json.dump(state, f)
+            os.replace(tmp_path, LIVE_STATE_PATH)
+        except Exception as e:
+            print(f"[governor] live-state write failed: {e}")

@@ -2,6 +2,7 @@
 governor/venv/
 **/__pycache__/
 *.pyc
+governor/dashboard/live_state.json
 
 # ── Node (nexcore-backend, nexcore-frontend) ──
 node_modules/

@@ -4,6 +4,11 @@ app:
   name: "NexCore ERP"
   container_name: "erp_app"
   version: "1.0.0"
+  base_url: "http://localhost:3000"   # used to poll the isolation-pool stats endpoint
+
+isolation_pool:
+  enabled: true
+  path: "/api/internal/pool-stats"    # unguarded monitoring endpoint, see monitoring.controller.ts
 
 dashboard:
   port: 9090
@@ -32,6 +37,7 @@ semantic_db:
   timestamp_column: "logged_at"
   endpoint_column: "endpoint_path"
   method_column: "http_method"
+  tenant_column: "tenant_id"
   tier1_sla_ms: 150
   tiers: ["TIER_1", "TIER_2", "TIER_3"]
 

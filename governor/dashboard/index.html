@@ -27,8 +27,13 @@
 
   .main { padding: 20px 24px; }
 
+  /* Alert banner */
+  .alert-banner { display: none; background: #450a0a; border-bottom: 2px solid #f87171; color: #fecaca; padding: 10px 24px; font-size: 13px; font-weight: 600; text-align: center; position: sticky; top: 0; z-index: 10; }
+  .alert-banner.show { display: block; }
+  .alert-dismiss { margin-left: 14px; cursor: pointer; text-decoration: underline; font-weight: 500; opacity: .85; }
+
   /* KPI row */
-  .kpi-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 20px; }
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
   .kpi { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 16px; }
   .kpi-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
   .kpi-value { font-size: 24px; font-weight: 700; line-height: 1; }
@@ -41,9 +46,11 @@
   .kpi-limits .kpi-value { font-size: 14px; color: #94a3b8; }
 
   /* Charts row */
-  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .charts-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+  @media (max-width: 1200px) { .charts-row { grid-template-columns: 1fr 1fr; } }
   .chart-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 16px; }
-  .chart-title { font-size: 13px; font-weight: 600; color: #94a3b8; margin-bottom: 12px; text-transform: uppercase; letter-spacing: .05em; }
+  .chart-title { font-size: 13px; font-weight: 600; color: #94a3b8; margin-bottom: 12px; text-transform: uppercase; letter-spacing: .05em; display: flex; justify-content: space-between; align-items: center; }
+  .chart-legend-note { font-size: 10px; color: #475569; text-transform: none; font-weight: 400; letter-spacing: 0; }
   .chart-wrap { height: 180px; }
 
   /* Tier table */
@@ -79,6 +86,14 @@
   .txt-green  { color: #4ade80 !important; }
   .txt-yellow { color: #fbbf24 !important; }
   .txt-red    { color: #f87171 !important; }
+  .gov-divider { border-top: 1px solid #334155; margin: 16px 0; }
+  .pool-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .pool-stat { display: flex; flex-direction: column; gap: 2px; }
+  .pool-stat-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: .05em; }
+  .pool-stat-value { font-size: 20px; font-weight: 700; }
+  .pool-note { font-size: 11px; color: #475569; }
+  .export-btn { background: #334155; border: 1px solid #475569; color: #e2e8f0; border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .export-btn:hover { background: #475569; }
 
   /* Explore / endpoint sections */
   .explore-section { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 16px; margin-bottom: 20px; }
@@ -107,6 +122,11 @@
 </style>
 </head>
 <body>
+
+<div class="alert-banner" id="alertBanner">
+  <span id="alertText"></span>
+  <span class="alert-dismiss" id="alertDismiss">dismiss</span>
+</div>
 
 <div class="header">
   <div class="header-left">
@@ -157,17 +177,31 @@
       <div class="kpi-value" id="kLimits">— CPUs / — GB</div>
       <div class="kpi-sub">docker update target</div>
     </div>
+    <div class="kpi kpi-sla">
+      <div class="kpi-label">Since Last Breach</div>
+      <div class="kpi-value" id="kLastBreach">—</div>
+      <div class="kpi-sub">Tier-1 request over SLA</div>
+    </div>
+    <div class="kpi kpi-errs">
+      <div class="kpi-label">Since Last Crash</div>
+      <div class="kpi-value" id="kLastCrash">—</div>
+      <div class="kpi-sub">4xx / 5xx response</div>
+    </div>
   </div>
 
   <!-- Charts -->
   <div class="charts-row">
     <div class="chart-card">
-      <div class="chart-title">CPU Usage % — Live</div>
+      <div class="chart-title"><span>CPU Usage % — Live</span><span class="chart-legend-note" id="cpuForecastNote"></span></div>
       <div class="chart-wrap"><canvas id="cpuChart"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-title">Memory Usage (MB) — Live</div>
+      <div class="chart-title"><span>Memory Usage (MB) — Live</span><span class="chart-legend-note" id="memForecastNote"></span></div>
       <div class="chart-wrap"><canvas id="memChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Tier-1 P95 Latency (ms) — Live</div>
+      <div class="chart-wrap"><canvas id="latChart"></canvas></div>
     </div>
   </div>
 
@@ -190,6 +224,23 @@
         <div class="gov-bar-track"><div class="gov-bar-fill gov-mem-fill" id="govMemBar" style="width:0%"></div></div>
       </div>
     </div>
+
+    <div class="gov-divider"></div>
+    <div class="pool-row">
+      <div class="pool-stat">
+        <span class="pool-stat-label">TIER_3 Isolation Pool</span>
+        <span class="pool-stat-value" id="poolActive">—</span>
+      </div>
+      <div class="pool-stat">
+        <span class="pool-stat-label">Queued</span>
+        <span class="pool-stat-value" id="poolQueued">—</span>
+      </div>
+      <div class="pool-stat">
+        <span class="pool-stat-label">Max Concurrent</span>
+        <span class="pool-stat-value" id="poolMax">—</span>
+      </div>
+      <span class="pool-note" id="poolNote">Worker-thread pool isolating TIER_3 CPU-burn requests from the event loop</span>
+    </div>
   </div>
 
   <!-- Tier Breakdown -->
@@ -211,6 +262,7 @@
           <div class="explore-title">🔥 Top Endpoints by Latency</div>
           <div class="explore-sub">Which endpoint is driving latency up (last 10 min, avg ms)</div>
         </div>
+        <button class="export-btn" id="exportEndpointsBtn">⬇ Export CSV</button>
       </div>
       <div class="log-wrap" id="endpointsBody">
         <div class="no-db">Waiting for request data...</div>
@@ -223,9 +275,37 @@
           <div class="explore-title">🚨 Crashed / Failed Endpoints</div>
           <div class="explore-sub">Requests with 4xx/5xx status (last 10 min, newest first)</div>
         </div>
+        <button class="export-btn" id="exportErrorLogBtn">⬇ Export CSV</button>
       </div>
       <div class="log-wrap" id="errorLogBody">
         <div class="no-db">No errors — all requests OK</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tenant Breakdown + Scaling Decision Timeline -->
+  <div class="grid-2">
+    <div class="explore-section">
+      <div class="explore-header">
+        <div>
+          <div class="explore-title">🏢 Per-Tenant Breakdown</div>
+          <div class="explore-sub">Request volume, avg latency, and SLA breaches by tenant (last 10 min)</div>
+        </div>
+      </div>
+      <div class="log-wrap" id="tenantBody">
+        <div class="no-db">Waiting for request data...</div>
+      </div>
+    </div>
+
+    <div class="explore-section">
+      <div class="explore-header">
+        <div>
+          <div class="explore-title">📈 Recent Scaling Decisions</div>
+          <div class="explore-sub">Governor rule-engine actions — requires run_live.py running</div>
+        </div>
+      </div>
+      <div class="log-wrap" id="scalingBody">
+        <div class="no-db">No live governor loop detected — run governor/run_live.py</div>
       </div>
     </div>
   </div>
@@ -237,7 +317,10 @@
         <div class="explore-title">🔍 Live Request Explorer — Slowest Requests</div>
         <div class="explore-sub">Every request above, sorted slowest-first — filter by endpoint to dig into exactly what went high</div>
       </div>
-      <input type="text" class="search-input" id="logFilter" placeholder="Filter by endpoint, e.g. /api/reports...">
+      <div style="display:flex; gap:8px; align-items:center;">
+        <input type="text" class="search-input" id="logFilter" placeholder="Filter by endpoint, e.g. /api/reports...">
+        <button class="export-btn" id="exportCsvBtn">⬇ Export CSV</button>
+      </div>
     </div>
     <div class="log-wrap" id="slowLogBody">
       <div class="no-db">Waiting for request data...</div>
@@ -254,7 +337,10 @@
 // ─── Chart.js instances (direct references) ───────────────────────────────────
 var cpuChart = new Chart(document.getElementById('cpuChart'), {
   type: 'line',
-  data: { labels: [], datasets: [{ data: [], borderColor: '#818cf8', backgroundColor: 'rgba(129,140,248,0.12)', fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0 }] },
+  data: { labels: [], datasets: [
+    { data: [], borderColor: '#818cf8', backgroundColor: 'rgba(129,140,248,0.12)', fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0 },
+    { data: [], borderColor: '#fbbf24', borderDash: [5,4], fill: false, tension: 0.4, borderWidth: 2, pointRadius: 0, spanGaps: false }
+  ] },
   options: {
     responsive: true, maintainAspectRatio: false, animation: false,
     plugins: { legend: { display: false } },
@@ -267,7 +353,10 @@ var cpuChart = new Chart(document.getElementById('cpuChart'), {
 
 var memChart = new Chart(document.getElementById('memChart'), {
   type: 'line',
-  data: { labels: [], datasets: [{ data: [], borderColor: '#34d399', backgroundColor: 'rgba(52,211,153,0.12)', fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0 }] },
+  data: { labels: [], datasets: [
+    { data: [], borderColor: '#34d399', backgroundColor: 'rgba(52,211,153,0.12)', fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0 },
+    { data: [], borderColor: '#fbbf24', borderDash: [5,4], fill: false, tension: 0.4, borderWidth: 2, pointRadius: 0, spanGaps: false }
+  ] },
   options: {
     responsive: true, maintainAspectRatio: false, animation: false,
     plugins: { legend: { display: false } },
@@ -278,14 +367,31 @@ var memChart = new Chart(document.getElementById('memChart'), {
   }
 });
 
+var latChart = new Chart(document.getElementById('latChart'), {
+  type: 'line',
+  data: { labels: [], datasets: [{ data: [], borderColor: '#f472b6', backgroundColor: 'rgba(244,114,182,0.12)', fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0 }] },
+  options: {
+    responsive: true, maintainAspectRatio: false, animation: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { display: false }, grid: { color: '#1e293b' } },
+      y: { min: 0, ticks: { color: '#475569', callback: function(v){ return v+'ms'; } }, grid: { color: '#1e293b' } }
+    }
+  }
+});
+
 var MAX_PTS = 120;
 
-function addPoint(chart, label, value) {
+function addPoint(chart, label, value, forecastValue) {
   chart.data.labels.push(label);
   chart.data.datasets[0].data.push(value);
+  if (chart.data.datasets[1]) {
+    chart.data.datasets[1].data.push(forecastValue === undefined ? null : forecastValue);
+  }
   if (chart.data.labels.length > MAX_PTS) {
     chart.data.labels.shift();
     chart.data.datasets[0].data.shift();
+    if (chart.data.datasets[1]) chart.data.datasets[1].data.shift();
   }
   chart.update();
 }
@@ -376,7 +482,9 @@ function renderTiers(stats) {
   }
 }
 
+var lastTopEndpoints = [];
 function renderTopEndpoints(rows) {
+  lastTopEndpoints = rows || [];
   if (!rows || !rows.length) {
     g('endpointsBody').innerHTML = '<div class="no-db">No request data — browse the ERP or run the load generator</div>';
     return;
@@ -397,7 +505,9 @@ function renderTopEndpoints(rows) {
   g('endpointsBody').innerHTML = html;
 }
 
+var lastErrorLog = [];
 function renderErrorLog(rows) {
+  lastErrorLog = rows || [];
   if (!rows || !rows.length) {
     g('errorLogBody').innerHTML = '<div class="no-db">No errors — all requests OK</div>';
     return;
@@ -444,6 +554,118 @@ function renderSlowLog() {
 }
 g('logFilter').addEventListener('input', renderSlowLog);
 
+function renderTenants(rows) {
+  if (!rows || !rows.length) {
+    g('tenantBody').innerHTML = '<div class="no-db">No tenant data — set tenant_column in config.yaml, or no requests in window</div>';
+    return;
+  }
+  var html = '<table><thead><tr><th>Tenant</th><th>Requests</th><th>Avg Latency</th><th>Tier-1 Breaches</th></tr></thead><tbody>';
+  rows.forEach(function(r) {
+    html += '<tr>'
+      + '<td class="endpoint-path">' + escapeHtml(r.tenant) + '</td>'
+      + '<td>' + r.count.toLocaleString() + '</td>'
+      + '<td>' + r.avg_ms + ' ms</td>'
+      + '<td>' + (r.breaches > 0 ? '<span class="breach-badge">⚠ ' + r.breaches + '</span>' : '<span class="ok-badge">✓ 0</span>') + '</td>'
+      + '</tr>';
+  });
+  html += '</tbody></table>';
+  g('tenantBody').innerHTML = html;
+}
+
+function renderScalingDecisions(rows) {
+  if (!rows || !rows.length) {
+    g('scalingBody').innerHTML = '<div class="no-db">No live governor loop detected — run governor/run_live.py</div>';
+    return;
+  }
+  var html = '<table><thead><tr><th>Time</th><th>Rule</th><th>CPUs</th><th>Mem</th></tr></thead><tbody>';
+  rows.slice().reverse().forEach(function(r) {
+    html += '<tr>'
+      + '<td>' + fmtTime(r.ts) + '</td>'
+      + '<td class="endpoint-path">' + escapeHtml(r.rule || '—') + '</td>'
+      + '<td>' + r.old_cpus + ' → <b>' + r.new_cpus + '</b></td>'
+      + '<td>' + r.old_mem_gb + ' → <b>' + r.new_mem_gb + '</b> GB</td>'
+      + '</tr>';
+  });
+  html += '</tbody></table>';
+  g('scalingBody').innerHTML = html;
+}
+
+// "Time since <ts>" — human-readable age, used for the breach/crash KPIs.
+function fmtAgo(iso) {
+  if (!iso) return 'None in 24h';
+  var diffMs = Date.now() - new Date(iso).getTime();
+  var s = Math.max(0, Math.floor(diffMs / 1000));
+  if (s < 60) return s + 's ago';
+  var m = Math.floor(s / 60);
+  if (m < 60) return m + 'm ago';
+  var h = Math.floor(m / 60);
+  return h + 'h ' + (m % 60) + 'm ago';
+}
+
+// ─── Alert banner (#7) — fires once per NEW crash/breach, not on every tick ───
+var alertSeenCrashTs = null;
+var alertSeenBreachTs = null;
+function beep() {
+  try {
+    var ctx = new (window.AudioContext || window.webkitAudioContext)();
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = 880;
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+    osc.start(); osc.stop(ctx.currentTime + 0.35);
+  } catch (e) {}
+}
+function maybeAlert(d) {
+  var newCrash  = d.last_crash_ts  && d.last_crash_ts  !== alertSeenCrashTs;
+  var newBreach = d.last_breach_ts && d.last_breach_ts !== alertSeenBreachTs;
+  if (alertSeenCrashTs === null)  alertSeenCrashTs  = d.last_crash_ts  || '';
+  if (alertSeenBreachTs === null) alertSeenBreachTs = d.last_breach_ts || '';
+  if (!newCrash && !newBreach) return;
+  var msgs = [];
+  if (newCrash)  { msgs.push('New crash detected (4xx/5xx)'); alertSeenCrashTs = d.last_crash_ts; }
+  if (newBreach) { msgs.push('New Tier-1 SLA breach detected'); alertSeenBreachTs = d.last_breach_ts; }
+  g('alertText').textContent = '🚨 ' + msgs.join(' · ');
+  g('alertBanner').className = 'alert-banner show';
+  beep();
+}
+g('alertDismiss').addEventListener('click', function() { g('alertBanner').className = 'alert-banner'; });
+
+// ─── CSV export (#8) ───────────────────────────────────────────────────────
+function toCsv(rows, cols) {
+  var lines = [cols.join(',')];
+  rows.forEach(function(r) {
+    lines.push(cols.map(function(c) {
+      var v = String(r[c] == null ? '' : r[c]);
+      return '"' + v.replace(/"/g, '""') + '"';
+    }).join(','));
+  });
+  return lines.join('\n');
+}
+g('exportCsvBtn').addEventListener('click', function() {
+  var filter = (g('logFilter').value || '').trim().toLowerCase();
+  var rows = lastSlowRequests;
+  if (filter) rows = rows.filter(function(r) { return r.endpoint.toLowerCase().indexOf(filter) !== -1; });
+  downloadCsv(rows, ['ts', 'method', 'endpoint', 'tier', 'status', 'latency_ms'], 'docker-genius-requests');
+});
+
+function downloadCsv(rows, cols, filenamePrefix) {
+  var csv = toCsv(rows, cols);
+  var blob = new Blob([csv], { type: 'text/csv' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filenamePrefix + '-' + Date.now() + '.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+g('exportEndpointsBtn').addEventListener('click', function() {
+  downloadCsv(lastTopEndpoints, ['endpoint', 'method', 'tier', 'count', 'avg_ms', 'max_ms', 'errors'], 'docker-genius-top-endpoints');
+});
+g('exportErrorLogBtn').addEventListener('click', function() {
+  downloadCsv(lastErrorLog, ['ts', 'method', 'endpoint', 'tier', 'status', 'latency_ms'], 'docker-genius-crashed-endpoints');
+});
+
 // ─── Main tick — called every second by setInterval ───────────────────────────
 function tick() {
   fetch('/api/snapshot')
@@ -470,15 +692,40 @@ function tick() {
       g('kErr').textContent    = d.error_rate.toFixed(1) + '%';
 
       // Tier-1 P95
+      var t1p95 = null;
       if (d.tier_stats && d.tier_stats['TIER_1']) {
         var t1 = d.tier_stats['TIER_1'];
+        t1p95 = t1.p95;
         g('kT1p95').textContent = t1.p95 + ' ms';
         g('kT1p95').style.color = t1.p95 > 150 ? '#f87171' : t1.p95 > 100 ? '#fbbf24' : '#4ade80';
       }
 
-      // Charts — add one point per tick
-      addPoint(cpuChart, now, d.cpu_pct);
-      addPoint(memChart, now, d.mem_mb);
+      // "Time since last..." KPIs
+      g('kLastBreach').textContent = fmtAgo(d.last_breach_ts);
+      g('kLastCrash').textContent  = fmtAgo(d.last_crash_ts);
+      g('kLastBreach').className = 'kpi-value ' + (d.last_breach_ts ? 'txt-yellow' : 'txt-green');
+      g('kLastCrash').className  = 'kpi-value ' + (d.last_crash_ts ? 'txt-red' : 'txt-green');
+      maybeAlert(d);
+
+      // Charts — add one point per tick, with the LSTM forecast (proactive mode only) overlaid
+      addPoint(cpuChart, now, d.cpu_pct, d.forecast_cpu_pct);
+      addPoint(memChart, now, d.mem_mb, d.forecast_mem_mb);
+      if (t1p95 !== null) addPoint(latChart, now, t1p95);
+      g('cpuForecastNote').textContent = d.governor_mode === 'proactive' ? '— ·· LSTM forecast' : (d.governor_mode ? '(' + d.governor_mode + ' mode, no forecast)' : '');
+      g('memForecastNote').textContent = d.governor_mode === 'proactive' ? '— ·· LSTM forecast' : '';
+
+      // TIER_3 isolation pool
+      if (d.pool_ok) {
+        g('poolActive').textContent = d.pool_active + ' / ' + d.pool_max + ' active';
+        g('poolQueued').textContent = d.pool_queued;
+        g('poolMax').textContent    = d.pool_max;
+        g('poolQueued').className   = 'pool-stat-value ' + (d.pool_queued > 0 ? 'txt-yellow' : 'txt-green');
+        g('poolNote').textContent   = 'Worker-thread pool isolating TIER_3 CPU-burn requests from the event loop';
+      } else {
+        g('poolActive').textContent = '—'; g('poolQueued').textContent = '—'; g('poolMax').textContent = '—';
+        g('poolQueued').className = 'pool-stat-value';
+        g('poolNote').textContent = 'Pool stats endpoint unreachable — rebuild erp_app to pick up /api/internal/pool-stats';
+      }
 
       // Governor bars — colored by how close the allocation is to the 4-vCPU/4GB ceiling
       var cpuSev = allocSeverity(d.current_cpus);
@@ -505,6 +752,8 @@ function tick() {
       renderErrorLog(d.error_log);
       lastSlowRequests = d.slow_requests || [];
       renderSlowLog();
+      renderTenants(d.tenant_stats);
+      renderScalingDecisions(d.scaling_decisions);
 
       // Clock
       g('ts').textContent  = now;
